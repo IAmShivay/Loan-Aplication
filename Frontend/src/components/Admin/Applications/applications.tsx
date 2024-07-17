@@ -328,7 +328,7 @@ import { LoanApplications } from "./type";
 export interface LoanApplication {
   user: number;
   name: string;
-  status: "Submitted" | "Approved" | "Rejected";
+  status: "Progress" | "Approved" | "Rejected";
   comment: string;
   Bank?: string;
   isSubmitted: boolean;
@@ -355,7 +355,7 @@ const LoanApplicationTable: React.FC = () => {
         setApplications(
           response.data.loanApplications.map((app: any) => ({
             ...app,
-            status: app.status || "Submitted",
+            status: app.status || "Progress",
             isSubmitted: false,
             Bank: Bank,
           }))
@@ -475,14 +475,14 @@ const LoanApplicationTable: React.FC = () => {
                 <IconButton
                   color="primary"
                   onClick={() => handleStatusChange(app.user, "Approved")}
-                  disabled={app.status !== "Submitted" || app.isSubmitted}
+                  disabled={app.status !== "Progress" || app.isSubmitted}
                 >
                   <CheckCircleIcon />
                 </IconButton>
                 <IconButton
                   color="secondary"
                   onClick={() => handleStatusChange(app.user, "Rejected")}
-                  disabled={app.status !== "Submitted" || app.isSubmitted}
+                  disabled={app.status !== "Progress" || app.isSubmitted}
                 >
                   <CancelIcon />
                 </IconButton>
@@ -549,7 +549,7 @@ const LoanApplicationTable: React.FC = () => {
                 <IconButton
                   color="primary"
                   onClick={() => handleStatusChange(app.user, "Approved")}
-                  disabled={app.status !== "Submitted" || app.isSubmitted}
+                  disabled={app.status !== "Progress" || app.isSubmitted}
                 >
                   <CheckCircleIcon />
                 </IconButton>
@@ -558,7 +558,7 @@ const LoanApplicationTable: React.FC = () => {
                 <IconButton
                   color="secondary"
                   onClick={() => handleStatusChange(app.user, "Rejected")}
-                  disabled={app.status !== "Submitted" || app.isSubmitted}
+                  disabled={app.status !== "Progress" || app.isSubmitted}
                 >
                   <CancelIcon />
                 </IconButton>
