@@ -1,5 +1,12 @@
-import React from "react";
-import { Modal, Box, Typography, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import React, { useState } from "react";
+import {
+  Modal,
+  Box,
+  Typography,
+  IconButton,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { LoanApplication } from "./applications";
 

@@ -1,6 +1,6 @@
 // Application Approval Details
 
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {
   Table,
   TableBody,
@@ -25,7 +25,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ApplicationDetailsModal from "../Applications/view";
-
+import axios from "axios";
+import { LoanApplications } from "./type";
 export interface LoanApplication {
   id: number;
   name: string;
@@ -36,6 +37,25 @@ export interface LoanApplication {
 }
 
 const LoanApplicationTable: React.FC = () => {
+
+
+  const [loanApplications, setLoanApplications] = useState<LoanApplications[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/api/v1/getAllapplications");
+        console.log(response.data); // Log the fetched data
+        setLoanApplications(response.data.loanApplications);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  console.log(loanApplications.map(e => e.address));
+
 const Bank = "UCO BANK"
   const [applications, setApplications] = useState<LoanApplication[]>([
     { id: 1, name: "John Doe", status: "Submited", comment: "",  isSubmitted: false },

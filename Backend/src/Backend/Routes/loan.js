@@ -18,8 +18,8 @@ router.post(
 // To Get All Loan Applications
 router.get(
   "/getAllapplications",
-  isAuthenticated,
-  authorizedRoles("admin"),
+  // isAuthenticated,
+  // authorizedRoles("admin"),
 loanApplicationController.getAllLoanApplications);
 
 module.exports = router;
