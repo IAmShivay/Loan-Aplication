@@ -87,10 +87,10 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
   onClose,
   application,
   primaryColor = "#1976d2",
-  secondaryColor = "#dc004e",
+  // secondaryColor = "#dc004e",
 }) => {
   const theme = useTheme();
-  const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [activeDocument, setActiveDocument] = useState<string | null>(null);
 
   useEffect(() => {
@@ -102,7 +102,7 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
   if (!application) return null;
 
   const renderDocumentViewer = () => {
-    if (!activeDocument) return <Typography>No documents available</Typography>;
+    if (!activeDocument) return <Typography>NO DOCUMENT SELECTED</Typography>;
 
     return (
       <Box sx={{ height: "100%", width: "100%", overflow: "hidden" }}>
