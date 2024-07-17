@@ -26,6 +26,7 @@ export type LoanApplications = {
     paymentStatus?: any;
     isSubmitted?:any
     comment?:any
+    status?:any
     __v: number;
   };
   
