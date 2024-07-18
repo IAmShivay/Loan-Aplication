@@ -89,7 +89,7 @@ console.log(loanProgress)
                 fontWeight="bold"
                 gutterBottom
               >
-                Welcome back, {user.Name}
+                Welcome back, Ok{user.Name}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary">
                 Loan Application #{user.loanApplicationNumber}
