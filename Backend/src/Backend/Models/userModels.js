@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  BankName: {
+    type: String,
+    default:"Red"
+  },
   avatar: {
     public_id: {
       type: String,

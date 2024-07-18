@@ -6,34 +6,28 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-
 import { useSelector } from "react-redux";
 import LoadingComponent from "./components/Loading/Loading.tsx";
 import ProductDetails from "./components/Section/ProductDetails/ProductDetails.tsx";
-
 import {
   selectIsAdmin,
   selectIsAuthenticated,
   selectIsUser,
 } from "./app/middleware/authentication.tsx";
-
 import EMICalculator from "./components/Section/EmiCalculator/EmiCalculator.tsx";
 const LoanApplicationForm = lazy(
   () => import("./components/Section/ContactUs/Main.tsx")
 );
-
 const Footer = lazy(() => import("./components/Section/Footer/Footer"));
 const Header = lazy(() => import("./components/Section/Header/Header"));
 const RegisterPage = lazy(
   () => import("./components/Section/Register/Register")
 );
-
 const LoginPage = lazy(() => import("./components/Section/Login/Login.tsx"));
 const Home = lazy(() => import("./components/Home/Home"));
 const Main = lazy(() => import("./components/Admin/Main.tsx"));
 const AboutUs = lazy(() => import("./components/Section/AboutUs/AboutUs.tsx"));
 const UserDashboard = lazy(() => import("./components/User/Main.tsx"));
-
 const App: React.FC = () => {
   return (
     <Router>
@@ -77,7 +71,7 @@ const PrivateRoute: React.FC = () => {
   const isAdmin = useSelector(selectIsAdmin);
   const isUser = useSelector(selectIsUser);
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/user/login" />;
   }
 
   return (

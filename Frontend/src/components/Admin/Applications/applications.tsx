@@ -26,8 +26,10 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import ApplicationDetailsModal from "../Applications/view";
 import axios from "axios";
 import { LoanApplications } from "./type";
+import * as Yup from 'yup';
+
 export interface LoanApplication {
-  id:any;
+  id: any;
   user: number;
   name: string;
   status: "Progress" | "Approved" | "Rejected";
@@ -35,6 +37,13 @@ export interface LoanApplication {
   Bank?: string;
   isSubmitted: boolean;
 }
+
+const validationSchema = Yup.object().shape({
+  comment: Yup.string()
+    .required('Comment is required')
+    .min(3, 'Comment must be at least 3 characters')
+    .max(500, 'Comment must not exceed 500 characters'),
+});
 
 const LoanApplicationTable: React.FC = () => {
   const [applications, setApplications] = useState<LoanApplication[]>([]);
@@ -73,7 +82,7 @@ const LoanApplicationTable: React.FC = () => {
   const handleStatusChange = (id: number, status: "Approved" | "Rejected") => {
     setApplications(
       applications.map((app) =>
-        app.user === id ? { ...app, status, isSubmitted: true } : app
+        app.user === id ? { ...app, status } : app
       )
     );
     if (status === "Approved") {
@@ -92,17 +101,24 @@ const LoanApplicationTable: React.FC = () => {
     setErrors((prev) => ({ ...prev, [id]: "" }));
   };
 
-  const validateComment = (id: number): boolean => {
+  const validateComment = async (id: number): Promise<boolean> => {
     const application = applications.find((app) => app.user === id);
-    if (!application || application.comment.trim() === "") {
-      setErrors((prev) => ({ ...prev, [id]: "Comment is required" }));
+    if (!application) return false;
+
+    try {
+      await validationSchema.validate({ comment: application.comment }, { abortEarly: false });
+      setErrors((prev) => ({ ...prev, [id]: '' }));
+      return true;
+    } catch (error) {
+      if (error instanceof Yup.ValidationError) {
+        setErrors((prev) => ({ ...prev, [id]: error.message }));
+      }
       return false;
     }
-    return true;
   };
 
-  const handleSubmit = (id: number) => {
-    if (validateComment(id)) {
+  const handleSubmit = async (id: number) => {
+    if (await validateComment(id)) {
       const application = applications.find((app) => app.user === id);
       if (application) {
         console.log("Submitting application:", application);
@@ -171,7 +187,7 @@ const LoanApplicationTable: React.FC = () => {
                 />
               </TableCell>
               <TableCell>
-                <TextField value={app.Bank} disabled fullWidth />
+                <Typography variant="body1">{app.Bank}</Typography>
               </TableCell>
               <TableCell>
                 <IconButton
@@ -238,14 +254,7 @@ const LoanApplicationTable: React.FC = () => {
               helperText={errors[app.user] || "Comment is required"}
               disabled={app.isSubmitted}
             />
-            <TextField
-              value={app.Bank}
-              disabled
-              fullWidth
-              variant="outlined"
-              size="small"
-              sx={{ marginBottom: 1 }}
-            />
+            <Typography variant="body1">{app.Bank}</Typography>
             <Grid container spacing={1}>
               <Grid item>
                 <IconButton

@@ -20,6 +20,8 @@ import {
   ExitToApp,
 } from "@mui/icons-material";
 import { styled } from "@mui/system";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
 
 const DashboardItem = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
@@ -42,8 +44,23 @@ const UserDashboard: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const loanProgress = 65; // Example progress percentage
+  const user = useSelector((state: RootState) => state.auth.user);
 
+  const getLoanProgress = (status: string) => {
+    switch (status) {
+      case "in-progress":
+        return 50;
+      case "approved":
+        return 100;
+      case "Rejected":
+        return 100;
+      default:
+        return 0;
+    }
+  };
+
+  const loanProgress = getLoanProgress("in-progress");
+console.log(loanProgress)
   const menuItems = [
     { label: "LOAN STATUS", icon: <AccountBalance />, key: "loan-status" },
     { label: "DOCUMENTS", icon: <Folder />, key: "documents" },
@@ -72,16 +89,16 @@ const UserDashboard: React.FC = () => {
                 fontWeight="bold"
                 gutterBottom
               >
-                Welcome back, John
+                Welcome back, {user.Name}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary">
-                Loan Application #12345
+                Loan Application #{user.loanApplicationNumber}
               </Typography>
             </Box>
             <Avatar
               sx={{ width: 64, height: 64 }}
-              alt="John Doe"
-              src="/path/to/avatar.jpg"
+              alt={user.name}
+              src={user.avatar}
             />
           </Box>
           <Box mb={2}>
@@ -101,10 +118,18 @@ const UserDashboard: React.FC = () => {
             flexWrap="wrap"
           >
             <Typography variant="body2" color="text.secondary">
-              {loanProgress}% Complete
+              {loanProgress}%
             </Typography>
             <Chip
-              label="In Progress"
+              label={
+                user.loanStatus === "in-progress"
+                  ? "In Progress"
+                  : user.loanStatus === "approved"
+                  ? "Approved"
+                  : user.loanStatus === "Rejected"
+                  ? "Submitted"
+                  : "In Progress"
+              }
               color="primary"
               size="small"
               sx={{ mt: { xs: 1, sm: 0 } }}
