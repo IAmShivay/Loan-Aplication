@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -18,6 +17,10 @@ import {
   CardContent,
   Grid,
   Chip,
+  Container,
+  CircularProgress,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -26,7 +29,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import ApplicationDetailsModal from "../Applications/view";
 import axios from "axios";
 import { LoanApplications } from "./type";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 
 export interface LoanApplication {
   id: any;
@@ -36,13 +39,18 @@ export interface LoanApplication {
   comment: string;
   Bank?: string;
   isSubmitted: boolean;
+  interestRate: number | "";
 }
 
 const validationSchema = Yup.object().shape({
   comment: Yup.string()
-    .required('Comment is required')
-    .min(3, 'Comment must be at least 3 characters')
-    .max(500, 'Comment must not exceed 500 characters'),
+    .required("Comment is required")
+    .min(3, "Comment must be at least 3 characters")
+    .max(500, "Comment must not exceed 500 characters"),
+  interestRate: Yup.number()
+    .required("Interest rate is required")
+    .min(0, "Interest rate must be positive")
+    .max(100, "Interest rate must not exceed 100%"),
 });
 
 const LoanApplicationTable: React.FC = () => {
@@ -51,6 +59,12 @@ const LoanApplicationTable: React.FC = () => {
     useState<LoanApplications | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrors] = useState<Record<number, string>>({});
+  const [loading, setLoading] = useState(true);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success" as "success" | "error",
+  });
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -69,10 +83,19 @@ const LoanApplicationTable: React.FC = () => {
             status: app.status || "Progress",
             isSubmitted: false,
             Bank: Bank,
+            interestRate: app.interestRate || "",
+            comment: app.comment || "", // Ensure comment is always a string
           }))
         );
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setSnackbar({
+          open: true,
+          message: "Error fetching applications",
+          severity: "error",
+        });
+        setLoading(false);
       }
     };
 
@@ -81,17 +104,13 @@ const LoanApplicationTable: React.FC = () => {
 
   const handleStatusChange = (id: number, status: "Approved" | "Rejected") => {
     setApplications(
-      applications.map((app) =>
-        app.user === id ? { ...app, status } : app
-      )
+      applications.map((app) => (app.user === id ? { ...app, status } : app))
     );
-    if (status === "Approved") {
-      console.log(
-        `Your response has been sent to ${
-          applications.find((app) => app.user === id)?.name
-        }`
-      );
-    }
+    setSnackbar({
+      open: true,
+      message: `Application ${status}`,
+      severity: "success",
+    });
   };
 
   const handleCommentChange = (id: number, comment: string) => {
@@ -101,13 +120,30 @@ const LoanApplicationTable: React.FC = () => {
     setErrors((prev) => ({ ...prev, [id]: "" }));
   };
 
-  const validateComment = async (id: number): Promise<boolean> => {
+  const handleInterestRateChange = (id: number, interestRate: string) => {
+    setApplications(
+      applications.map((app) =>
+        app.user === id
+          ? { ...app, interestRate: parseFloat(interestRate) || "" }
+          : app
+      )
+    );
+    setErrors((prev) => ({ ...prev, [id]: "" }));
+  };
+
+  const validateApplication = async (id: number): Promise<boolean> => {
     const application = applications.find((app) => app.user === id);
     if (!application) return false;
 
     try {
-      await validationSchema.validate({ comment: application.comment }, { abortEarly: false });
-      setErrors((prev) => ({ ...prev, [id]: '' }));
+      await validationSchema.validate(
+        {
+          comment: application.comment,
+          interestRate: application.interestRate,
+        },
+        { abortEarly: false }
+      );
+      setErrors((prev) => ({ ...prev, [id]: "" }));
       return true;
     } catch (error) {
       if (error instanceof Yup.ValidationError) {
@@ -118,7 +154,7 @@ const LoanApplicationTable: React.FC = () => {
   };
 
   const handleSubmit = async (id: number) => {
-    if (await validateComment(id)) {
+    if (await validateApplication(id)) {
       const application = applications.find((app) => app.user === id);
       if (application) {
         console.log("Submitting application:", application);
@@ -127,6 +163,11 @@ const LoanApplicationTable: React.FC = () => {
             app.user === id ? { ...app, isSubmitted: true } : app
           )
         );
+        setSnackbar({
+          open: true,
+          message: "Application submitted successfully",
+          severity: "success",
+        });
       }
     }
   };
@@ -148,21 +189,33 @@ const LoanApplicationTable: React.FC = () => {
   };
 
   const renderDesktopView = () => (
-    <TableContainer component={Paper}>
+    <TableContainer
+      component={Paper}
+      elevation={3}
+      sx={{ borderRadius: 2, overflow: "hidden" }}
+    >
       <Table>
         <TableHead>
-          <TableRow>
-            <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Comment</TableCell>
-            <TableCell>Bank</TableCell>
-            <TableCell>Actions</TableCell>
+          <TableRow sx={{ backgroundColor: theme.palette.primary.main }}>
+            <TableCell sx={{ color: "white" }}>ID</TableCell>
+            <TableCell sx={{ color: "white" }}>Name</TableCell>
+            <TableCell sx={{ color: "white" }}>Status</TableCell>
+            <TableCell sx={{ color: "white" }}>Comment</TableCell>
+            <TableCell sx={{ color: "white" }}>Interest Rate</TableCell>
+            <TableCell sx={{ color: "white" }}>Bank</TableCell>
+            <TableCell sx={{ color: "white" }}>Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {applications.map((app) => (
-            <TableRow key={app.user}>
+            <TableRow
+              key={app.user}
+              sx={{
+                "&:nth-of-type(odd)": {
+                  backgroundColor: theme.palette.action.hover,
+                },
+              }}
+            >
               <TableCell>{app.user}</TableCell>
               <TableCell>{app.name}</TableCell>
               <TableCell>
@@ -184,6 +237,28 @@ const LoanApplicationTable: React.FC = () => {
                   disabled={app.isSubmitted}
                   error={!!errors[app.user]}
                   helperText={errors[app.user]}
+                  variant="outlined"
+                  size="small"
+                />
+              </TableCell>
+              <TableCell>
+                <TextField
+                  required
+                  id={`interest-rate-${app.user}`}
+                  label="Interest Rate (%)"
+                  type="number"
+                  value={app.interestRate}
+                  onChange={(e) =>
+                    handleInterestRateChange(app.user, e.target.value)
+                  }
+                  disabled={app.isSubmitted}
+                  error={!!errors[app.user]}
+                  helperText={errors[app.user]}
+                  variant="outlined"
+                  size="small"
+                  InputProps={{
+                    endAdornment: "%",
+                  }}
                 />
               </TableCell>
               <TableCell>
@@ -191,30 +266,27 @@ const LoanApplicationTable: React.FC = () => {
               </TableCell>
               <TableCell>
                 <IconButton
-                  color="primary"
+                  color="success"
                   onClick={() => handleStatusChange(app.user, "Approved")}
                   disabled={app.status !== "Progress" || app.isSubmitted}
                 >
                   <CheckCircleIcon />
                 </IconButton>
                 <IconButton
-                  color="secondary"
+                  color="error"
                   onClick={() => handleStatusChange(app.user, "Rejected")}
                   disabled={app.status !== "Progress" || app.isSubmitted}
                 >
                   <CancelIcon />
                 </IconButton>
                 <IconButton
-                  color="default"
+                  color="primary"
                   onClick={() => handleSubmit(app.user)}
                   disabled={app.isSubmitted}
                 >
                   <SendIcon />
                 </IconButton>
-                <IconButton
-                  color="primary"
-                  onClick={() => handleViewClick(app)}
-                >
+                <IconButton color="info" onClick={() => handleViewClick(app)}>
                   <VisibilityIcon />
                 </IconButton>
               </TableCell>
@@ -228,9 +300,14 @@ const LoanApplicationTable: React.FC = () => {
   const renderMobileView = () => (
     <Box sx={{ padding: 2 }}>
       {applications.map((app) => (
-        <Card key={app.user} sx={{ marginBottom: 2 }}>
+        <Card
+          key={app.user}
+          sx={{ marginBottom: 2, borderRadius: 2, boxShadow: 3 }}
+        >
           <CardContent>
-            <Typography variant="h6">{app.name}</Typography>
+            <Typography variant="h6" color="primary">
+              {app.name}
+            </Typography>
             <Typography variant="subtitle1" color="text.secondary">
               ID: {app.user}
             </Typography>
@@ -253,12 +330,34 @@ const LoanApplicationTable: React.FC = () => {
               error={!!errors[app.user]}
               helperText={errors[app.user] || "Comment is required"}
               disabled={app.isSubmitted}
+              label="Comment"
             />
-            <Typography variant="body1">{app.Bank}</Typography>
-            <Grid container spacing={1}>
+            <TextField
+              value={app.interestRate}
+              onChange={(e) =>
+                handleInterestRateChange(app.user, e.target.value)
+              }
+              fullWidth
+              variant="outlined"
+              size="small"
+              sx={{ marginBottom: 1 }}
+              required
+              error={!!errors[app.user]}
+              helperText={errors[app.user] || "Interest rate is required"}
+              disabled={app.isSubmitted}
+              label="Interest Rate (%)"
+              type="number"
+              InputProps={{
+                endAdornment: "%",
+              }}
+            />
+            <Typography variant="body1" color="text.secondary">
+              {app.Bank}
+            </Typography>
+            <Grid container spacing={1} sx={{ marginTop: 1 }}>
               <Grid item>
                 <IconButton
-                  color="primary"
+                  color="success"
                   onClick={() => handleStatusChange(app.user, "Approved")}
                   disabled={app.status !== "Progress" || app.isSubmitted}
                 >
@@ -267,7 +366,7 @@ const LoanApplicationTable: React.FC = () => {
               </Grid>
               <Grid item>
                 <IconButton
-                  color="secondary"
+                  color="error"
                   onClick={() => handleStatusChange(app.user, "Rejected")}
                   disabled={app.status !== "Progress" || app.isSubmitted}
                 >
@@ -276,7 +375,7 @@ const LoanApplicationTable: React.FC = () => {
               </Grid>
               <Grid item>
                 <IconButton
-                  color="default"
+                  color="primary"
                   onClick={() => handleSubmit(app.user)}
                   disabled={app.isSubmitted}
                 >
@@ -284,10 +383,7 @@ const LoanApplicationTable: React.FC = () => {
                 </IconButton>
               </Grid>
               <Grid item>
-                <IconButton
-                  color="primary"
-                  onClick={() => handleViewClick(app)}
-                >
+                <IconButton color="info" onClick={() => handleViewClick(app)}>
                   <VisibilityIcon />
                 </IconButton>
               </Grid>
@@ -298,9 +394,39 @@ const LoanApplicationTable: React.FC = () => {
     </Box>
   );
 
+  if (loading) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
-    <>
-      <Typography variant="h4" gutterBottom>
+    <Container maxWidth="lg">
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{
+          color: "transparent", // Text color transparent to show gradient
+          background: "linear-gradient(45deg, #21A4F3, #9C27B0)", // Gradient colors
+          backgroundClip: "text",
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          marginBottom: 3,
+          marginTop: 2,
+          fontWeight: "bold",
+          textAlign: "center",
+          fontSize: "2.5rem",
+        }}
+      >
         Loan Applications
       </Typography>
       {isMobile ? renderMobileView() : renderDesktopView()}
@@ -309,7 +435,20 @@ const LoanApplicationTable: React.FC = () => {
         onClose={() => setIsModalOpen(false)}
         application={selectedApplication}
       />
-    </>
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={() => setSnackbar({ ...snackbar, open: false })}
+      >
+        <Alert
+          onClose={() => setSnackbar({ ...snackbar, open: false })}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
+          {snackbar.message}
+        </Alert>
+      </Snackbar>
+    </Container>
   );
 };
 

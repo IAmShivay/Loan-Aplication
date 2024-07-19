@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useState, useMemo } from "react";
 import {
   Container,
   Typography,
@@ -11,18 +12,18 @@ import {
   Avatar,
   LinearProgress,
   Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  ThemeProvider,
 } from "@mui/material";
-import {
-  AccountBalance,
-  Assessment,
-  Folder,
-  Chat,
-  ExitToApp,
-} from "@mui/icons-material";
+import { ExitToApp, AccountBalance } from "@mui/icons-material";
 import { styled } from "@mui/system";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 
+// Minimalistic Dashboard Item Style
 const DashboardItem = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   display: "flex",
@@ -32,165 +33,337 @@ const DashboardItem = styled(Paper)(({ theme }) => ({
   "&:hover": {
     transform: "translateY(-5px)",
   },
+  background: theme.palette.background.paper,
 }));
 
-const IconWrapper = styled(Box)(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  marginBottom: theme.spacing(2),
+const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 8,
+  borderRadius: 4,
+  [`&.MuiLinearProgress-colorPrimary`]: {
+    backgroundColor: theme.palette.grey[300],
+  },
+  [`& .MuiLinearProgress-bar`]: {
+    borderRadius: 4,
+    backgroundColor: theme.palette.primary.main,
+  },
 }));
+
+interface Loan {
+  bank: string;
+  status: "in-progress" | "approved" | "rejected";
+  amount: number;
+  interestRate: number;
+  term: number;
+}
+
+interface LoanItemProps {
+  bank: string;
+  status: "in-progress" | "approved" | "rejected";
+  amount: number;
+  onRequestCall: () => void;
+  onViewDetails: () => void;
+}
+
+const LoanItem: React.FC<LoanItemProps> = React.memo(
+  ({ bank, status, amount, onRequestCall, onViewDetails }) => {
+    const getLoanProgress = (status: string): number => {
+      switch (status) {
+        case "in-progress":
+          return 50;
+        case "approved":
+          return 100;
+        case "rejected":
+          return 100;
+        default:
+          return 0;
+      }
+    };
+
+    const loanProgress = getLoanProgress(status);
+
+    return (
+      <DashboardItem elevation={1}>
+        <Box display="flex" alignItems="center" mb={2}>
+          <AccountBalance color="primary" sx={{ fontSize: 32, mr: 1 }} />
+          <Typography variant="h6" component="h2">
+            {bank}
+          </Typography>
+        </Box>
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+          Loan Amount: ${amount.toLocaleString()}
+        </Typography>
+        <StyledLinearProgress
+          variant="determinate"
+          value={loanProgress}
+          sx={{ mb: 2 }}
+        />
+        <Chip
+          label={status.charAt(0).toUpperCase() + status.slice(1)}
+          color={
+            status === "approved"
+              ? "success"
+              : status === "rejected"
+              ? "error"
+              : "primary"
+          }
+          size="small"
+          sx={{ mb: 2 }}
+        />
+        <Button
+          variant="outlined"
+          color="primary"
+          fullWidth
+          onClick={onViewDetails}
+          sx={{ mb: 1 }}
+        >
+          View Details
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={onRequestCall}
+          sx={{ mb: 1 }}
+        >
+          Request Call
+        </Button>
+      </DashboardItem>
+    );
+  }
+);
+
+// interface User {
+//   name?: string;
+//   avatar?: string;
+// }
 
 const UserDashboard: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const user = useSelector((state: RootState) => state.auth.user);
+  // const user = useSelector<RootState, User>((state) => state.auth.user);
+  // console.log(user)
+  const loans: Loan[] = useMemo(
+    () => [
+      {
+        bank: "Chase Bank",
+        status: "in-progress",
+        amount: 250000,
+        interestRate: 3.5,
+        term: 30,
+      },
+      {
+        bank: "Bank of America",
+        status: "approved",
+        amount: 300000,
+        interestRate: 3.2,
+        term: 15,
+      },
+      {
+        bank: "Wells Fargo",
+        status: "rejected",
+        amount: 200000,
+        interestRate: 3.8,
+        term: 30,
+      },
+      {
+        bank: "Citibank",
+        status: "in-progress",
+        amount: 275000,
+        interestRate: 3.4,
+        term: 20,
+      },
+      {
+        bank: "US Bank",
+        status: "approved",
+        amount: 225000,
+        interestRate: 3.6,
+        term: 30,
+      },
+      {
+        bank: "PNC Bank",
+        status: "in-progress",
+        amount: 180000,
+        interestRate: 3.7,
+        term: 15,
+      },
+      {
+        bank: "TD Bank",
+        status: "rejected",
+        amount: 320000,
+        interestRate: 3.3,
+        term: 30,
+      },
+      {
+        bank: "Capital One",
+        status: "approved",
+        amount: 290000,
+        interestRate: 3.5,
+        term: 20,
+      },
+    ],
+    []
+  );
 
-  const getLoanProgress = (status: string) => {
-    switch (status) {
-      case "in-progress":
-        return 50;
-      case "approved":
-        return 100;
-      case "Rejected":
-        return 100;
-      default:
-        return 0;
-    }
+  const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
+
+  const handleRequestCall = (bank: string) => {
+    alert(`Request call for ${bank}`);
   };
 
-  const loanProgress = getLoanProgress("in-progress");
-console.log(loanProgress)
-  const menuItems = [
-    { label: "LOAN STATUS", icon: <AccountBalance />, key: "loan-status" },
-    { label: "DOCUMENTS", icon: <Folder />, key: "documents" },
-    { label: "FAQ", icon: <Assessment />, key: "faq" },
-    { label: "SUPPORT", icon: <Chat />, key: "support" },
-  ];
+  const handleViewDetails = (loan: Loan) => {
+    setSelectedLoan(loan);
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedLoan(null);
+  };
 
   return (
-    <Box sx={{ bgcolor: "#f5f5f5", minHeight: "100vh", py: 4 }}>
-      <Container maxWidth="lg">
-        <Paper
-          elevation={0}
-          sx={{ p: { xs: 2, sm: 4 }, mb: 4, borderRadius: 2 }}
-        >
-          <Box
-            display="flex"
-            flexDirection={{ xs: "column", sm: "row" }}
-            justifyContent="space-between"
-            alignItems={{ xs: "flex-start", sm: "center" }}
-            mb={3}
-          >
-            <Box mb={{ xs: 2, sm: 0 }}>
-              <Typography
-                variant="h4"
-                component="h1"
-                fontWeight="bold"
-                gutterBottom
-              >
-                Welcome back, Ok{user.Name}
-              </Typography>
-              <Typography variant="subtitle1" color="text.secondary">
-                Loan Application #{user.loanApplicationNumber}
-              </Typography>
-            </Box>
-            <Avatar
-              sx={{ width: 64, height: 64 }}
-              alt={user.name}
-              src={user.avatar}
-            />
-          </Box>
-          <Box mb={2}>
-            <Typography variant="h6" gutterBottom>
-              Loan Progress
-            </Typography>
-            <LinearProgress
-              variant="determinate"
-              value={loanProgress}
-              sx={{ height: 10, borderRadius: 5 }}
-            />
-          </Box>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            flexWrap="wrap"
-          >
-            <Typography variant="body2" color="text.secondary">
-              {loanProgress}%
-            </Typography>
-            <Chip
-              label={
-                user.loanStatus === "in-progress"
-                  ? "In Progress"
-                  : user.loanStatus === "approved"
-                  ? "Approved"
-                  : user.loanStatus === "Rejected"
-                  ? "Submitted"
-                  : "In Progress"
-              }
-              color="primary"
-              size="small"
-              sx={{ mt: { xs: 1, sm: 0 } }}
-            />
-          </Box>
-        </Paper>
-
-        <Grid container spacing={3}>
-          {menuItems.map((item) => (
-            <Grid item xs={12} sm={6} md={3} key={item.key}>
-              <DashboardItem elevation={1}>
-                <IconWrapper>
-                  {React.cloneElement(item.icon, {
-                    color: "primary",
-                    sx: { fontSize: 30, mr: 1 },
-                  })}
-                  <Typography variant="h6" component="h2">
-                    {item.label}
-                  </Typography>
-                </IconWrapper>
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ mb: 2 }}
-                >
-                  {item.key === "loan-status"
-                    ? "View your current loan status and details."
-                    : item.key === "documents"
-                    ? "Upload and manage your loan documents."
-                    : item.key === "faq"
-                    ? "Have questions? Check our FAQ for answers."
-                    : "Get help from our support team and resolve your issues."}
-                </Typography>
-                <Button variant="outlined" color="primary" fullWidth>
-                  Learn More
-                </Button>
-              </DashboardItem>
-            </Grid>
-          ))}
-        </Grid>
-
-        <Box mt={4} display="flex" justifyContent="center">
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<ExitToApp />}
-            size={isMobile ? "medium" : "large"}
+    <ThemeProvider theme={theme}>
+      <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: 4 }}>
+        <Container maxWidth="lg">
+          <Paper
+            elevation={0}
             sx={{
-              borderRadius: "50px",
-              px: { xs: 3, sm: 4 },
-              py: { xs: 1, sm: 1.5 },
-              textTransform: "none",
-              fontWeight: "bold",
-              width: { xs: "100%", sm: "auto" },
+              p: { xs: 2, sm: 4 },
+              mb: 4,
+              borderRadius: 4,
+              backgroundColor: theme.palette.grey[200],
+              color: theme.palette.text.primary,
             }}
           >
-            Logout
-          </Button>
-        </Box>
-      </Container>
-    </Box>
+            <Box
+              display="flex"
+              flexDirection={{ xs: "column", sm: "row" }}
+              justifyContent="space-between"
+              alignItems={{ xs: "flex-start", sm: "center" }}
+              mb={3}
+            >
+              <Box mb={{ xs: 2, sm: 0 }}>
+                <Typography
+                  variant="h4"
+                  component="h1"
+                  fontWeight="bold"
+                  gutterBottom
+                >
+                  Welcome back
+                </Typography>
+                <Typography variant="subtitle1">
+                  Loan Application Dashboard
+                </Typography>
+              </Box>
+              <Avatar
+                sx={{ width: 80, height: 80, border: "2px solid grey" }}
+                // alt={user?.Name}
+                // src={user?.avatar}
+              />
+            </Box>
+          </Paper>
+
+          <Grid container spacing={3}>
+            {loans.map((loan, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <LoanItem
+                  bank={loan.bank}
+                  status={loan.status}
+                  amount={loan.amount}
+                  onRequestCall={() => handleRequestCall(loan.bank)}
+                  onViewDetails={() => handleViewDetails(loan)}
+                />
+              </Grid>
+            ))}
+          </Grid>
+
+          <Box mt={4} display="flex" justifyContent="center">
+            <Button
+              variant="contained"
+              color="primary"
+              startIcon={<ExitToApp />}
+              size={isMobile ? "medium" : "large"}
+              sx={{
+                borderRadius: "50px",
+                px: { xs: 3, sm: 4 },
+                py: { xs: 1, sm: 1.5 },
+                fontWeight: "bold",
+                width: { xs: "100%", sm: "auto" },
+              }}
+            >
+              Logout
+            </Button>
+          </Box>
+        </Container>
+
+        <Dialog
+          open={!!selectedLoan}
+          onClose={handleCloseDetails}
+          PaperProps={{
+            style: {
+              borderRadius: 16,
+              padding: theme.spacing(2),
+            },
+          }}
+        >
+          <DialogTitle sx={{ fontWeight: "bold" }}>
+            {selectedLoan?.bank} Loan Details
+          </DialogTitle>
+          <DialogContent>
+            {selectedLoan && (
+              <Box>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  Status:{" "}
+                  <Chip
+                    label={selectedLoan.status}
+                    color={
+                      selectedLoan.status === "approved"
+                        ? "success"
+                        : selectedLoan.status === "rejected"
+                        ? "error"
+                        : "default"
+                    }
+                    size="small"
+                  />
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  Loan Amount:{" "}
+                  <strong>${selectedLoan.amount.toLocaleString()}</strong>
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  Interest Rate: <strong>{selectedLoan.interestRate}%</strong>
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  Loan Term: <strong>{selectedLoan.term} years</strong>
+                </Typography>
+                <Typography variant="body1" sx={{ mb: 1 }}>
+                  Estimated Monthly Payment:{" "}
+                  <strong>
+                    $
+                    {(
+                      (selectedLoan.amount *
+                        (selectedLoan.interestRate / 100 / 12)) /
+                      (1 -
+                        Math.pow(
+                          1 + selectedLoan.interestRate / 100 / 12,
+                          -selectedLoan.term * 12
+                        ))
+                    ).toFixed(2)}
+                  </strong>
+                </Typography>
+              </Box>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={handleCloseDetails}
+              color="primary"
+              variant="contained"
+            >
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box>
+    </ThemeProvider>
   );
 };
 

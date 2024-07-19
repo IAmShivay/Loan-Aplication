@@ -17,6 +17,7 @@ export const Register = async (credentials:Credentials) => {
     console.log('Registration response:', response.data);
     return response.data;
   } catch (error) {
+    console.log(error)
     handleAxiosError(error);
   }
 };

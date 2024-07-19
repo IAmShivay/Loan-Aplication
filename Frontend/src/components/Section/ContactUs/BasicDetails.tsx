@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -59,36 +58,37 @@ const BasicDetails: React.FC<{ nextStep: () => void }> = ({ nextStep }) => {
     }
   };
 
-  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    
-    if (field === 'loanAmount') {
-      const amount = parseFloat(value);
-      if (!isNaN(amount)) {
-        if (amount <= 5000000) {
+  const handleChange =
+    (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+
+      if (field === "loanAmount") {
+        const amount = parseFloat(value);
+        if (!isNaN(amount)) {
+          if (amount <= 5000000) {
+            setIsLoanAmountValid(true);
+            dispatch(updateField({ [field]: value }));
+          } else {
+            setIsLoanAmountValid(false);
+            dispatch(updateField({ [field]: "5000000" }));
+          }
+          setErrors((prev) => ({
+            ...prev,
+            loanAmount: value.trim() === "" || amount < 1 || amount > 5000000,
+          }));
+        } else {
+          // Handle non-numeric input
           setIsLoanAmountValid(true);
           dispatch(updateField({ [field]: value }));
-        } else {
-          setIsLoanAmountValid(false);
-          dispatch(updateField({ [field]: '5000000' }));
+          setErrors((prev) => ({
+            ...prev,
+            loanAmount: true,
+          }));
         }
-        setErrors(prev => ({
-          ...prev,
-          loanAmount: value.trim() === '' || amount < 1 || amount > 5000000
-        }));
       } else {
-        // Handle non-numeric input
-        setIsLoanAmountValid(true);
         dispatch(updateField({ [field]: value }));
-        setErrors(prev => ({
-          ...prev,
-          loanAmount: true
-        }));
       }
-    } else {
-      dispatch(updateField({ [field]: value }));
-    }
-  };
+    };
 
   const calculateEMI = () => {
     const amount = parseFloat(form.loanAmount);
@@ -114,7 +114,16 @@ const BasicDetails: React.FC<{ nextStep: () => void }> = ({ nextStep }) => {
         component="h2"
         gutterBottom
         align="center"
-        sx={{ fontWeight: "bold", color: "#1a237e" }}
+        sx={{
+          fontWeight: "bold",
+          color: "#1a237e",
+          background: "linear-gradient(to right, #ff7e5f, #feb47b)", // Gradient background
+          WebkitBackgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          padding: "10px",
+          borderRadius: "8px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        }}
       >
         Loan Application
       </Typography>
@@ -197,7 +206,7 @@ const BasicDetails: React.FC<{ nextStep: () => void }> = ({ nextStep }) => {
                     label="Loan Amount"
                     variant="outlined"
                     value={form.loanAmount}
-                    onChange={handleChange('loanAmount')}
+                    onChange={handleChange("loanAmount")}
                     error={errors.loanAmount}
                     helperText={
                       errors.loanAmount
@@ -211,7 +220,7 @@ const BasicDetails: React.FC<{ nextStep: () => void }> = ({ nextStep }) => {
                         </InputAdornment>
                       ),
                     }}
-                    sx={{ backgroundColor: 'white' }}
+                    sx={{ backgroundColor: "white" }}
                   />
                 </motion.div>
               </Grid>
