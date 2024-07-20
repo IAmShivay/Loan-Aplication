@@ -252,14 +252,16 @@ exports.deleteUserProfile = catchAsyncError(async (req, res, next) => {
 
 exports.getUserDetailsA = catchAsyncError(async (req, res, next) => {
   // Extract the `user` value from request body or query parameters
-  const userId = "667bc21ece017c36da0d2a18";
+  const userId = req.user.id;
 
   // Find all documents where the `user` field matches the provided value
-  const admins = await Admin.find({ user:userId });
+  const admins = await Admin.find({ user: userId });
 
   // Check if any documents were found
   if (admins.length === 0) {
-    return next(new ErrorHandler('No admins found with the specified user field', 404));
+    return next(
+      new ErrorHandler("No admins found with the specified user field", 404)
+    );
   }
 
   // Return the found documents
