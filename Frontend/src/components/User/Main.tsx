@@ -20,8 +20,8 @@ import {
 } from "@mui/material";
 import { ExitToApp, AccountBalance } from "@mui/icons-material";
 import { styled } from "@mui/system";
-import { RootState } from "../../store";
-import { useSelector } from "react-redux";
+// import { RootState } from "../../store";
+// import { useSelector } from "react-redux";
 
 // Minimalistic Dashboard Item Style
 const DashboardItem = styled(Paper)(({ theme }) => ({

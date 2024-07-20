@@ -4,6 +4,7 @@ const User = require("../Models/userModels");
 const sendToken = require("../Utils/StatusCode");
 const sendEmail = require("../Utils/sendEmail");
 const cloudinary = require("cloudinary");
+const Admin = require("../Models/adminModel");
 
 exports.registerUser = catchAsyncError(async (req, res, next) => {
   const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
@@ -244,5 +245,27 @@ exports.deleteUserProfile = catchAsyncError(async (req, res, next) => {
   res.status(200).json({
     success: true,
     message: "User Deleted Successfully",
+  });
+});
+
+// Get All Loan details Based on Application Id
+
+exports.getUserDetailsA = catchAsyncError(async (req, res, next) => {
+  // Extract the `user` value from request body or query parameters
+  const userId = "667bc21ece017c36da0d2a18";
+
+  // Find all documents where the `user` field matches the provided value
+  const admins = await Admin.find({ user:userId });
+
+  // Check if any documents were found
+  if (admins.length === 0) {
+    return next(new ErrorHandler('No admins found with the specified user field', 404));
+  }
+
+  // Return the found documents
+  res.status(200).json({
+    success: true,
+    count: admins.length,
+    data: admins,
   });
 });

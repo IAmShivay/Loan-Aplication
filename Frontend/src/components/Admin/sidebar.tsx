@@ -5,7 +5,6 @@ import {
   IconButton,
   Drawer,
   List,
-  ListItem,
   ListItemText,
   Box,
   CssBaseline,
@@ -22,24 +21,16 @@ import LoanApplicationTable from "./Applications/applications";
 const drawerWidth = 240;
 
 // Styled components with modern, minimal gradients
-const ModernAppBar = styled(AppBar)(({ theme }) => ({
+const ModernAppBar = styled(AppBar)(() => ({
   background: "linear-gradient(to right, #2c3e50, #3498db)",
   boxShadow: "none",
 }));
 
-const ModernDrawer = styled(Drawer)(({ theme }) => ({
+const ModernDrawer = styled(Drawer)(() => ({
   "& .MuiDrawer-paper": {
     background: "#f5f7fa",
     color: "#2c3e50",
     boxShadow: "2px 0 5px rgba(0, 0, 0, 0.1)",
-  },
-}));
-
-const ModernListItem = styled(ListItem)(({ theme }) => ({
-  margin: "8px 0",
-  borderRadius: "4px",
-  "&:hover": {
-    background: "linear-gradient(to right, #e0e0e0, #f5f5f5)",
   },
 }));
 

@@ -12,12 +12,15 @@ const {
   getAllUserDetails,
   deleteUserProfile,
   updateUserRole,
-  getSingleUser
+  getSingleUser,
+  getUserDetailsA
 } = require("../Controllers/userController");
 const { isAuthenticated, authorizedRoles } = require("../Middleware/auth");
 const router = express.Router();
 
 router.route("/register").post(registerUser);
+router.route("/details/:user").get(getUserDetailsA);
+
 router.route("/login").post(loginUser);
 router.route("/password/forgot/").post(forgotPassword);
 router.route("/password/update").put(isAuthenticated, updateUserPassword);

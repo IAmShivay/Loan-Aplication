@@ -30,16 +30,20 @@ import ApplicationDetailsModal from "../Applications/view";
 import axios from "axios";
 import { LoanApplications } from "./type";
 import * as Yup from "yup";
-
+import { registerAdmin } from "../../../app/admin/adminSlice";
+import { RootState, AppDispatch } from "../../../store";
+import { useDispatch,useSelector } from "react-redux";
 export interface LoanApplication {
   id: any;
-  user: number;
+  user: any;
   name: string;
   status: "Progress" | "Approved" | "Rejected";
   comment: string;
-  Bank?: string;
+  Bank: any;
   isSubmitted: boolean;
   interestRate: number | "";
+  loanAmount: any;
+  phoneNumber: any;
 }
 
 const validationSchema = Yup.object().shape({
@@ -54,6 +58,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const LoanApplicationTable: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { error, adminData } = useSelector(
+    (state: RootState) => state.admin
+  );
   const [applications, setApplications] = useState<LoanApplication[]>([]);
   const [selectedApplication, setSelectedApplication] =
     useState<LoanApplications | null>(null);
@@ -65,7 +73,7 @@ const LoanApplicationTable: React.FC = () => {
     message: "",
     severity: "success" as "success" | "error",
   });
-
+console.log(adminData)
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -158,6 +166,7 @@ const LoanApplicationTable: React.FC = () => {
       const application = applications.find((app) => app.user === id);
       if (application) {
         console.log("Submitting application:", application);
+        dispatch(registerAdmin(application));
         setApplications(
           applications.map((app) =>
             app.user === id ? { ...app, isSubmitted: true } : app

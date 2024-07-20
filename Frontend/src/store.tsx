@@ -7,6 +7,7 @@ import authReducer from "../src/app/auth/authSlice";
 import expireTransform from "./app/middleware/transform";
 import formReducer from "./app/LoanAppliation/FormSlice";
 import documentReducer from "./app/LoanAppliation/DocumentSlice";
+import adminReducer from './app/admin/adminSlice'
 const persistConfig = {
   key: "root",
   storage,
@@ -20,6 +21,7 @@ const store = configureStore({
     auth: persistedAuthReducer,
     form: formReducer,
     document: documentReducer,
+    admin:adminReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
