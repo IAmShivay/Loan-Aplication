@@ -8,19 +8,18 @@ import {
   TableRow,
   Paper,
   TextField,
-  IconButton,
   Typography,
   Box,
   useMediaQuery,
   useTheme,
   Card,
   CardContent,
-  Grid,
   Chip,
   Container,
   CircularProgress,
   Snackbar,
   Alert,
+  Button,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -31,8 +30,9 @@ import axios from "axios";
 import { LoanApplications } from "./type";
 import * as Yup from "yup";
 import { registerAdmin } from "../../../app/admin/adminSlice";
-import { RootState, AppDispatch } from "../../../store";
-import { useDispatch,useSelector } from "react-redux";
+import { AppDispatch } from "../../../store";
+import { useDispatch } from "react-redux";
+
 export interface LoanApplication {
   id: any;
   user: any;
@@ -59,9 +59,6 @@ const validationSchema = Yup.object().shape({
 
 const LoanApplicationTable: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { error, adminData } = useSelector(
-    (state: RootState) => state.admin
-  );
   const [applications, setApplications] = useState<LoanApplication[]>([]);
   const [selectedApplication, setSelectedApplication] =
     useState<LoanApplications | null>(null);
@@ -73,7 +70,6 @@ const LoanApplicationTable: React.FC = () => {
     message: "",
     severity: "success" as "success" | "error",
   });
-console.log(adminData)
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -92,7 +88,7 @@ console.log(adminData)
             isSubmitted: false,
             Bank: Bank,
             interestRate: app.interestRate || "",
-            comment: app.comment || "", // Ensure comment is always a string
+            comment: app.comment || "",
           }))
         );
         setLoading(false);
@@ -248,6 +244,7 @@ console.log(adminData)
                   helperText={errors[app.user]}
                   variant="outlined"
                   size="small"
+                  fullWidth
                 />
               </TableCell>
               <TableCell>
@@ -265,6 +262,7 @@ console.log(adminData)
                   helperText={errors[app.user]}
                   variant="outlined"
                   size="small"
+                  fullWidth
                   InputProps={{
                     endAdornment: "%",
                   }}
@@ -274,30 +272,54 @@ console.log(adminData)
                 <Typography variant="body1">{app.Bank}</Typography>
               </TableCell>
               <TableCell>
-                <IconButton
-                  color="success"
-                  onClick={() => handleStatusChange(app.user, "Approved")}
-                  disabled={app.status !== "Progress" || app.isSubmitted}
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: 1,
+                  }}
                 >
-                  <CheckCircleIcon />
-                </IconButton>
-                <IconButton
-                  color="error"
-                  onClick={() => handleStatusChange(app.user, "Rejected")}
-                  disabled={app.status !== "Progress" || app.isSubmitted}
-                >
-                  <CancelIcon />
-                </IconButton>
-                <IconButton
-                  color="primary"
-                  onClick={() => handleSubmit(app.user)}
-                  disabled={app.isSubmitted}
-                >
-                  <SendIcon />
-                </IconButton>
-                <IconButton color="info" onClick={() => handleViewClick(app)}>
-                  <VisibilityIcon />
-                </IconButton>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    onClick={() => handleStatusChange(app.user, "Approved")}
+                    disabled={app.status !== "Progress" || app.isSubmitted}
+                    startIcon={<CheckCircleIcon />}
+                    fullWidth
+                  >
+                    Approve
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="error"
+                    onClick={() => handleStatusChange(app.user, "Rejected")}
+                    disabled={app.status !== "Progress" || app.isSubmitted}
+                    startIcon={<CancelIcon />}
+                    fullWidth
+                  >
+                    Reject
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleSubmit(app.user)}
+                    disabled={app.isSubmitted}
+                    startIcon={<SendIcon />}
+                    fullWidth
+                  >
+                    Submit
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="info"
+                    onClick={() => handleViewClick(app)}
+                    startIcon={<VisibilityIcon />}
+                    fullWidth
+                  >
+                    View
+                  </Button>
+                </Box>
               </TableCell>
             </TableRow>
           ))}
@@ -363,40 +385,55 @@ console.log(adminData)
             <Typography variant="body1" color="text.secondary">
               {app.Bank}
             </Typography>
-            <Grid container spacing={1} sx={{ marginTop: 1 }}>
-              <Grid item>
-                <IconButton
-                  color="success"
-                  onClick={() => handleStatusChange(app.user, "Approved")}
-                  disabled={app.status !== "Progress" || app.isSubmitted}
-                >
-                  <CheckCircleIcon />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  color="error"
-                  onClick={() => handleStatusChange(app.user, "Rejected")}
-                  disabled={app.status !== "Progress" || app.isSubmitted}
-                >
-                  <CancelIcon />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton
-                  color="primary"
-                  onClick={() => handleSubmit(app.user)}
-                  disabled={app.isSubmitted}
-                >
-                  <SendIcon />
-                </IconButton>
-              </Grid>
-              <Grid item>
-                <IconButton color="info" onClick={() => handleViewClick(app)}>
-                  <VisibilityIcon />
-                </IconButton>
-              </Grid>
-            </Grid>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+                gap: 1,
+                marginTop: 1,
+              }}
+            >
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => handleStatusChange(app.user, "Approved")}
+                disabled={app.status !== "Progress" || app.isSubmitted}
+                startIcon={<CheckCircleIcon />}
+                fullWidth
+              >
+                Approve
+              </Button>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={() => handleStatusChange(app.user, "Rejected")}
+                disabled={app.status !== "Progress" || app.isSubmitted}
+                startIcon={<CancelIcon />}
+                fullWidth
+              >
+                Reject
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => handleSubmit(app.user)}
+                disabled={app.isSubmitted}
+                startIcon={<SendIcon />}
+                fullWidth
+              >
+                Submit
+              </Button>
+              <Button
+                variant="contained"
+                color="info"
+                onClick={() => handleViewClick(app)}
+                startIcon={<VisibilityIcon />}
+                fullWidth
+              >
+                View
+              </Button>
+            </Box>
           </CardContent>
         </Card>
       ))}
@@ -420,24 +457,6 @@ console.log(adminData)
 
   return (
     <Container maxWidth="lg">
-      <Typography
-        variant="h4"
-        gutterBottom
-        sx={{
-          color: "transparent", // Text color transparent to show gradient
-          background: "linear-gradient(45deg, #21A4F3, #9C27B0)", // Gradient colors
-          backgroundClip: "text",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-          marginBottom: 3,
-          marginTop: 2,
-          fontWeight: "bold",
-          textAlign: "center",
-          fontSize: "2.5rem",
-        }}
-      >
-        Loan Applications
-      </Typography>
       {isMobile ? renderMobileView() : renderDesktopView()}
       <ApplicationDetailsModal
         open={isModalOpen}

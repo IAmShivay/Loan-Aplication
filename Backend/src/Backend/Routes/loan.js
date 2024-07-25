@@ -3,7 +3,9 @@ const router = express.Router();
 const upload = require("../Config/multerConfig");
 const loanApplicationController = require("../Controllers/loanController");
 const { isAuthenticated, authorizedRoles } = require("../Middleware/auth");
+
 // POST /api/v1/loan-application
+
 router.post(
   "/loan-application",
   isAuthenticated,
@@ -15,7 +17,9 @@ router.post(
   ]),
   loanApplicationController.uploadDocuments
 );
+
 // To Get All Loan Applications
+
 router.get(
   "/getAllapplications",
   // isAuthenticated,

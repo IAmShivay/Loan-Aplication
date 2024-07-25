@@ -1,4 +1,3 @@
-
 import React, { useState, useMemo } from "react";
 import {
   Container,
@@ -20,8 +19,6 @@ import {
 } from "@mui/material";
 import { ExitToApp, AccountBalance } from "@mui/icons-material";
 import { styled } from "@mui/system";
-// import { RootState } from "../../store";
-// import { useSelector } from "react-redux";
 
 // Minimalistic Dashboard Item Style
 const DashboardItem = styled(Paper)(({ theme }) => ({
@@ -132,17 +129,10 @@ const LoanItem: React.FC<LoanItemProps> = React.memo(
   }
 );
 
-// interface User {
-//   name?: string;
-//   avatar?: string;
-// }
-
 const UserDashboard: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // const user = useSelector<RootState, User>((state) => state.auth.user);
-  // console.log(user)
   const loans: Loan[] = useMemo(
     () => [
       {
@@ -255,8 +245,6 @@ const UserDashboard: React.FC = () => {
               </Box>
               <Avatar
                 sx={{ width: 80, height: 80, border: "2px solid grey" }}
-                // alt={user?.Name}
-                // src={user?.avatar}
               />
             </Box>
           </Paper>
@@ -310,8 +298,10 @@ const UserDashboard: React.FC = () => {
           <DialogContent>
             {selectedLoan && (
               <Box>
-                <Typography variant="body1" sx={{ mb: 1 }}>
-                  Status:{" "}
+                <Box sx={{ mb: 1 }}>
+                  <Typography component="span" variant="body1">
+                    Status:{" "}
+                  </Typography>
                   <Chip
                     label={selectedLoan.status}
                     color={
@@ -323,7 +313,7 @@ const UserDashboard: React.FC = () => {
                     }
                     size="small"
                   />
-                </Typography>
+                </Box>
                 <Typography variant="body1" sx={{ mb: 1 }}>
                   Loan Amount:{" "}
                   <strong>${selectedLoan.amount.toLocaleString()}</strong>

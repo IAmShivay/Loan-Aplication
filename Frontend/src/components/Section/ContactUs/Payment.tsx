@@ -1,21 +1,95 @@
-import React from "react";
-import { Box, Button, Typography, TextField } from "@mui/material";
+import React, { useEffect } from "react";
+import { Box, Button, Typography } from "@mui/material";
 import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../store";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
+// Define the Window interface to include Razorpay
+declare global {
+  interface Window {
+    Razorpay: any;
+  }
+}
 
 interface FeePaymentProps {
   prevStep: () => void;
 }
-const token = sessionStorage.getItem("token")
+
+const token = sessionStorage.getItem("token");
+
 const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
   const form = useSelector((state: RootState) => state.form);
   const documents = useSelector((state: RootState) => state.document);
-  const { handleSubmit, control } = useForm();
+  const { handleSubmit } = useForm();
+  const navigate = useNavigate(); // Hook for navigation
 
-  const onSubmit = async (data: any) => {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  const initiatePayment = async (amount: number) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/v1/create-order",
+        { amount },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OWY1NDdiMzUwODI0ZDAyYzQyMTRlNyIsImlhdCI6MTcyMTg4MzU0NiwiZXhwIjoxNzIyMTQyNzQ2fQ.oUGtyefz7MJ0_z83UV6zeZreBAY_1f9FSv4HVRt23m1jZqWmtUxLJqUUg81l_Od9QTJIXDsFyInO-Ha2A95WZw",
+          },
+        }
+      );
+
+      const options = {
+        key: "rzp_test_Lhf5YHFOs9Begr",
+        amount: response.data.amount,
+        currency: "INR",
+        name: "Your Company Name",
+        description: "Loan Application Fee",
+        order_id: response.data.id,
+        handler: async (response: any) => {
+          try {
+            await submitForm(response.razorpay_payment_id);
+            navigate('/'); // Redirect to home page after successful payment
+          } catch (error:any) {
+            console.error("Error submitting form:", error);
+            alert(`Form submission failed: ${error.message}`);
+          }
+        },
+        prefill: {
+          name: form.name,
+          email: form.email,
+          contact: form.phoneNumber,
+        },
+        theme: {
+          color: "#1a237e",
+        },
+      };
+
+      if (typeof window.Razorpay === 'undefined') {
+        console.error("Razorpay SDK is not loaded. Please check your internet connection and try again.");
+        return;
+      }
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (error:any) {
+      console.error("Error initiating payment:", error);
+      alert(`Error initiating payment: ${error.message}`);
+    }
+  };
+
+  const submitForm = async (paymentId: string) => {
     try {
       const formData = new FormData();
       formData.append("name", form.name);
@@ -25,61 +99,41 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
       formData.append("address", form.address);
       formData.append("education", form.education);
       formData.append("loanAmount", form.loanAmount);
-      formData.append("paymentStatus", "Pending");
-  
+      formData.append("paymentStatus", "Paid");
+      formData.append("paymentId", paymentId);
+
       if (documents.idProof?.file) {
         formData.append("idProof", documents.idProof.file);
       }
-  
+
       if (documents.addressProof?.file) {
         formData.append("addressProof", documents.addressProof.file);
       }
-  
+
       if (documents.incomeProof?.file) {
         formData.append("incomeProof", documents.incomeProof.file);
       }
-  
-      formData.append("cardNumber", data.cardNumber);
-      formData.append("expiryDate", data.expiryDate);
-      formData.append("cvv", data.cvv);
 
-      // Log formData contents for debugging
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
-  
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:3000/api/v1/loan-application",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            "Authorization":token
+            Authorization: `Bearer${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2OThhMjE3NDE5NDYyNDM0MjQ5ZTJmZiIsImlhdCI6MTcyMTg5MDQ0NSwiZXhwIjoxNzIyMzIyNDQ1fQ.0LqWfVPODqj2yypjhkF2g5qFunZUmL9B7KSNo0Rd9-w"}`,
           },
         }
       );
-      
-      console.log("Server Response:", response.data);
-      // Handle success, e.g., show a success message or navigate to next step
-
     } catch (error) {
-      console.error("Error:", error);
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          console.error("Server Error:", error.response.data);
-          console.error("Status:", error.response.status);
-        } else if (error.request) {
-          console.error("No response received:", error.request);
-        } else {
-          console.error("Error:", error.message);
-        }
-      } else {
-        console.error("Unexpected error:", error);
-      }
-      // Handle error, e.g., show an error message to the user
+      console.error("Error submitting form:", error);
+      throw new Error("Form submission failed.");
     }
   };
-  
+
+  const onSubmit = () => {
+    initiatePayment(100); // Amount in paise (1000 INR)
+  };
+
   return (
     <Box mt={4} mb={4} textAlign="center">
       <Typography variant="h4" component="h2" gutterBottom>
@@ -96,63 +150,9 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Controller
-            name="cardNumber"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label="Card Number"
-                variant="outlined"
-                margin="normal"
-                style={{ marginBottom: "1rem" }}
-              />
-            )}
-          />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <Controller
-            name="expiryDate"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label="Expiry Date"
-                variant="outlined"
-                margin="normal"
-                style={{ marginBottom: "1rem" }}
-              />
-            )}
-          />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          <Controller
-            name="cvv"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextField
-                {...field}
-                fullWidth
-                label="CVV"
-                variant="outlined"
-                margin="normal"
-                style={{ marginBottom: "1rem" }}
-              />
-            )}
-          />
+          <Typography variant="body1" gutterBottom>
+            Click the button below to proceed with the payment of ₹1000
+          </Typography>
         </motion.div>
         <Box mt={2} style={{ textAlign: "center" }}>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -174,7 +174,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
               type="submit"
               style={{ backgroundColor: "#1a237e", color: "#ffffff" }}
             >
-              Submit
+              Pay Now
             </Button>
           </motion.div>
         </Box>

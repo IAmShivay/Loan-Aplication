@@ -13,9 +13,6 @@ exports.uploadDocuments = async (req, res) => {
       address,
       education,
       loanAmount,
-      cardNumber,
-      expiryDate,
-      cvv,
     } = req.body;
 
     // Validate fields
@@ -26,13 +23,11 @@ exports.uploadDocuments = async (req, res) => {
       !age ||
       !address ||
       !education ||
-      !loanAmount ||
-      !cardNumber ||
-      !expiryDate ||
-      !cvv
+      !loanAmount
     ) {
       return res.status(400).json({ msg: "Please enter all required fields" });
     }
+    console.log(req.user)
     const existingApplication = await LoanApplication.findOne({
       user: req.user._id,
       paymentStatus: "Pending",

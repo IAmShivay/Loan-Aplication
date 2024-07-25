@@ -26,15 +26,15 @@ export const RegisterAdminResponse = async (credentials: Credentials) => {
   }
 };
 
-// export const GetDataResponse = async (credentials: Credentials) => {
-//   try {
-//     const response = await instance.post("/login", credentials);
-//     console.log("Login response:", response.data);
-//     return response.data;
-//   } catch (error) {
-//     handleAxiosError(error);
-//   }
-// };
+export const GetDataResponse = async () => {
+  try {
+    const response = await instance.get("/details");
+    console.log("Login response:", response.data);
+    return response.data;
+  } catch (error) {
+    handleAxiosError(error);
+  }
+};
 
 function handleAxiosError(error: any) {
   if (error.response) {
