@@ -1,3 +1,3 @@
 import HeroMain from "../images/HeroMain.jpg";
-
-export { HeroMain };
+import Logo from '../images/Logo.jpeg'
+export { HeroMain,Logo };
