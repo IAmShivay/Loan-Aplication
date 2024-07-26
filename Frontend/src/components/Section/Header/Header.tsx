@@ -244,7 +244,7 @@ const ResponsiveAppBar = () => {
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   return (
-    <AppBar elevation={0} sx={{ backgroundColor: "#ffffff" }}>
+    <AppBar position="static" elevation={0} sx={{ backgroundColor: "#ffffff" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <motion.div

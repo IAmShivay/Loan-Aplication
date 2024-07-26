@@ -16,7 +16,7 @@ import {
 } from "./app/middleware/authentication.tsx";
 import EMICalculator from "./components/Section/EmiCalculator/EmiCalculator.tsx";
 const LoanApplicationForm = lazy(
-  () => import("./components/Section/ContactUs/Main.tsx")
+  () => import("./components/Section/LoanApplication/Main.tsx")
 );
 const Footer = lazy(() => import("./components/Section/Footer/Footer"));
 const Header = lazy(() => import("./components/Section/Header/Header"));
