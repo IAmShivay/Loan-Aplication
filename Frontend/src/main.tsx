@@ -1,9 +1,9 @@
-// index.tsx
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react"; // Import PersistGate
-import store, { persistor } from "./store"; // Import store and persistor
+import { PersistGate } from "redux-persist/integration/react";
+import store, { persistor } from "./store";
 import App from "./App";
+import './css/global.css'; // Import the new CSS file
 
 const rootElement = document.getElementById("root");
 

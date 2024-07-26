@@ -1,4 +1,3 @@
-// LoanApplicationForm.tsx
 import React, { useState } from "react";
 import { Container, Stepper, Step, StepLabel, Box, Paper, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -10,8 +9,8 @@ import UploadFileIcon from '@mui/icons-material/UploadFile';
 import PaymentIcon from '@mui/icons-material/Payment';
 import { StepIconProps } from '@mui/material/StepIcon';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
-const steps = ["Basic Details", "Document Upload", "Fee Payment"];
 
+const steps = ["Basic Details", "Document Upload", "Fee Payment"];
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -20,13 +19,13 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
       backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+        'linear-gradient( 95deg, #006400 0%, #228B22 50%, #013220 100%)',
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
       backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+        'linear-gradient( 95deg, #006400 0%, #228B22 50%, #013220 100%)',
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
@@ -37,7 +36,6 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
     borderRadius: 1,
   },
 }));
-
 
 const ColorlibStepIconRoot = styled('div')<{
   ownerState: { completed?: boolean; active?: boolean };
@@ -53,12 +51,12 @@ const ColorlibStepIconRoot = styled('div')<{
   alignItems: 'center',
   ...(ownerState.active && {
     backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+      'linear-gradient( 136deg, #006400 0%, #228B22 50%, #013220 100%)',
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
   }),
   ...(ownerState.completed && {
     backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+      'linear-gradient( 136deg, #006400 0%, #228B22 50%, #013220 100%)',
   }),
 }));
 
@@ -87,14 +85,16 @@ const LoanApplicationForm: React.FC = () => {
   return (
     <Container maxWidth="lg">
       <Box mt={4} mb={4}>
-        <Paper elevation={3} sx={{ p: 4, borderRadius: 2, backgroundColor: '#f5f5f5' }}>
-          <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: 'bold', color: '#1a237e', mb: 4 }}>
+        <Paper elevation={3} sx={{ p: 4, borderRadius: 2, backgroundColor: '#DCE4E6' }}>
+          <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: 'bold', color: '#006400', mb: 4 }}>
             Loan Application Process
           </Typography>
           <Stepper activeStep={activeStep} alternativeLabel connector={<ColorlibConnector />}>
-            {steps.map((label) => (
+            {steps.map((label, index) => (
               <Step key={label}>
-                <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+                <StepLabel StepIconComponent={ColorlibStepIcon} sx={{ color: '#006400' }}>
+                  {label}
+                </StepLabel>
               </Step>
             ))}
           </Stepper>

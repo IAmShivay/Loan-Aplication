@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import {
   Grid,
@@ -149,30 +150,37 @@ const EMICalculator = () => {
   };
 
   return (
-    <Box sx={{ width: "100%", pt: "2vh" }}>
+    <Box sx={{ width: "100%", pt: "2vh", backgroundColor: "transparent" }}>
       <Paper
         elevation={3}
         sx={{
           p: { xs: 2, sm: 3, md: 4 },
-          bgcolor: "#ffffff",
+          bgcolor: "transparent",
           maxWidth: "lg",
           mx: "auto",
           display: "flex",
           flexDirection: { xs: "column-reverse", sm: "column", md: "row" },
+          borderRadius: "15px",
+          boxShadow: "none",
+          "&:hover": {
+            transform: "translateY(-10px)",
+            boxShadow: "none",
+          },
+          transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
         }}
       >
         <Box
           className="left-side"
           sx={{
-            flex: "1 1 50%", // Adjust width as needed
-            pr: { xs: 0, md: 4 }, // Adjust padding-right for spacing between the sides
+            flex: "1 1 50%",
+            pr: { xs: 0, md: 4 },
           }}
         >
           <Typography
             variant="h4"
             gutterBottom
             sx={{
-              color: "#1976d2",
+              color: "#006400",
               mb: 3,
               fontWeight: "bold",
               fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
@@ -239,7 +247,17 @@ const EMICalculator = () => {
                   variant="contained"
                   color="primary"
                   size="large"
-                  sx={{ mt: 2, mb: 3, py: 1.5 }}
+                  sx={{
+                    mt: 2,
+                    mb: 3,
+                    py: 1.5,
+                    backgroundColor: "#4caf50",
+                    color: "white",
+                    "&:hover": { backgroundColor: "#388e3c" },
+                    borderRadius: "25px",
+                    fontWeight: "bold",
+                    boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+                  }}
                 >
                   Calculate EMI
                 </Button>
@@ -248,14 +266,13 @@ const EMICalculator = () => {
           </form>
         </Box>
         <Box
-          className="right-side" // Apply custom styles for right side (Lottie animation)
+          className="right-side"
           sx={{
-            flex: "1 1 50%", // Adjust width as needed
+            flex: "1 1 50%",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            position: "relative",
-            height: { xs: 300, sm: 400 }, // Adjust height as needed
+            height: { xs: 300, sm: 400 },
           }}
         >
           <Lottie
@@ -267,8 +284,8 @@ const EMICalculator = () => {
                 preserveAspectRatio: "xMidYMid slice",
               },
             }}
-            height={400} // Adjust height as needed
-            width={400} // Adjust width as needed
+            height={400}
+            width={400}
             isClickToPauseDisabled
           />
         </Box>
@@ -278,14 +295,15 @@ const EMICalculator = () => {
           sx={{
             mt: 4,
             p: { xs: 2, sm: 3 },
-            bgcolor: "#f5f5f5",
+            bgcolor: "transparent",
             borderRadius: 2,
+            boxShadow: "none",
           }}
         >
           <Typography
             variant="h5"
             sx={{
-              color: "#1976d2",
+              color: "#006400",
               mb: 2,
               fontWeight: "bold",
               fontSize: { xs: "1.2rem", sm: "1.5rem" },
@@ -311,7 +329,19 @@ const EMICalculator = () => {
       )}
       {chartData && (
         <Box sx={{ mt: 4 }}>
-          <Paper elevation={3} sx={{ p: { xs: 2, sm: 3, md: 4 } }}>
+          <Paper
+            elevation={3}
+            sx={{
+              p: { xs: 2, sm: 3, md: 4 },
+              borderRadius: "15px",
+              boxShadow: "none",
+              "&:hover": {
+                transform: "translateY(-10px)",
+                boxShadow: "none",
+              },
+              transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+            }}
+          >
             <Box sx={{ height: { xs: 300, sm: 400 }, width: "100%" }}>
               <Line
                 data={chartData}

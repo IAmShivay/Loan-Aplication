@@ -22,7 +22,6 @@ import LoanApplicationTable from "./Applications/applications";
 
 const drawerWidth = 240;
 
-// Styled components with colorful, minimal design
 const ModernAppBar = styled(AppBar)(({ theme }) => ({
   background: theme.palette.background.paper,
   boxShadow: "none",

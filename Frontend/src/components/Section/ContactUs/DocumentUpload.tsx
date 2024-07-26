@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Box, Button, Typography, IconButton, Paper, Grid, useMediaQuery, useTheme } from "@mui/material";
 import { motion } from "framer-motion";
@@ -57,7 +56,7 @@ const DocumentUpload: React.FC<{ nextStep: () => void; prevStep: () => void }> =
               component="label"
               startIcon={<CloudUploadIcon />}
               fullWidth
-              sx={{ color: "#1A237E", borderColor: "#1A237E" }}
+              sx={{ color: "#006400", borderColor: "#006400" }}
             >
               {uploaded ? "Change" : "Upload"}
               <input
@@ -72,10 +71,10 @@ const DocumentUpload: React.FC<{ nextStep: () => void; prevStep: () => void }> =
         {uploaded && (
           <Grid container justifyContent="flex-end" mt={1}>
             <IconButton onClick={() => removeProof(name)}>
-              <CancelOutlinedIcon color="error" />
+              <CancelOutlinedIcon sx={{ color: "#FF0000" }} />
             </IconButton>
             <IconButton>
-              <CheckCircleOutlineIcon style={{ color: "green" }} />
+              <CheckCircleOutlineIcon sx={{ color: "#006400" }} />
             </IconButton>
           </Grid>
         )}
@@ -85,7 +84,7 @@ const DocumentUpload: React.FC<{ nextStep: () => void; prevStep: () => void }> =
 
   return (
     <Box mt={4} mb={4} textAlign="center" width="100%" maxWidth="600px" mx="auto">
-      <Typography variant="h4" component="h2" gutterBottom fontWeight="bold" color="#1A237E">
+      <Typography variant="h4" component="h2" gutterBottom fontWeight="bold" color="#006400">
         Document Upload
       </Typography>
       <Typography variant="body1" gutterBottom color="textSecondary">
@@ -112,7 +111,7 @@ const DocumentUpload: React.FC<{ nextStep: () => void; prevStep: () => void }> =
             <Button
               variant="outlined"
               onClick={prevStep}
-              sx={{ mr: 2, color: "#1A237E", borderColor: "#1A237E" }}
+              sx={{ mr: 2, color: "#006400", borderColor: "#006400" }}
             >
               Back
             </Button>
@@ -120,7 +119,7 @@ const DocumentUpload: React.FC<{ nextStep: () => void; prevStep: () => void }> =
               variant="contained"
               onClick={nextStep}
               disabled={!allDocumentsUploaded}
-              sx={{ backgroundColor: "#1A237E", color: "#fff" }}
+              sx={{ backgroundColor: "#006400", color: "#fff" }}
             >
               Next
             </Button>

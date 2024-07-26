@@ -217,7 +217,6 @@ import {
 } from "@mui/material";
 import { Menu as MenuIcon, ArrowDropDown } from "@mui/icons-material";
 import { motion } from "framer-motion";
-import { Logo } from "../../../assets/images";
 
 const pages = [
   { name: "Home", link: "/" },
@@ -239,13 +238,13 @@ const ResponsiveAppBar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
-  const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
+  const handleOpenNavMenu = (event:any) => setAnchorElNav(event.currentTarget);
+  const handleOpenUserMenu = (event:any) => setAnchorElUser(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
   return (
-    <AppBar position="static" elevation={0} sx={{ backgroundColor: "#ffffff" }}>
+    <AppBar elevation={0} sx={{ backgroundColor: "#ffffff" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-between" }}>
           <motion.div
@@ -254,11 +253,11 @@ const ResponsiveAppBar = () => {
             transition={{ duration: 0.5 }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <img
+              {/* <img
                 src={Logo}
                 alt="logo"
                 style={{ height: "50px", marginRight: "10px" }}
-              />
+              /> */}
               <Typography
                 variant="h6"
                 noWrap
@@ -271,7 +270,7 @@ const ResponsiveAppBar = () => {
                   textDecoration: "none",
                 }}
               >
-                LoanEase
+                Study & Pay
               </Typography>
             </Box>
           </motion.div>
