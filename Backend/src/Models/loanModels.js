@@ -38,6 +38,10 @@ const LoanApplicationSchema = new mongoose.Schema({
     type: String,
     default: 'Pending',
   },
+  paymentId: {
+    type: String,
+    required: true,
+  },
   idProof: {
     uploaded: {
       type: Boolean,

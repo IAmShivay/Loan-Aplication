@@ -4,7 +4,6 @@ import { PersistGate } from "redux-persist/integration/react";
 import store, { persistor } from "./store";
 import App from "./App";
 import './css/global.css'; // Import the new CSS file
-
 const rootElement = document.getElementById("root");
 
 if (rootElement) {

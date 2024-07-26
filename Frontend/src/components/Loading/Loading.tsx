@@ -1,7 +1,7 @@
 import React from 'react';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
-const LoadingComponent = () => {
+const LoadingComponent: React.FC = () => {
   return (
     <Box
       display="flex"
@@ -9,23 +9,41 @@ const LoadingComponent = () => {
       justifyContent="center"
       alignItems="center"
       height="100vh"
-      width="auto"
-      bgcolor="#f5f5f5"
+      width="100vw"
+      sx={{ bgcolor: 'transparent', p: 3 }}
     >
-      <CircularProgress sx={{color:"#FF8B66"}} size={60} thickness={3.5} />
       <Typography
         variant="h6"
-        component="div"
-        style={{
-          marginTop: '20px',
-          color: '#FF8B66',
+        sx={{
+          color: '#006400', // Dark green color for text
           textTransform: 'uppercase',
           fontWeight: 'bold',
           letterSpacing: '1.5px',
+          mb: 2,
         }}
       >
         Loading...
       </Typography>
+
+      <Box
+        sx={{
+          width: '40px',
+          height: '40px',
+          borderRadius: '50%',
+          border: '4px solid #f5f5f5', // Light gray color for the border
+          borderTopColor: '#006400', // Green color for the animation
+          animation: 'spin 1s linear infinite',
+        }}
+      />
+
+      <style>
+        {`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}
+      </style>
     </Box>
   );
 };

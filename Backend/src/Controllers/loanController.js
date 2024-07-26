@@ -1,8 +1,7 @@
-// const upload = require("../Config/multerConfig");
 const LoanApplication = require("../Models/loanModels");
 const getDataUri = require("../Utils/dataUri");
 const cloudinary = require("cloudinary");
-// Upload documents
+
 exports.uploadDocuments = async (req, res) => {
   try {
     const {
@@ -13,6 +12,7 @@ exports.uploadDocuments = async (req, res) => {
       address,
       education,
       loanAmount,
+      paymentId
     } = req.body;
 
     // Validate fields
@@ -23,7 +23,8 @@ exports.uploadDocuments = async (req, res) => {
       !age ||
       !address ||
       !education ||
-      !loanAmount
+      !loanAmount ||
+      !paymentId
     ) {
       return res.status(400).json({ msg: "Please enter all required fields" });
     }
@@ -65,6 +66,7 @@ exports.uploadDocuments = async (req, res) => {
       age,
       address,
       education,
+      paymentId,
       loanAmount,
       paymentStatus: "Pending",
       idProof: {
