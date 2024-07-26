@@ -5,6 +5,7 @@ const users = require("./Routes/user");
 const loan = require("./Routes/loan");
 const admin = require("./Routes/adminRoute");
 const middleware = require("./Middleware/error");
+const paymentRouter = require("./Routes/paymentRoute");
 
 const app = express();
 
@@ -23,6 +24,8 @@ app.use(express.json());
 app.use("/api/v1", users);
 app.use("/api/v1", loan);
 app.use("/api/v1",admin);
+app.use("/api/v1",paymentRouter);
+
 
 app.use(middleware);
 

@@ -5,6 +5,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
 // Styled Tabs component to ensure green colors are applied correctly
+
 const GreenTabs = styled(Tabs)(({ theme }) => ({
   width: '100%',
   borderBottom: '1px solid',

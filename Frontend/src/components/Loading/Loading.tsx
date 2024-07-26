@@ -8,9 +8,9 @@ const LoadingComponent: React.FC = () => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      height="100vh"
-      width="100vw"
-      sx={{ bgcolor: 'transparent', p: 3 }}
+      height="80vh"
+      width="auto"
+      sx={{ bgcolor: 'transparent', p: 3, overflow: 'hidden' }} // Added overflow: hidden
     >
       <Typography
         variant="h6"

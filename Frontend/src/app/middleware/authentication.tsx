@@ -1,8 +1,8 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
+import { useSelector } from 'react-redux';
 
 export const selectIsAuthenticated = (state: RootState) => state.auth.isAuthenticated;
-
 export const selectUserRole = (state: RootState) => state.auth.role;
 
 // Example of checking if user is admin

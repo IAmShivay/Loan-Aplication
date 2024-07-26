@@ -1,4 +1,6 @@
-import axios from "axios";
+// import axios from "axios";
+
+import axiosInstance from "../components/apiAxios/axiosInstance";
 
 interface Credentials {
   firstName?: string;
@@ -6,14 +8,10 @@ interface Credentials {
   email: string;
   password: string;
 }
-const instance = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
-  withCredentials: true, // Send cookies
-});
 
 export const Register = async (credentials:Credentials) => {
   try {
-    const response = await instance.post('/register', credentials);
+    const response = await axiosInstance.post('/register', credentials);
     console.log('Registration response:', response.data);
     return response.data;
   } catch (error) {
@@ -24,13 +22,26 @@ export const Register = async (credentials:Credentials) => {
 
 export const Login = async (credentials:Credentials) => {
   try {
-    const response = await instance.post('/login', credentials);
+    const response = await axiosInstance.post('/login', credentials);
     console.log('Login response:', response.data);
     return response.data;
   } catch (error) {
     handleAxiosError(error);
   }
 };
+
+// src/verify.ts
+
+export const Verify = async () => {
+  try {
+    const response = await axiosInstance.get('/verify'); // Use the instance directly
+    console.log('Verify response:', response.data.user);
+    return response.data.user;
+  } catch (error) {
+    handleAxiosError(error); // Ensure you have a proper error handling function
+  }
+};
+
 
 function handleAxiosError(error:any) {
   if (error.response) {

@@ -204,8 +204,8 @@ interface FeePaymentProps {
   prevStep: () => void;
 }
 
-const token = sessionStorage.getItem("token");
-
+const token = localStorage.getItem("token");
+console.log(token)
 const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
   const form = useSelector((state: RootState) => state.form);
   const documents = useSelector((state: RootState) => state.document);
@@ -227,12 +227,12 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
   const initiatePayment = async (amount: number) => {
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/v1/create-order",
+        "http://localhost:3000/api/v1/create-order",
         { amount },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: token,
+            Authorization: `Bearer${token}`,
           },
         }
       );
@@ -308,7 +308,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer${token}`,
           },
         }
       );
@@ -319,7 +319,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
   };
 
   const onSubmit = () => {
-    initiatePayment(100000); // Amount in paise (1000 INR)
+    initiatePayment(100); // Amount in paise (1000 INR)
   };
 
   const handleTrackApplication = () => {
