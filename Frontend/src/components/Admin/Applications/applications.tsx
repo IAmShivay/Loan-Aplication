@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -19,19 +20,20 @@ import {
   CircularProgress,
   Snackbar,
   Alert,
-  Button,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ApplicationDetailsModal from "../Applications/view";
-import axios from "axios";
 import { LoanApplications } from "./type";
 import * as Yup from "yup";
 import { registerAdmin } from "../../../app/admin/adminSlice";
 import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
+import { GetDataAllApplications } from "../../../api/admin";
 
 export interface LoanApplication {
   id: any;
@@ -78,11 +80,10 @@ const LoanApplicationTable: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/v1/getAllapplications"
-        );
+        const response = await GetDataAllApplications()
+        console.log(response)
         setApplications(
-          response.data.loanApplications.map((app: any) => ({
+          response.loanApplications.map((app: any) => ({
             ...app,
             status: app.status || "Progress",
             isSubmitted: false,
@@ -275,50 +276,61 @@ const LoanApplicationTable: React.FC = () => {
                 <Box
                   sx={{
                     display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
                     gap: 1,
+                    justifyContent: "center",
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    color="success"
-                    onClick={() => handleStatusChange(app.user, "Approved")}
-                    disabled={app.status !== "Progress" || app.isSubmitted}
-                    startIcon={<CheckCircleIcon />}
-                    fullWidth
-                  >
-                    Approve
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="error"
-                    onClick={() => handleStatusChange(app.user, "Rejected")}
-                    disabled={app.status !== "Progress" || app.isSubmitted}
-                    startIcon={<CancelIcon />}
-                    fullWidth
-                  >
-                    Reject
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => handleSubmit(app.user)}
-                    disabled={app.isSubmitted}
-                    startIcon={<SendIcon />}
-                    fullWidth
-                  >
-                    Submit
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="info"
-                    onClick={() => handleViewClick(app)}
-                    startIcon={<VisibilityIcon />}
-                    fullWidth
-                  >
-                    View
-                  </Button>
+                  <Tooltip title="Approve">
+                    <IconButton
+                      color="success"
+                      onClick={() => handleStatusChange(app.user, "Approved")}
+                      disabled={app.status !== "Progress" || app.isSubmitted}
+                      sx={{
+                        borderRadius: "50%",
+                        padding: 1,
+                      }}
+                    >
+                      <CheckCircleIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Reject">
+                    <IconButton
+                      color="error"
+                      onClick={() => handleStatusChange(app.user, "Rejected")}
+                      disabled={app.status !== "Progress" || app.isSubmitted}
+                      sx={{
+                        borderRadius: "50%",
+                        padding: 1,
+                      }}
+                    >
+                      <CancelIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Submit">
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleSubmit(app.user)}
+                      disabled={app.isSubmitted}
+                      sx={{
+                        borderRadius: "50%",
+                        padding: 1,
+                      }}
+                    >
+                      <SendIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="View Details">
+                    <IconButton
+                      color="info"
+                      onClick={() => handleViewClick(app)}
+                      sx={{
+                        borderRadius: "50%",
+                        padding: 1,
+                      }}
+                    >
+                      <VisibilityIcon />
+                    </IconButton>
+                  </Tooltip>
                 </Box>
               </TableCell>
             </TableRow>
@@ -388,51 +400,63 @@ const LoanApplicationTable: React.FC = () => {
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
+                flexDirection: "row",
+                justifyContent: "space-between",
                 gap: 1,
                 marginTop: 1,
               }}
             >
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => handleStatusChange(app.user, "Approved")}
-                disabled={app.status !== "Progress" || app.isSubmitted}
-                startIcon={<CheckCircleIcon />}
-                fullWidth
-              >
-                Approve
-              </Button>
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => handleStatusChange(app.user, "Rejected")}
-                disabled={app.status !== "Progress" || app.isSubmitted}
-                startIcon={<CancelIcon />}
-                fullWidth
-              >
-                Reject
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleSubmit(app.user)}
-                disabled={app.isSubmitted}
-                startIcon={<SendIcon />}
-                fullWidth
-              >
-                Submit
-              </Button>
-              <Button
-                variant="contained"
-                color="info"
-                onClick={() => handleViewClick(app)}
-                startIcon={<VisibilityIcon />}
-                fullWidth
-              >
-                View
-              </Button>
+              <Tooltip title="Approve">
+                <IconButton
+                  color="success"
+                  onClick={() => handleStatusChange(app.user, "Approved")}
+                  disabled={app.status !== "Progress" || app.isSubmitted}
+                  sx={{
+                    borderRadius: "50%",
+                    padding: 1,
+                  }}
+                >
+                  <CheckCircleIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Reject">
+                <IconButton
+                  color="error"
+                  onClick={() => handleStatusChange(app.user, "Rejected")}
+                  disabled={app.status !== "Progress" || app.isSubmitted}
+                  sx={{
+                    borderRadius: "50%",
+                    padding: 1,
+                  }}
+                >
+                  <CancelIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Submit">
+                <IconButton
+                  color="primary"
+                  onClick={() => handleSubmit(app.user)}
+                  disabled={app.isSubmitted}
+                  sx={{
+                    borderRadius: "50%",
+                    padding: 1,
+                  }}
+                >
+                  <SendIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="View Details">
+                <IconButton
+                  color="info"
+                  onClick={() => handleViewClick(app)}
+                  sx={{
+                    borderRadius: "50%",
+                    padding: 1,
+                  }}
+                >
+                  <VisibilityIcon />
+                </IconButton>
+              </Tooltip>
             </Box>
           </CardContent>
         </Card>
@@ -440,44 +464,38 @@ const LoanApplicationTable: React.FC = () => {
     </Box>
   );
 
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <CircularProgress />
-      </Box>
-    );
-  }
-
   return (
-    <Container maxWidth="lg">
-      {isMobile ? renderMobileView() : renderDesktopView()}
-      <ApplicationDetailsModal
-        open={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        application={selectedApplication}
-      />
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-      >
-        <Alert
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          severity={snackbar.severity}
-          sx={{ width: "100%" }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
+    <Container>
+      {loading ? (
+        <CircularProgress />
+      ) : (
+        <>
+          {isMobile ? renderMobileView() : renderDesktopView()}
+          {selectedApplication && (
+            <ApplicationDetailsModal
+              open={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              application={selectedApplication}
+            />
+          )}
+          <Snackbar
+            open={snackbar.open}
+            autoHideDuration={6000}
+            onClose={() => setSnackbar({ ...snackbar, open: false })}
+          >
+            <Alert
+              onClose={() => setSnackbar({ ...snackbar, open: false })}
+              severity={snackbar.severity}
+              sx={{ width: "100%" }}
+            >
+              {snackbar.message}
+            </Alert>
+          </Snackbar>
+        </>
+      )}
     </Container>
   );
 };
 
 export default LoanApplicationTable;
+

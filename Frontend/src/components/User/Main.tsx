@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
   Typography,
@@ -6,7 +6,6 @@ import {
   Paper,
   Box,
   Grid,
-  useTheme,
   useMediaQuery,
   Avatar,
   LinearProgress,
@@ -16,11 +15,60 @@ import {
   DialogContent,
   DialogActions,
   ThemeProvider,
+  createTheme,
 } from "@mui/material";
 import { ExitToApp, AccountBalance } from "@mui/icons-material";
 import { styled } from "@mui/system";
+import axiosInstance from "../apiAxios/axiosInstance";
+import { AppDispatch } from "../../store";
+import { useDispatch } from "react-redux";
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#4caf50",
+      dark: "#388e3c",
+    },
+    secondary: {
+      main: "#f44336", // Red color for logout button
+    },
+    background: {
+      default: "#f5f5f5",
+      paper: "#ffffff",
+    },
+  },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: "25px",
+          fontWeight: "bold",
+          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+          "&:hover": {
+            boxShadow: "0 6px 8px rgba(0,0,0,0.15)",
+          },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: "15px",
+          transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+          "&:hover": {
+            transform: "translateY(-5px)",
+            boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
+          },
+        },
+      },
+    },
+  },
+});
 
-// Minimalistic Dashboard Item Style
+// Styled components
+
 const DashboardItem = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   display: "flex",
@@ -45,29 +93,25 @@ const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
   },
 }));
 
+// Interfaces
+
 interface Loan {
-  bank: string;
-  status: "in-progress" | "approved" | "rejected";
-  amount: number;
+  Bank: string;
+  status: "in-progress" | "Approved" | "rejected";
+  loanAmount: number;
   interestRate: number;
   term: number;
 }
 
-interface LoanItemProps {
-  bank: string;
-  status: "in-progress" | "approved" | "rejected";
-  amount: number;
-  onRequestCall: () => void;
-  onViewDetails: () => void;
-}
+// LoanItem component
 
-const LoanItem: React.FC<LoanItemProps> = React.memo(
+const LoanItem: React.FC<any> = React.memo(
   ({ bank, status, amount, onRequestCall, onViewDetails }) => {
     const getLoanProgress = (status: string): number => {
       switch (status) {
         case "in-progress":
           return 50;
-        case "approved":
+        case "Approved":
           return 100;
         case "rejected":
           return 100;
@@ -76,7 +120,22 @@ const LoanItem: React.FC<LoanItemProps> = React.memo(
       }
     };
 
+    // Loan Progress
+
     const loanProgress = getLoanProgress(status);
+
+    const getStatusColor = (status: string) => {
+      switch (status) {
+        case "Approved":
+          return "#4caf50"; // Green
+        case "rejected":
+          return "#f44336"; // Red
+        case "in-progress":
+          return "#ff9800"; // Orange
+        default:
+          return "#2196f3"; // Blue
+      }
+    };
 
     return (
       <DashboardItem elevation={1}>
@@ -87,7 +146,7 @@ const LoanItem: React.FC<LoanItemProps> = React.memo(
           </Typography>
         </Box>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          Loan Amount: ${amount.toLocaleString()}
+          Loan Amount: ₹{amount.toLocaleString()}
         </Typography>
         <StyledLinearProgress
           variant="determinate"
@@ -96,15 +155,12 @@ const LoanItem: React.FC<LoanItemProps> = React.memo(
         />
         <Chip
           label={status.charAt(0).toUpperCase() + status.slice(1)}
-          color={
-            status === "approved"
-              ? "success"
-              : status === "rejected"
-              ? "error"
-              : "primary"
-          }
+          sx={{
+            mb: 2,
+            backgroundColor: getStatusColor(status),
+            color: "#ffffff",
+          }}
           size="small"
-          sx={{ mb: 2 }}
         />
         <Button
           variant="outlined"
@@ -120,7 +176,6 @@ const LoanItem: React.FC<LoanItemProps> = React.memo(
           color="primary"
           fullWidth
           onClick={onRequestCall}
-          sx={{ mb: 1 }}
         >
           Request Call
         </Button>
@@ -130,75 +185,39 @@ const LoanItem: React.FC<LoanItemProps> = React.memo(
 );
 
 const UserDashboard: React.FC = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
-  const loans: Loan[] = useMemo(
-    () => [
-      {
-        bank: "Chase Bank",
-        status: "in-progress",
-        amount: 250000,
-        interestRate: 3.5,
-        term: 30,
-      },
-      {
-        bank: "Bank of America",
-        status: "approved",
-        amount: 300000,
-        interestRate: 3.2,
-        term: 15,
-      },
-      {
-        bank: "Wells Fargo",
-        status: "rejected",
-        amount: 200000,
-        interestRate: 3.8,
-        term: 30,
-      },
-      {
-        bank: "Citibank",
-        status: "in-progress",
-        amount: 275000,
-        interestRate: 3.4,
-        term: 20,
-      },
-      {
-        bank: "US Bank",
-        status: "approved",
-        amount: 225000,
-        interestRate: 3.6,
-        term: 30,
-      },
-      {
-        bank: "PNC Bank",
-        status: "in-progress",
-        amount: 180000,
-        interestRate: 3.7,
-        term: 15,
-      },
-      {
-        bank: "TD Bank",
-        status: "rejected",
-        amount: 320000,
-        interestRate: 3.3,
-        term: 30,
-      },
-      {
-        bank: "Capital One",
-        status: "approved",
-        amount: 290000,
-        interestRate: 3.5,
-        term: 20,
-      },
-    ],
-    []
-  );
+  const dispatch = useDispatch<AppDispatch>()
+  const [data, setData] = useState<Loan[]>([]);
 
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(
+          "http://localhost:3000/api/v1/details"
+        );
+
+        console.log(response.data); // Log the response data
+
+        // Handle data based on actual response structure
+        if (Array.isArray(response.data.data)) {
+          setData(response.data.data); // Set the data array
+        } else {
+          console.error("API response data is not an array", response.data);
+        }
+      } catch (error) {
+        // setError(error); // Handle any errors
+        console.log(error)
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const handleRequestCall = (bank: string) => {
-    alert(`Request call for ${bank}`);
+    alert(`Request call for ₹{bank}`);
   };
 
   const handleViewDetails = (loan: Loan) => {
@@ -214,12 +233,12 @@ const UserDashboard: React.FC = () => {
       <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: 4 }}>
         <Container maxWidth="lg">
           <Paper
-            elevation={0}
+            elevation={3}
             sx={{
               p: { xs: 2, sm: 4 },
               mb: 4,
               borderRadius: 4,
-              backgroundColor: theme.palette.grey[200],
+              backgroundColor: theme.palette.background.paper,
               color: theme.palette.text.primary,
             }}
           >
@@ -236,27 +255,32 @@ const UserDashboard: React.FC = () => {
                   component="h1"
                   fontWeight="bold"
                   gutterBottom
+                  color="primary"
                 >
                   Welcome back
                 </Typography>
-                <Typography variant="subtitle1">
+                <Typography variant="subtitle1" color="text.secondary">
                   Loan Application Dashboard
                 </Typography>
               </Box>
               <Avatar
-                sx={{ width: 80, height: 80, border: "2px solid grey" }}
+                sx={{
+                  width: 80,
+                  height: 80,
+                  border: `2px solid ₹{theme.palette.primary.main}`,
+                }}
               />
             </Box>
           </Paper>
 
           <Grid container spacing={3}>
-            {loans.map((loan, index) => (
+            {data.map((loan, index) => (
               <Grid item xs={12} sm={6} md={3} key={index}>
                 <LoanItem
-                  bank={loan.bank}
+                  bank={loan.Bank}
                   status={loan.status}
-                  amount={loan.amount}
-                  onRequestCall={() => handleRequestCall(loan.bank)}
+                  amount={loan.loanAmount}
+                  onRequestCall={() => handleRequestCall(loan.Bank)}
                   onViewDetails={() => handleViewDetails(loan)}
                 />
               </Grid>
@@ -266,7 +290,7 @@ const UserDashboard: React.FC = () => {
           <Box mt={4} display="flex" justifyContent="center">
             <Button
               variant="contained"
-              color="primary"
+              color="secondary"
               startIcon={<ExitToApp />}
               size={isMobile ? "medium" : "large"}
               sx={{
@@ -292,44 +316,52 @@ const UserDashboard: React.FC = () => {
             },
           }}
         >
-          <DialogTitle sx={{ fontWeight: "bold" }}>
-            {selectedLoan?.bank} Loan Details
+          <DialogTitle sx={{ fontWeight: "bold", color: "primary.main" }}>
+            {selectedLoan?.Bank} Loan Details
           </DialogTitle>
           <DialogContent>
             {selectedLoan && (
               <Box>
-                <Box sx={{ mb: 1 }}>
+                <Box sx={{ mb: 2 }}>
                   <Typography component="span" variant="body1">
                     Status:{" "}
                   </Typography>
                   <Chip
                     label={selectedLoan.status}
-                    color={
-                      selectedLoan.status === "approved"
-                        ? "success"
-                        : selectedLoan.status === "rejected"
-                        ? "error"
-                        : "default"
-                    }
+                    sx={{
+                      backgroundColor: (() => {
+                        switch (selectedLoan.status) {
+                          case "Approved":
+                            return "#4caf50";
+                          case "rejected":
+                            return "#f44336";
+                          case "in-progress":
+                            return "#ff9800";
+                          default:
+                            return "#2196f3";
+                        }
+                      })(),
+                      color: "#ffffff",
+                    }}
                     size="small"
                   />
                 </Box>
-                <Typography variant="body1" sx={{ mb: 1 }}>
+                <Typography variant="body1" sx={{ mb: 2 }}>
                   Loan Amount:{" "}
-                  <strong>${selectedLoan.amount.toLocaleString()}</strong>
+                  <strong>₹{selectedLoan.loanAmount.toLocaleString()}</strong>
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 1 }}>
+                <Typography variant="body1" sx={{ mb: 2 }}>
                   Interest Rate: <strong>{selectedLoan.interestRate}%</strong>
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 1 }}>
+                <Typography variant="body1" sx={{ mb: 2 }}>
                   Loan Term: <strong>{selectedLoan.term} years</strong>
                 </Typography>
-                <Typography variant="body1" sx={{ mb: 1 }}>
+                <Typography variant="body1" sx={{ mb: 2 }}>
                   Estimated Monthly Payment:{" "}
                   <strong>
-                    $
+                    ₹
                     {(
-                      (selectedLoan.amount *
+                      (selectedLoan.loanAmount *
                         (selectedLoan.interestRate / 100 / 12)) /
                       (1 -
                         Math.pow(

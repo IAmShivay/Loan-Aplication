@@ -335,7 +335,7 @@ import {
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
-import { updateField } from "../../../app/LoanAppliation/FormSlice";
+import { updateField } from "../../../app/loanAppliation/FormSlice";
 import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 const BasicDetails: React.FC<{ nextStep: () => void }> = ({ nextStep }) => {

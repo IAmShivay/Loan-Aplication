@@ -87,10 +87,7 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
   onClose,
   application,
   primaryColor = "#1976d2",
-  // secondaryColor = "#dc004e",
 }) => {
-  const theme = useTheme();
-  // const isXsScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [activeDocument, setActiveDocument] = useState<string | null>(null);
 
   useEffect(() => {

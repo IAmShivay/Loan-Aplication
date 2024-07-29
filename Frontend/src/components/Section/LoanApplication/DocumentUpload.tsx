@@ -6,7 +6,7 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
-import { uploadDocument, removeDocument } from "../../../app/LoanAppliation/DocumentSlice";
+import { uploadDocument, removeDocument } from "../../../app/loanAppliation/DocumentSlice";
 
 const DocumentUpload: React.FC<{ nextStep: () => void; prevStep: () => void }> = ({ nextStep, prevStep }) => {
   const dispatch = useDispatch();

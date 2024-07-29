@@ -251,20 +251,15 @@ exports.deleteUserProfile = catchAsyncError(async (req, res, next) => {
 // Get All Loan details Based on Application Id
 
 exports.getUserDetailsA = catchAsyncError(async (req, res, next) => {
-  // Extract the `user` value from request body or query parameters
   const userId = req.user.id;
-
-  // Find all documents where the `user` field matches the provided value
   const admins = await Admin.find({ user: userId });
 
-  // Check if any documents were found
   if (admins.length === 0) {
     return next(
       new ErrorHandler("No admins found with the specified user field", 404)
     );
   }
 
-  // Return the found documents
   res.status(200).json({
     success: true,
     count: admins.length,

@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken");
 const catchAsyncError = require("../Middleware/catchAsyncError");
 
 exports.isAuthenticated = catchAsyncError(async (req, res, next) => {
-  const token = req.header('Authorization').replace("Bearer","");
-  console.log(token)
+  const token = req.header('Authorization').replace("Bearer ", "")
+    console.log(token)
   if (!token) {
     return next(new ErrorHandler("Please Login To access The Resource", 401));
   }

@@ -26,7 +26,6 @@ export const loadUser = createAsyncThunk<any>(
   async (_, { rejectWithValue }) => {
     try {
       const data = await Verify();
-      console.log(data)
       return data;
     } catch (error: any) {
       // Ensure error.message exists and return it properly
