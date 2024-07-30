@@ -1,9 +1,7 @@
-
 import {
   Box,
   Button,
   Typography,
-  useMediaQuery,
   Container,
   Card,
   CardContent,
@@ -25,7 +23,7 @@ import AssociatedBanks from "../Section/AssociatesBanks/NetworkBanks";
 const CarouselItems = [
   {
     id: 1,
-    title: "Financial Solutions Tailored for You",
+    title: "Simplify Your Education Journey",
     description:
       "Discover loan options designed to help you achieve your dreams and secure your future.",
     image: "/student.mp4",
@@ -38,7 +36,7 @@ const variants = {
 };
 
 const CarouselComponent = () => {
-  const isMobile = useMediaQuery("(max-width:600px)");
+  // const isMobile = useMediaQuery("(max-width:600px)");
   const navigate = useNavigate();
 
   const handleApplyNow = () => {
@@ -54,7 +52,7 @@ const CarouselComponent = () => {
           position: "relative",
           overflow: "hidden",
           backgroundImage: `url(https://plus.unsplash.com/premium_photo-1663051238732-d6246f747dab?q=80&w=1723&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
-          backgroundSize: "cover",
+          backgroundSize: "auto",
           backgroundPosition: "center",
         }}
       >
