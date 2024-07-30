@@ -20,6 +20,7 @@ import {
   LightbulbRounded,
   SupportAgentRounded,
 } from "@mui/icons-material";
+import AssociatedBanks from "../Section/AssociatesBanks/NetworkBanks";
 
 const CarouselItems = [
   {
@@ -52,8 +53,6 @@ const CarouselComponent = () => {
           height: { xs: "60vh", md: "80vh" },
           position: "relative",
           overflow: "hidden",
-          // backgroundImage: `url(https://plus.unsplash.com/premium_photo-1714265042273-9664e4537f7d?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
-
           backgroundImage: `url(https://plus.unsplash.com/premium_photo-1663051238732-d6246f747dab?q=80&w=1723&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -359,7 +358,6 @@ const CarouselComponent = () => {
           ))}
         </Box>
       </Container>
-
       {/* Testimonials Section */}
       <Box sx={{ backgroundColor: "#e8f5e9", py: 8 }}>
         <Container maxWidth="lg">
@@ -431,7 +429,7 @@ const CarouselComponent = () => {
           </Grid>
         </Container>
       </Box>
-
+      <AssociatedBanks/>
       {/* CTA Section */}
       <Box
         sx={{
