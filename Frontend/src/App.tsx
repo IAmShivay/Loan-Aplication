@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import LoadingComponent from "./components/Loading/Loading.tsx";
 import { loadUser } from "./app/auth/checkAuthSlice.tsx";
 import EMICalculator from "./components/Section/EmiCalculator/EmiCalculator.tsx";
+import FAQSection from "./components/Section/faq/faq.tsx";
 
 const LoanApplicationForm = lazy(
   () => import("./components/Section/LoanApplication/Main.tsx")
@@ -65,6 +66,8 @@ const GenralRoute: React.FC = () => (
       <Route path="/apply-form" element={<LoanApplicationForm />} />
       <Route path="aboutUs" element={<AboutUs />} />
       <Route path="loan-calculator" element={<EMICalculator />} />
+      <Route path="faq" element={<FAQSection />} />
+
     </Routes>
     <Footer />
   </React.Fragment>
