@@ -11,6 +11,7 @@ import { loadUser } from "./app/auth/checkAuthSlice.tsx";
 import EMICalculator from "./components/Section/EmiCalculator/EmiCalculator.tsx";
 import FAQSection from "./components/Section/faq/faq.tsx";
 import ProfileComponent from "./components/User/profile.tsx";
+import CreditScoreComponent from "./components/Section/CreditScore/CreditScore.tsx";
 
 const LoanApplicationForm = lazy(
   () => import("./components/Section/LoanApplication/Main.tsx")
@@ -67,7 +68,7 @@ const GenralRoute: React.FC = () => (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/apply-form" element={<LoanApplicationForm />} />
-      <Route path="aboutUs" element={<AboutUs />} />
+      <Route path="about-us" element={<AboutUs />} />
       <Route path="emi-calculator" element={<EMICalculator />} />
       <Route path="faq" element={<FAQSection />} />
     </Routes>
@@ -108,7 +109,9 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
         ) : (
           <Route path="/user/dashboard" element={<UserDashboard />} />
         )}
+        <Route path="/user/credit-report" element={<CreditScoreComponent />} />
         <Route path="/user/profile" element={<ProfileComponent />} />
+
         <Route path="*" element={<Navigate to="/user/login" />} />
       </Routes>
     </React.Fragment>

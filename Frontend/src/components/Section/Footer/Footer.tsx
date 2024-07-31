@@ -119,8 +119,8 @@ const Footer = () => {
                     <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: '#4caf50' }}>
                       Contact Us
                     </Typography>
-                    <Typography variant="body2">1234 Loan Street, Financial District</Typography>
-                    <Typography variant="body2">New York, NY 10001</Typography>
+                    <Typography variant="body2">1234 kolkatta Street, Financial District</Typography>
+                    <Typography variant="body2">West Bengal, HI 713212</Typography>
                     <Typography variant="body2">Phone: (123) 456-7890</Typography>
                     <Typography variant="body2">Email: support@studentloanprovider.com</Typography>
                   </Box>
