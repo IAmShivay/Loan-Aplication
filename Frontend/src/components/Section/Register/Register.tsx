@@ -17,11 +17,11 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../../app/auth/authSlice";
 import { AppDispatch, RootState } from "../../../store";
-import EmailIcon from '@mui/icons-material/Email';
-import LockIcon from '@mui/icons-material/Lock';
-import PersonIcon from '@mui/icons-material/Person';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import EmailIcon from "@mui/icons-material/Email";
+import LockIcon from "@mui/icons-material/Lock";
+import PersonIcon from "@mui/icons-material/Person";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const theme = createTheme({
   palette: {
@@ -49,9 +49,9 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 25,
-          textTransform: 'none',
-          fontSize: '1rem',
-          padding: '10px 0',
+          textTransform: "none",
+          fontSize: "1rem",
+          padding: "10px 0",
         },
       },
     },
@@ -63,9 +63,11 @@ const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
   const userRole = useSelector((state: RootState) => state.auth.role);
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   interface FormState {
     firstName: string;
@@ -126,181 +128,237 @@ const RegisterPage: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (userRole === 'admin') {
-        navigate('/app/v1/admin/dashboard');
-      } else if (userRole === 'user') {
-        navigate('/app/v1/user/dashboard');
+      if (userRole === "admin") {
+        navigate("/app/v1/admin/dashboard");
+      } else if (userRole === "user") {
+        navigate("/app/v1/user/dashboard");
       }
     }
   }, [isAuthenticated, userRole, navigate]);
 
   return (
     <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', md: 'row' },
-          minHeight: '100vh',
-          width: '100%',
-          bgcolor: 'background.default',
-          overflow: 'hidden',
-        }}
-      >
+      <form>
         <Box
           sx={{
-            display: { xs: 'none', md: 'flex' },
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            p: 3,
-            bgcolor: 'primary.light',
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            minHeight: "100vh",
+            width: "100%",
+            bgcolor: "background.default",
+            overflow: "hidden",
           }}
         >
-          <svg
-            width="300"
-            height="300"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            stroke="#FFFFFF"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{ width: '100%', maxWidth: '400px', height: 'auto' }}
-          >
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-            <path d="M16 11h6" />
-            <path d="M19 8v6" />
-          </svg>
-        </Box>
-        <Box
-          sx={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center',
-            p: { xs: 2, sm: 3 },
-            overflowY: 'auto',
-          }}
-        >
-          <Paper
-            elevation={6}
+          <Box
             sx={{
-              p: { xs: 2, sm: 4 },
-              borderRadius: 4,
-              width: '100%',
-              maxWidth: '400px',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              my: { xs: 2, md: 'auto' },
-              boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+              display: { xs: "none", md: "flex" },
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              p: 3,
+              bgcolor: "primary.light",
             }}
           >
-            <PersonAddIcon color="primary" sx={{ fontSize: { xs: 36, sm: 48 }, mb: 2 }} />
-            <Typography variant={isMobile ? "h5" : "h4"} gutterBottom fontWeight="bold">
-              Create Account
-            </Typography>
-            <Typography variant="body2" gutterBottom sx={{ mb: 3, color: 'text.secondary' }}>
-              Join Loan App today
-            </Typography>
-
-            <TextField
-              label="First Name"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              error={!!errors.firstName}
-              helperText={errors.firstName}
-              sx={{ mb: 2 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PersonIcon color="primary" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              label="Last Name"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              error={!!errors.lastName}
-              helperText={errors.lastName}
-              sx={{ mb: 2 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <PersonIcon color="primary" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              label="Email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              error={!!errors.email}
-              helperText={errors.email}
-              sx={{ mb: 2 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <EmailIcon color="primary" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <TextField
-              label="Password"
-              name="password"
-              type={showPassword ? "text" : "password"}
-              value={formData.password}
-              onChange={handleChange}
-              error={!!errors.password}
-              helperText={errors.password}
-              sx={{ mb: 3 }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockIcon color="primary" />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              sx={{ mb: 2, height: '48px' }}
-              onClick={handleSubmit}
-              disabled={submitting}
+            <svg
+              width="300"
+              height="300"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              stroke="#FFFFFF"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{ width: "100%", maxWidth: "400px", height: "auto" }}
             >
-              {submitting ? "Registering..." : "Create Account"}
-            </Button>
-            <Typography variant="body2" align="center">
-              Already have an account?{" "}
-              <Link component={RouterLink} to="/user/login" color="primary" fontWeight="bold">
-                Login
-              </Link>
-            </Typography>
-          </Paper>
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+              <path d="M16 11h6" />
+              <path d="M19 8v6" />
+            </svg>
+          </Box>
+          <Box
+            sx={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              p: { xs: 2, sm: 3 },
+              overflowY: "auto",
+            }}
+          >
+            <Paper
+              elevation={6}
+              sx={{
+                p: { xs: 2, sm: 4 },
+                borderRadius: 4,
+                width: "100%",
+                maxWidth: "400px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                my: { xs: 2, md: "auto" },
+                boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+              }}
+            >
+              <PersonAddIcon
+                color="primary"
+                sx={{ fontSize: { xs: 36, sm: 48 }, mb: 2 }}
+              />
+              <Typography
+                variant={isMobile ? "h5" : "h4"}
+                gutterBottom
+                fontWeight="bold"
+              >
+                Create Account
+              </Typography>
+              <Typography
+                variant="body2"
+                gutterBottom
+                sx={{ mb: 3, color: "text.secondary" }}
+              >
+                Join Loan App today
+              </Typography>
+
+              <TextField
+                label="First Name"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
+                error={!!errors.firstName}
+                helperText={errors.firstName}
+                sx={{ mb: 2 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonIcon color="primary" />
+                    </InputAdornment>
+                  ),
+                  inputProps: {
+                    autoComplete: "first-name",
+                    "aria-label": "First Name",
+                    required: true,
+                    minLength: 8,
+                    maxLength: 128,
+                  },
+                
+                  
+                }}
+              />
+              <TextField
+                label="Last Name"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                error={!!errors.lastName}
+                helperText={errors.lastName}
+                sx={{ mb: 2 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <PersonIcon color="primary" />
+                    </InputAdornment>
+                  ),
+                  inputProps: {
+                    autoComplete: "last-name",
+                    "aria-label": "Last Name",
+                    required: true,
+                    minLength: 8,
+                    maxLength: 128,
+                  },
+                }}
+              />
+              <TextField
+                label="Email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                error={!!errors.email}
+                helperText={errors.email}
+                sx={{ mb: 2 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <EmailIcon color="primary" />
+                    </InputAdornment>
+                  ),
+                  inputProps: {
+                    autoComplete: "email",
+                    "aria-label": "Email",
+                    required: true,
+                    minLength: 8,
+                    maxLength: 128,
+                  },
+                }}
+              />
+              <TextField
+                label="Password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleChange}
+                error={!!errors.password}
+                helperText={errors.password}
+                sx={{ mb: 3 }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <LockIcon color="primary" />
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                        edge="end"
+                        aria-label={
+                          showPassword ? "Hide password" : "Show password"
+                        }
+                      >
+                        {showPassword ? (
+                          <VisibilityOffIcon />
+                        ) : (
+                          <VisibilityIcon />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  inputProps: {
+                    autoComplete: "current-password",
+                    "aria-label": "Password",
+                    required: true,
+                    minLength: 8,
+                    maxLength: 128,
+                  },
+                }}
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
+                fullWidth
+                sx={{ mb: 2, height: "48px" }}
+                onClick={handleSubmit}
+                disabled={submitting}
+              >
+                {submitting ? "Registering..." : "Create Account"}
+              </Button>
+              <Typography variant="body2" align="center">
+                Already have an account?{" "}
+                <Link
+                  component={RouterLink}
+                  to="/user/login"
+                  color="primary"
+                  fontWeight="bold"
+                >
+                  Login
+                </Link>
+              </Typography>
+            </Paper>
+          </Box>
         </Box>
-      </Box>
+      </form>
     </ThemeProvider>
   );
 };

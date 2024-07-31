@@ -126,6 +126,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <form>
       <Box
         sx={{
           display: 'flex',
@@ -208,6 +209,13 @@ const LoginPage: React.FC = () => {
                     <EmailIcon color="primary" />
                   </InputAdornment>
                 ),
+                inputProps: {
+                  autoComplete: "email",
+                  "aria-label": "email",
+                  required: true,
+                  minLength: 8,
+                  maxLength: 128,
+                },
               }}
             />
             <TextField
@@ -235,6 +243,13 @@ const LoginPage: React.FC = () => {
                     </IconButton>
                   </InputAdornment>
                 ),
+                inputProps: {
+                  autoComplete: "current-password",
+                  "aria-label": "Password",
+                  required: true,
+                  minLength: 8,
+                  maxLength: 128,
+                },
               }}
             />
             <Button
@@ -256,6 +271,7 @@ const LoginPage: React.FC = () => {
           </Paper>
         </Box>
       </Box>
+      </form>
     </ThemeProvider>
   );
 };
