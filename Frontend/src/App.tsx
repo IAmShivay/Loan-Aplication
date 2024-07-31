@@ -10,6 +10,7 @@ import LoadingComponent from "./components/Loading/Loading.tsx";
 import { loadUser } from "./app/auth/checkAuthSlice.tsx";
 import EMICalculator from "./components/Section/EmiCalculator/EmiCalculator.tsx";
 import FAQSection from "./components/Section/faq/faq.tsx";
+import ProfileComponent from "./components/User/profile.tsx";
 
 const LoanApplicationForm = lazy(
   () => import("./components/Section/LoanApplication/Main.tsx")
@@ -50,7 +51,9 @@ const App: React.FC = () => {
           <Route path="/user/*" element={<PublicRoute />} />
           <Route
             path="/app/v1/*"
-            element={<PrivateRoute isAuthenticated={isAuthenticated} user={user} />}
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated} user={user} />
+            }
           />
         </Routes>
       </Suspense>
@@ -65,9 +68,8 @@ const GenralRoute: React.FC = () => (
       <Route path="/" element={<Home />} />
       <Route path="/apply-form" element={<LoanApplicationForm />} />
       <Route path="aboutUs" element={<AboutUs />} />
-      <Route path="loan-calculator" element={<EMICalculator />} />
+      <Route path="emi-calculator" element={<EMICalculator />} />
       <Route path="faq" element={<FAQSection />} />
-
     </Routes>
     <Footer />
   </React.Fragment>
@@ -89,20 +91,27 @@ interface PrivateRouteProps {
   user: any;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ isAuthenticated, user }) => {
+const PrivateRoute: React.FC<PrivateRouteProps> = ({
+  isAuthenticated,
+  user,
+}) => {
   if (!isAuthenticated) {
     return <Navigate to="/user/login" />;
   }
 
   return (
-    <Routes>
-      {user?.role === "admin" ? (
-        <Route path="/admin/dashboard" element={<Main />} />
-      ) : (
-        <Route path="/user/dashboard" element={<UserDashboard />} />
-      )}
-      <Route path="*" element={<Navigate to="/user/login" />} />
-    </Routes>
+    <React.Fragment>
+      <Header />
+      <Routes>
+        {user?.role === "admin" ? (
+          <Route path="/admin/dashboard" element={<Main />} />
+        ) : (
+          <Route path="/user/dashboard" element={<UserDashboard />} />
+        )}
+        <Route path="/user/profile" element={<ProfileComponent />} />
+        <Route path="*" element={<Navigate to="/user/login" />} />
+      </Routes>
+    </React.Fragment>
   );
 };
 

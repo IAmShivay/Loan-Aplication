@@ -1,37 +1,43 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, Typography, Container, Tabs, Tab, Avatar, IconButton, styled } from '@mui/material';
+import { Box, TextField, Button, Typography, Container, Tabs, Tab, Avatar, IconButton, styled, useTheme } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-
-// Styled Tabs component to ensure green colors are applied correctly
 
 const GreenTabs = styled(Tabs)(({ theme }) => ({
   width: '100%',
   borderBottom: '1px solid',
   borderColor: theme.palette.divider,
   '& .MuiTab-root': {
-    color: '#2e7d32', // Green color for tab text
+    color: theme.palette.success.main,
   },
   '& .Mui-selected': {
-    color: '#1b5e20', // Darker green for selected tab text
+    color: theme.palette.success.dark,
   },
   '& .MuiTabs-indicator': {
-    backgroundColor: '#4caf50', // Green indicator color
+    backgroundColor: theme.palette.success.main,
   },
 }));
 
+interface FormData {
+  firstName: string;
+  lastName: string;
+  password: string;
+  mobile: string;
+}
+
 const ProfileComponent: React.FC = () => {
-  const [tab, setTab] = useState('view'); // 'view' or 'edit'
-  const [formData, setFormData] = useState({
+  const [tab, setTab] = useState<'view' | 'edit'>('view');
+  const [formData, setFormData] = useState<FormData>({
     firstName: 'John',
     lastName: 'Doe',
     password: '',
     mobile: '1234567890',
   });
   const [profilePic, setProfilePic] = useState<string | ArrayBuffer | null>(null);
+  const theme = useTheme();
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: string) => {
+  const handleTabChange = (event: React.SyntheticEvent, newValue: 'view' | 'edit') => {
     setTab(newValue);
   };
 
@@ -59,24 +65,34 @@ const ProfileComponent: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="lg" sx={{ display: 'flex', alignItems: 'center', minHeight: '100vh', py: 4 }}>
+      <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <svg width="300" height="300" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="200" r="200" fill="#E8F5E9"/>
+          <circle cx="200" cy="160" r="60" fill={theme.palette.success.main}/>
+          <path d="M200 240C144.772 240 100 284.772 100 340H300C300 284.772 255.228 240 200 240Z" fill={theme.palette.success.main}/>
+          <rect x="140" y="140" width="120" height="160" rx="20" stroke={theme.palette.success.dark} strokeWidth="8"/>
+          <line x1="170" y1="180" x2="230" y2="180" stroke={theme.palette.success.dark} strokeWidth="8" strokeLinecap="round"/>
+          <line x1="170" y1="220" x2="230" y2="220" stroke={theme.palette.success.dark} strokeWidth="8" strokeLinecap="round"/>
+          <line x1="170" y1="260" x2="230" y2="260" stroke={theme.palette.success.dark} strokeWidth="8" strokeLinecap="round"/>
+        </svg>
+      </Box>
       <Box
+        flex={1}
         display="flex"
         flexDirection="column"
         alignItems="center"
         justifyContent="center"
         p={3}
-        mt={5}
         sx={{
           borderRadius: '8px',
           boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-          bgcolor: 'background.paper',
+          bgcolor: theme.palette.background.paper,
+          maxHeight: '600px',
+          overflowY: 'auto',
         }}
       >
-        <GreenTabs
-          value={tab}
-          onChange={handleTabChange}
-        >
+        <GreenTabs value={tab} onChange={handleTabChange}>
           <Tab label="View Profile" value="view" />
           <Tab label="Edit Profile" value="edit" />
         </GreenTabs>
@@ -88,18 +104,12 @@ const ProfileComponent: React.FC = () => {
           justifyContent="center"
           mt={2}
           position="relative"
+          width="100%"
         >
-          <Box
-            sx={{
-              position: 'relative',
-              '&:hover .camera-icon': {
-                opacity: 1, // Show the camera icon on hover
-              },
-            }}
-          >
+          <Box sx={{ position: 'relative', '&:hover .camera-icon': { opacity: 1 } }}>
             <Avatar
               src={profilePic as string}
-              sx={{ width: 120, height: 120, mb: 2, bgcolor: '#4caf50' }}
+              sx={{ width: 120, height: 120, mb: 2, bgcolor: theme.palette.success.main }}
             >
               {formData.firstName.charAt(0)}
             </Avatar>
@@ -132,42 +142,25 @@ const ProfileComponent: React.FC = () => {
           </Box>
           {tab === 'view' ? (
             <Box>
-              <Typography variant="h6" sx={{ color: '#2e7d32', mb: 1 }}>
+              <Typography variant="h6" sx={{ color: theme.palette.success.main, mb: 1 }}>
                 {formData.firstName} {formData.lastName}
               </Typography>
-              <Typography variant="body1" sx={{ color: '#2e7d32', mb: 1 }}>
+              <Typography variant="body1" sx={{ color: theme.palette.success.main, mb: 1 }}>
                 Mobile: {formData.mobile}
               </Typography>
-              <Typography variant="body1" sx={{ color: '#2e7d32', mb: 2 }}>
+              <Typography variant="body1" sx={{ color: theme.palette.success.main, mb: 2 }}>
                 Password: ********
               </Typography>
               <IconButton
                 color="primary"
                 onClick={() => setTab('edit')}
-                sx={{
-                  color: '#2e7d32',
-                }}
+                sx={{ color: theme.palette.success.main }}
               >
                 <EditIcon />
               </IconButton>
             </Box>
           ) : (
             <Box width="100%">
-              <Box display="flex" flexDirection="column" alignItems="center" mb={2}>
-                <input
-                  accept="image/*"
-                  id="profile-pic-input"
-                  type="file"
-                  style={{ display: 'none' }}
-                  onChange={handleProfilePicChange}
-                />
-                <label htmlFor="profile-pic-input">
-                  <IconButton color="primary" component="span">
-                    <CameraAltIcon sx={{ color: '#4caf50' }} />
-                  </IconButton>
-                </label>
-              </Box>
-
               <TextField
                 label="First Name"
                 variant="outlined"
@@ -177,15 +170,14 @@ const ProfileComponent: React.FC = () => {
                 value={formData.firstName}
                 onChange={handleChange}
                 sx={{ 
-                  '& .MuiInputLabel-root': { color: '#2e7d32' }, 
-                  '& .MuiInputBase-root': { color: '#2e7d32' },
+                  '& .MuiInputLabel-root': { color: theme.palette.success.main }, 
+                  '& .MuiInputBase-root': { color: theme.palette.success.main },
                   '& .MuiOutlinedInput-root': { 
-                    '& fieldset': { borderColor: '#2e7d32' }, 
-                    '&:hover fieldset': { borderColor: '#2e7d32' },
+                    '& fieldset': { borderColor: theme.palette.success.main }, 
+                    '&:hover fieldset': { borderColor: theme.palette.success.main },
                   }
                 }}
               />
-
               <TextField
                 label="Last Name"
                 variant="outlined"
@@ -195,15 +187,14 @@ const ProfileComponent: React.FC = () => {
                 value={formData.lastName}
                 onChange={handleChange}
                 sx={{ 
-                  '& .MuiInputLabel-root': { color: '#2e7d32' }, 
-                  '& .MuiInputBase-root': { color: '#2e7d32' },
+                  '& .MuiInputLabel-root': { color: theme.palette.success.main }, 
+                  '& .MuiInputBase-root': { color: theme.palette.success.main },
                   '& .MuiOutlinedInput-root': { 
-                    '& fieldset': { borderColor: '#2e7d32' }, 
-                    '&:hover fieldset': { borderColor: '#2e7d32' },
+                    '& fieldset': { borderColor: theme.palette.success.main }, 
+                    '&:hover fieldset': { borderColor: theme.palette.success.main },
                   }
                 }}
               />
-
               <TextField
                 label="Password"
                 type="password"
@@ -214,15 +205,14 @@ const ProfileComponent: React.FC = () => {
                 value={formData.password}
                 onChange={handleChange}
                 sx={{ 
-                  '& .MuiInputLabel-root': { color: '#2e7d32' }, 
-                  '& .MuiInputBase-root': { color: '#2e7d32' },
+                  '& .MuiInputLabel-root': { color: theme.palette.success.main }, 
+                  '& .MuiInputBase-root': { color: theme.palette.success.main },
                   '& .MuiOutlinedInput-root': { 
-                    '& fieldset': { borderColor: '#2e7d32' }, 
-                    '&:hover fieldset': { borderColor: '#2e7d32' },
+                    '& fieldset': { borderColor: theme.palette.success.main }, 
+                    '&:hover fieldset': { borderColor: theme.palette.success.main },
                   }
                 }}
               />
-
               <TextField
                 label="Mobile Number"
                 type="tel"
@@ -233,25 +223,25 @@ const ProfileComponent: React.FC = () => {
                 value={formData.mobile}
                 onChange={handleChange}
                 sx={{ 
-                  '& .MuiInputLabel-root': { color: '#2e7d32' }, 
-                  '& .MuiInputBase-root': { color: '#2e7d32' },
+                  '& .MuiInputLabel-root': { color: theme.palette.success.main }, 
+                  '& .MuiInputBase-root': { color: theme.palette.success.main },
                   '& .MuiOutlinedInput-root': { 
-                    '& fieldset': { borderColor: '#2e7d32' }, 
-                    '&:hover fieldset': { borderColor: '#2e7d32' },
+                    '& fieldset': { borderColor: theme.palette.success.main }, 
+                    '&:hover fieldset': { borderColor: theme.palette.success.main },
                   }
                 }}
               />
-
               <Button
                 variant="contained"
                 color="primary"
                 onClick={handleSave}
                 sx={{
                   mt: 2,
-                  background: 'linear-gradient(45deg, #4caf50 30%, #2e7d32 90%)',
+                  mb: 2,
+                  background: `linear-gradient(45deg, ${theme.palette.success.main} 30%, ${theme.palette.success.dark} 90%)`,
                   color: 'white',
                   '&:hover': {
-                    background: 'linear-gradient(45deg, #2e7d32 30%, #4caf50 90%)',
+                    background: `linear-gradient(45deg, ${theme.palette.success.dark} 30%, ${theme.palette.success.main} 90%)`,
                   },
                 }}
                 endIcon={<SaveIcon />}
