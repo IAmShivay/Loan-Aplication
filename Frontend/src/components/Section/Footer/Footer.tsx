@@ -58,7 +58,7 @@ const Footer = () => {
   ];
 
   return (
-    <Box sx={{ backgroundColor: '#f0f4f8', color: '#333', mt: "10vh" }}>
+    <Box sx={{ backgroundColor: '#f0f4f8', color: '#333' }}>
       <Container maxWidth="lg">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
