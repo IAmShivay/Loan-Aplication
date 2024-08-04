@@ -384,7 +384,6 @@ const LoginPage: React.FC = () => {
       setSubmitting(true);
       try {
         await dispatch(loginUser(formData));
-        // Refresh the page after successful login
         window.location.reload();
       } catch (err) {
         console.error(err);
