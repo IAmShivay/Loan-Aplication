@@ -84,7 +84,7 @@ const pages = [
 ];
 
 const settings = [
-  { name: "Profile", link: "app/v1/user/profile" },
+  { name: "Profile", link: "/app/v1/user/profile" },
   { name: "Dashboard", link: "/app/v1/user/dashboard" },
   { name: "Logout", link: "/user/logout" },
 ];
