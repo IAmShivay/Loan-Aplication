@@ -482,16 +482,14 @@ import {
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
-  MoneyOffCsredRounded,
   SchoolRounded,
   AccountBalanceRounded,
   HomeWorkRounded,
-  LightbulbRounded,
-  SupportAgentRounded,
 } from "@mui/icons-material";
 import AssociatedBanks from "../Section/AssociatesBanks/NetworkBanks";
 import Lottie from "react-lottie";
-import animationData from "../../assets/animation/student-animation.json"; // You'll need to create or obtain this JSON file
+import animationData from "../../assets/animation/student-animation.json";
+import WhyChooseUs from "../Section/whyChooseUs/whyChooseUs"; // You'll need to create or obtain this JSON file
 const CarouselItems = [
   {
     id: 1,
@@ -665,87 +663,7 @@ const CarouselComponent = () => {
           ))}
         </Box>
       </Container>
-
-      {/* Why Choose Us Section */}
-      <Box sx={{ backgroundColor: "#e8f5e9", py: 8 }}>
-        <Container maxWidth="lg">
-          <Typography
-            variant="h3"
-            sx={{
-              mb: 6,
-              textAlign: "center",
-              color: "#2e7d32",
-              fontWeight: "bold",
-            }}
-          >
-            Why Choose Us?
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 4,
-              justifyContent: "center",
-            }}
-          >
-            {[
-              {
-                title: "Expert Advice",
-                icon: LightbulbRounded,
-                description:
-                  "Our financial experts provide personalized guidance to help you make informed decisions about your education financing.",
-              },
-              {
-                title: "Competitive Rates",
-                icon: MoneyOffCsredRounded,
-                description:
-                  "Enjoy some of the most competitive interest rates for education loans in the market.",
-              },
-              {
-                title: "24/7 Support",
-                icon: SupportAgentRounded,
-                description:
-                  "Our dedicated support team is always ready to assist you with your education loan queries, any time of day or night.",
-              },
-            ].map((feature, index) => (
-              <Card
-                key={index}
-                sx={{
-                  maxWidth: 345,
-                  minHeight: 250,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  borderRadius: "15px",
-                  backgroundColor: "white",
-                  transition: "transform 0.3s ease-in-out",
-                  "&:hover": {
-                    transform: "scale(1.05)",
-                  },
-                }}
-              >
-                <CardContent sx={{ textAlign: "center" }}>
-                  <feature.icon
-                    sx={{ fontSize: 60, color: "#4caf50", mb: 2 }}
-                  />
-                  <Typography
-                    variant="h5"
-                    component="div"
-                    sx={{ mb: 2, color: "#2e7d32", fontWeight: "bold" }}
-                  >
-                    {feature.title}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    {feature.description}
-                  </Typography>
-                </CardContent>
-              </Card>
-            ))}
-          </Box>
-        </Container>
-      </Box>
-
+      <WhyChooseUs />
       {/* Customer Support Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Typography
