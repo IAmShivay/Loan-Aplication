@@ -1,39 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { Box, TextField, Button, Typography, Container, Tabs, Tab, Avatar, IconButton, styled, useTheme, useMediaQuery } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import CameraAltIcon from '@mui/icons-material/CameraAlt';
-
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Tabs,
+  Tab,
+  Avatar,
+  IconButton,
+  styled,
+  useTheme,
+  useMediaQuery,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import { useSelector } from "react-redux";
 const GreenTabs = styled(Tabs)(({ theme }) => ({
-  borderBottom: '1px solid',
+  borderBottom: "1px solid",
   borderColor: theme.palette.divider,
-  '& .MuiTab-root': {
+  "& .MuiTab-root": {
     color: theme.palette.success.main,
-    fontSize: '0.9rem',
+    fontSize: "0.9rem",
   },
-  '& .Mui-selected': {
+  "& .Mui-selected": {
     color: theme.palette.success.dark,
   },
-  '& .MuiTabs-indicator': {
+  "& .MuiTabs-indicator": {
     backgroundColor: theme.palette.success.main,
   },
 }));
 
 const GreenTextField = styled(TextField)(({ theme }) => ({
-  '& .MuiInputLabel-root': { 
+  "& .MuiInputLabel-root": {
     color: theme.palette.success.main,
   },
-  '& .MuiInputBase-root': { 
+  "& .MuiInputBase-root": {
     color: theme.palette.success.main,
   },
-  '& .MuiOutlinedInput-root': { 
-    '& fieldset': { 
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
       borderColor: theme.palette.success.main,
     },
-    '&:hover fieldset': { 
+    "&:hover fieldset": {
       borderColor: theme.palette.success.dark,
     },
-    '&.Mui-focused fieldset': {
+    "&.Mui-focused fieldset": {
       borderColor: theme.palette.success.dark,
     },
   },
@@ -43,48 +56,57 @@ interface FormData {
   firstName: string;
   lastName: string;
   password: string;
-  mobile: string;
+  email: string;
 }
 
 const ProfileComponent: React.FC = () => {
-  const [tab, setTab] = useState<'view' | 'edit'>('view');
+  const { user } = useSelector((state: any) => state.verify);
+  const [tab, setTab] = useState<"view" | "edit">("view");
   const [formData, setFormData] = useState<FormData>({
-    firstName: 'John',
-    lastName: 'Doe',
-    password: '',
-    mobile: '1234567890',
+    firstName: user.firstName,
+    lastName: user.lastName,
+    password: "",
+    email: user.email,
   });
-  const [profilePic, setProfilePic] = useState<string | ArrayBuffer | null>(null);
+  const [profilePic, setProfilePic] = useState<string | ArrayBuffer | null>(
+    null
+  );
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  useEffect(() => {
-    console.log('Current form data:', formData);
-  }, [formData]);
+  useEffect(() => {}, [formData]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: 'view' | 'edit') => {
+  const handleTabChange = (
+    event: React.SyntheticEvent,
+    newValue: "view" | "edit"
+  ) => {
     setTab(newValue);
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
   const handleSave = () => {
-    console.log('Saved data:', { ...formData, profilePic: profilePic ? 'Image data present' : 'No image' });
-    setTab('view');
+    console.log("Saved data:", {
+      ...formData,
+      profilePic: profilePic ? "Image data present" : "No image",
+    });
+    setTab("view");
   };
 
-  const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleProfilePicChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files && event.target.files[0]) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfilePic(reader.result);
-        console.log('Profile picture updated');
+        console.log("Profile picture updated");
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -94,36 +116,36 @@ const ProfileComponent: React.FC = () => {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          width: '100%',
-          maxWidth: '800px',
-          margin: '0 auto',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100%",
+          maxWidth: "800px",
+          margin: "0 auto",
           bgcolor: theme.palette.background.paper,
-          borderRadius: '8px',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-          overflow: 'hidden',
+          borderRadius: "8px",
+          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+          overflow: "hidden",
         }}
       >
         <Box
           sx={{
-            width: '100%',
-            height: isMobile ? '150px' : '200px',
+            width: "100%",
+            height: isMobile ? "150px" : "200px",
             backgroundColor: theme.palette.success.light,
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'flex-end',
-            position: 'relative',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "flex-end",
+            position: "relative",
           }}
         >
           <Box
             sx={{
-              position: 'absolute',
-              bottom: isMobile ? '-50px' : '-60px',
-              left: '50%',
-              transform: 'translateX(-50%)',
-              '&:hover .camera-button': {
+              position: "absolute",
+              bottom: isMobile ? "-50px" : "-60px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              "&:hover .camera-button": {
                 opacity: 0.6,
               },
             }}
@@ -135,7 +157,7 @@ const ProfileComponent: React.FC = () => {
                 height: isMobile ? 100 : 120,
                 border: `4px solid ${theme.palette.background.paper}`,
                 bgcolor: theme.palette.success.main,
-                fontSize: isMobile ? '2rem' : '2.5rem',
+                fontSize: isMobile ? "2rem" : "2.5rem",
               }}
             >
               {formData.firstName.charAt(0)}
@@ -144,7 +166,7 @@ const ProfileComponent: React.FC = () => {
               accept="image/*"
               id="profile-pic-input"
               type="file"
-              style={{ display: 'none' }}
+              style={{ display: "none" }}
               onChange={handleProfilePicChange}
             />
             <label htmlFor="profile-pic-input">
@@ -153,16 +175,16 @@ const ProfileComponent: React.FC = () => {
                 component="span"
                 className="camera-button"
                 sx={{
-                  position: 'absolute',
+                  position: "absolute",
                   top: 0,
                   left: 0,
-                  width: '100%',
-                  height: '100%',
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: '#ffffff',
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  color: "#ffffff",
                   opacity: 0,
-                  transition: 'opacity 0.3s',
-                  '&:hover': { backgroundColor: 'rgba(0, 0, 0, 0.7)' },
+                  transition: "opacity 0.3s",
+                  "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.7)" },
                 }}
               >
                 <CameraAltIcon />
@@ -171,33 +193,46 @@ const ProfileComponent: React.FC = () => {
           </Box>
         </Box>
 
-        <Box sx={{ width: '100%', mt: isMobile ? 8 : 10, px: 2 }}>
+        <Box sx={{ width: "100%", mt: isMobile ? 8 : 10, px: 2 }}>
           <GreenTabs value={tab} onChange={handleTabChange} variant="fullWidth">
             <Tab label="View Profile" value="view" />
             <Tab label="Edit Profile" value="edit" />
           </GreenTabs>
 
           <Box sx={{ p: 3 }}>
-            {tab === 'view' ? (
+            {tab === "view" ? (
               <Box>
-                <Typography variant="h5" sx={{ color: theme.palette.success.main, mb: 2, textAlign: 'center' }}>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    color: theme.palette.success.main,
+                    mb: 2,
+                    textAlign: "center",
+                  }}
+                >
                   {formData.firstName} {formData.lastName}
                 </Typography>
-                <Typography variant="body1" sx={{ color: theme.palette.success.main, mb: 1 }}>
-                  Mobile: {formData.mobile}
+                <Typography
+                  variant="body1"
+                  sx={{ color: theme.palette.success.main, mb: 1 }}
+                >
+                  email: {formData.email}
                 </Typography>
-                <Typography variant="body1" sx={{ color: theme.palette.success.main, mb: 2 }}>
+                <Typography
+                  variant="body1"
+                  sx={{ color: theme.palette.success.main, mb: 2 }}
+                >
                   Password: ********
                 </Typography>
                 <Button
                   startIcon={<EditIcon />}
                   variant="outlined"
-                  onClick={() => setTab('edit')}
+                  onClick={() => setTab("edit")}
                   fullWidth
                   sx={{
                     color: theme.palette.success.main,
                     borderColor: theme.palette.success.main,
-                    '&:hover': {
+                    "&:hover": {
                       borderColor: theme.palette.success.dark,
                       backgroundColor: theme.palette.success.light,
                     },
@@ -237,13 +272,13 @@ const ProfileComponent: React.FC = () => {
                   onChange={handleChange}
                 />
                 <GreenTextField
-                  label="Mobile Number"
+                  label="Email"
                   type="tel"
                   variant="outlined"
                   fullWidth
                   margin="normal"
-                  name="mobile"
-                  value={formData.mobile}
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
                 />
                 <Button
@@ -251,10 +286,10 @@ const ProfileComponent: React.FC = () => {
                   onClick={handleSave}
                   sx={{
                     mt: 2,
-                    width: '100%',
+                    width: "100%",
                     background: `linear-gradient(45deg, ${theme.palette.success.main} 30%, ${theme.palette.success.dark} 90%)`,
-                    color: 'white',
-                    '&:hover': {
+                    color: "white",
+                    "&:hover": {
                       background: `linear-gradient(45deg, ${theme.palette.success.dark} 30%, ${theme.palette.success.main} 90%)`,
                     },
                   }}
