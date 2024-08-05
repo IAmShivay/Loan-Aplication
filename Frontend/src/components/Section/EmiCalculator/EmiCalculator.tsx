@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import {
   Grid,
@@ -24,7 +23,7 @@ import {
   Legend,
   Filler,
 } from "chart.js";
-import animationData from "../../../assets/Animation.json";
+import animationData from "../../../assets/animation/Animation.json";
 import Lottie from "react-lottie";
 
 ChartJS.register(
@@ -339,7 +338,8 @@ const EMICalculator = () => {
                 transform: "translateY(-10px)",
                 boxShadow: "none",
               },
-              transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+              transition:
+                "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
             }}
           >
             <Box sx={{ height: { xs: 300, sm: 400 }, width: "100%" }}>
