@@ -92,10 +92,9 @@ interface PrivateRouteProps {
   user: any;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({
-  isAuthenticated,
-  user,
-}) => {
+const PrivateRoute: React.FC<PrivateRouteProps> = () => {
+  const { isAuthenticated, user } = useSelector((state: any) => state.verify);
+console.log(isAuthenticated)
   if (!isAuthenticated) {
     return <Navigate to="/user/login" />;
   }

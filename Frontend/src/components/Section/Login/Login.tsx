@@ -61,11 +61,7 @@ const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [submitting, setSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
-  const userRole = useSelector((state: RootState) => state.auth.role);
-
+  const { isAuthenticated, user } = useSelector((state: any) => state.verify);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"));
 
@@ -120,9 +116,9 @@ const LoginPage: React.FC = () => {
   };
 
   if (isAuthenticated) {
-    if (userRole === "admin") {
+    if (user.role === "admin") {
       return <Navigate to="/app/v1/admin/dashboard" replace />;
-    } else if (userRole === "user") {
+    } else if (user.role === "user") {
       return <Navigate to="/app/v1/user/dashboard" replace />;
     }
   }
@@ -190,8 +186,15 @@ const LoginPage: React.FC = () => {
                 boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
               }}
             >
-              <LockOpenIcon color="primary" sx={{ fontSize: { xs: 40, sm: 48 }, mb: 2 }} />
-              <Typography variant={isMobile ? "h5" : "h4"} gutterBottom fontWeight="bold">
+              <LockOpenIcon
+                color="primary"
+                sx={{ fontSize: { xs: 40, sm: 48 }, mb: 2 }}
+              />
+              <Typography
+                variant={isMobile ? "h5" : "h4"}
+                gutterBottom
+                fontWeight="bold"
+              >
                 Welcome Back
               </Typography>
               <Typography
