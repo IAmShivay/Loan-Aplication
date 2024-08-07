@@ -1,24 +1,31 @@
-
-
 import React, { useState } from "react";
-import { Container, Stepper, Step, StepLabel, Box, Paper, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { 
+  Container, 
+  Stepper, 
+  Step, 
+  StepLabel, 
+  Box, 
+  Paper, 
+  Typography,
+  useMediaQuery,
+  Theme
+} from "@mui/material";
+import { styled, useTheme } from "@mui/material/styles";
 import BasicDetails from "./BasicDetails";
 import DocumentUpload from "./DocumentUpload";
 import FeePayment from "./Payment";
 import AcademicDetails from "./AcademicDetails";
-import CoBorrowerDetails from "./CoBorrowerDetails"; // Import the new component
-import EKYCVerification from "./EKYCVerification"; // Import the new component
+import CoBorrowerDetails from "./CoBorrowerDetails";
+import EKYCVerification from "./EKYCVerification";
 import InfoIcon from '@mui/icons-material/Info';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import PaymentIcon from '@mui/icons-material/Payment';
 import SchoolIcon from '@mui/icons-material/School';
-import GroupIcon from '@mui/icons-material/Group'; // Import icon for Co-borrower Details
-import VerifiedIcon from '@mui/icons-material/Verified'; // Import icon for eKYC Verification
+import GroupIcon from '@mui/icons-material/Group';
+import VerifiedIcon from '@mui/icons-material/Verified';
 import { StepIconProps } from '@mui/material/StepIcon';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 
-// Updated steps array
 const steps = ["Basic Details", "Academic Details", "Co-borrower Details", "eKYC Verification", "Document Upload", "Fee Payment"];
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
@@ -75,8 +82,8 @@ function ColorlibStepIcon(props: StepIconProps) {
   const icons: { [index: string]: React.ReactElement } = {
     1: <InfoIcon />,
     2: <SchoolIcon />,
-    3: <GroupIcon />, // Icon for Co-borrower Details
-    4: <VerifiedIcon />, // Icon for eKYC Verification
+    3: <GroupIcon />,
+    4: <VerifiedIcon />,
     5: <UploadFileIcon />,
     6: <PaymentIcon />,
   };
@@ -90,26 +97,46 @@ function ColorlibStepIcon(props: StepIconProps) {
 
 const LoanApplicationForm: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const nextStep = () => setActiveStep((prevStep) => prevStep + 1);
   const prevStep = () => setActiveStep((prevStep) => prevStep - 1);
 
   return (
-    <Container maxWidth="lg"sx={{mb:"10vh"}}>
+    <Container maxWidth="lg" sx={{ mb: "10vh", px: { xs: 2, sm: 3, md: 4 } }}>
       <Box mt={4} mb={4}>
-        <Paper elevation={3} sx={{ p: 4, borderRadius: 2, backgroundColor: '#DCE4E6' }}>
-          <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: 'bold', color: '#006400', mb: 4 }}>
+        <Paper elevation={3} sx={{ p: { xs: 2, sm: 3, md: 4 }, borderRadius: 2, backgroundColor: '#DCE4E6' }}>
+          <Typography variant="h4" component="h1" gutterBottom align="center" sx={{ fontWeight: 'bold', color: '#006400', mb: 4, fontSize: { xs: '1.5rem', sm: '2rem', md: '2.125rem' } }}>
             Loan Application Process
           </Typography>
-          <Stepper activeStep={activeStep} alternativeLabel connector={<ColorlibConnector />}>
-            {steps.map((label, index) => (
-              <Step key={label}>
-                <StepLabel StepIconComponent={ColorlibStepIcon} sx={{ color: '#006400' }}>
-                  {label}
-                </StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+          <Box sx={{ overflowX: 'auto', pb: 2 }}>
+            <Stepper 
+              activeStep={activeStep} 
+              alternativeLabel 
+              connector={<ColorlibConnector />}
+              sx={{ 
+                minWidth: isMobile ? '600px' : 'auto',
+              }}
+            >
+              {steps.map((label, index) => (
+                <Step key={label}>
+                  <StepLabel 
+                    StepIconComponent={ColorlibStepIcon} 
+                    sx={{ 
+                      color: '#006400', 
+                      '& .MuiStepLabel-label': { 
+                        fontSize: { xs: '0.65rem', sm: '0.75rem', md: '0.875rem' },
+                        whiteSpace: 'nowrap',
+                      } 
+                    }}
+                  >
+                    {label}
+                  </StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </Box>
           <Box mt={4}>
             {activeStep === 0 && <BasicDetails nextStep={nextStep} />}
             {activeStep === 1 && <AcademicDetails nextStep={nextStep} prevStep={prevStep} />}
