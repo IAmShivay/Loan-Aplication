@@ -12,6 +12,7 @@ import EMICalculator from "./components/Section/EmiCalculator/EmiCalculator.tsx"
 import FAQSection from "./components/Section/faq/faq.tsx";
 import ProfileComponent from "./components/User/profile.tsx";
 import CreditScoreComponent from "./components/Section/CreditScore/CreditScore.tsx";
+import SessionExpiredPopup from "./components/Section/Error/Error.tsx";
 
 const LoanApplicationForm = lazy(
   () => import("./components/Section/LoanApplication/Main.tsx")
@@ -29,7 +30,9 @@ const UserDashboard = lazy(() => import("./components/User/Main.tsx"));
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
-  const { isAuthenticated, user } = useSelector((state: any) => state.verify);
+  const { isAuthenticated, user, error } = useSelector(
+    (state: any) => state.verify
+  );
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -43,7 +46,10 @@ const App: React.FC = () => {
   if (loading) {
     return <LoadingComponent />;
   }
-
+  const warning = sessionStorage.getItem("warning");
+  if (error && warning === null) {
+    return <SessionExpiredPopup />;
+  }
   return (
     <Router>
       <Suspense fallback={<LoadingComponent />}>
@@ -92,9 +98,10 @@ interface PrivateRouteProps {
   user: any;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = () => {
-  const { isAuthenticated, user } = useSelector((state: any) => state.verify);
-console.log(isAuthenticated)
+const PrivateRoute: React.FC<PrivateRouteProps> = ({
+  isAuthenticated,
+  user,
+}) => {
   if (!isAuthenticated) {
     return <Navigate to="/user/login" />;
   }
