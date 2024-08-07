@@ -1,4 +1,4 @@
-import { useState} from "react";
+import { useState } from "react";
 import { Dialog, DialogContent, Button, Typography, Box } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
@@ -39,6 +39,7 @@ const SessionExpiredPopup = () => {
   const handleClose = () => {
     setOpen(false);
     sessionStorage.setItem("warning", "true");
+    window.location.href = "/";
   };
   const handleLogin = () => {
     setOpen(false);
