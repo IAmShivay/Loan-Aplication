@@ -219,14 +219,14 @@ const CarouselComponent = () => {
             {
               name: "John Doe",
               role: "Education Loan Specialist",
-              image: "url_to_avatar_image",
+              image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fc.pxhere.com%2Fphotos%2F93%2Fc7%2Fbusinessman_man_portrait_male_costume_business_office_office_style-815849.jpg!d&f=1&nofb=1&ipt=b61f550d08d9b91407e624821bdd7b13162001d88896c7b3d8a9d4e0251da941&ipo=imagese",
               description:
                 "John has over 10 years of experience in providing top-notch advice on education financing.",
             },
             {
               name: "Jane Smith",
               role: "Student Support Manager",
-              image: "url_to_avatar_image",
+              image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fc.pxhere.com%2Fphotos%2F44%2Fdc%2Fsmiling_boy_man_professional_happy_people_young_portrait-865531.jpg!d&f=1&nofb=1&ipt=c4c57c0940859763478b86f424ebfa49a4ca07630fa28d12bf9fbb86d219fe8b&ipo=images",
               description:
                 "Jane leads our support team with a focus on helping students navigate their financial journey.",
             },
@@ -298,19 +298,19 @@ const CarouselComponent = () => {
                 name: "Emily R.",
                 feedback:
                   "Thanks to their education loan, I was able to pursue my dream course without financial worries!",
-                image: "url_to_avatar_image",
+                image: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
               },
               {
                 name: "Michael B.",
                 feedback:
                   "Their customer support team is exceptional. They guided me through every step of the loan application process.",
-                image: "url_to_avatar_image",
+                image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.imagefitz.com%2Fwp-content%2Fuploads%2F2019%2F02%2FProfessional-Headshot-Photography-1JF1398-Square.jpg&f=1&nofb=1&ipt=6db2624117c52d5277066a4f67eb48b56aa4706cc602d698031fabf5e3e4ab0a&ipo=images",
               },
               {
                 name: "Sophia L.",
                 feedback:
-                  "Great rates and fantastic service. I recommend them to all my fellow students.",
-                image: "url_to_avatar_image",
+                  "I had an excellent experience. I highly recommend them to all my fellow students and anyone looking for reliable assistance.",
+                image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fget.pxhere.com%2Fphoto%2Fperson-suit-profile-male-portrait-young-professional-profession-hairstyle-social-media-elegant-cv-businessperson-white-collar-worker-459413.jpg&f=1&nofb=1&ipt=bbcf7bb0fd38f0f6b2eba48a8d4727cdfd7214a35400e1a2b410e781388a2633&ipo=images",
               },
             ].map((testimonial, index) => (
               <Grid item xs={12} md={4} key={index}>
