@@ -34,7 +34,7 @@ const BasicDetails: React.FC<{ nextStep: () => void }> = ({ nextStep }) => {
   const [isLoanAmountValid, setIsLoanAmountValid] = useState(true);
   const [interestRate, setInterestRate] = useState(12);
   const [tenure, setTenure] = useState(5);
-  const [emi, setEmi] = useState(0);
+  const [emi, setEmi]:any = useState(0);
 
   const validateForm = () => {
     const newErrors = {
@@ -98,7 +98,7 @@ const BasicDetails: React.FC<{ nextStep: () => void }> = ({ nextStep }) => {
       const r = interestRate / 12 / 100;
       const n = 12 * tenure;
       const emi = P * r * (Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1));
-      setEmi(Math.round(emi * 100) / 100);
+      setEmi(`${emi.toFixed()}.00`);
     } else {
       setEmi(0);
     }
