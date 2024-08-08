@@ -28,7 +28,6 @@ exports.uploadDocuments = async (req, res) => {
     ) {
       return res.status(400).json({ msg: "Please enter all required fields" });
     }
-    console.log(req.user)
     const existingApplication = await LoanApplication.findOne({
       user: req.user._id,
       paymentStatus: "Pending",
@@ -57,7 +56,6 @@ exports.uploadDocuments = async (req, res) => {
 
     // Upload ID proof
     const idFiles = await uploadFile(idProof);
-    console.log(incomeFiles);
     const newLoanApplication = new LoanApplication({
       user: req.user._id,
       name,

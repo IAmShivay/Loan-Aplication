@@ -10,11 +10,9 @@ const getDataUri = (file) => {
   
   // Get the original name of the file
   const originalName = file[0].originalname;
-  console.log("Original Name:", originalName);
   
   // Get the extension of the file
   const extName = path.extname(originalName);
-  console.log("Extension Name:", extName);
   
   // Format and return the Data URI
   return parser.format(extName, file[0].buffer);

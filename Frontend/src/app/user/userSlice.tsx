@@ -17,7 +17,6 @@ export const userResponse = createAsyncThunk(
   async (_: any, { rejectWithValue }) => {
     try {
       const response = await GetUserDataResponse();
-      console.log(response)
       return response;
     } catch (error: any) {
       return rejectWithValue(error.message);

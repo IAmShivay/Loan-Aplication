@@ -205,7 +205,6 @@ interface FeePaymentProps {
 }
 
 const token = localStorage.getItem("token");
-console.log(token)
 const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
   const form = useSelector((state: RootState) => state.form);
   const documents = useSelector((state: RootState) => state.document);

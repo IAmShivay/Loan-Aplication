@@ -81,7 +81,6 @@ const LoanApplicationTable: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await GetDataAllApplications()
-        console.log(response)
         setApplications(
           response.loanApplications.map((app: any) => ({
             ...app,
