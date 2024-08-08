@@ -45,9 +45,9 @@ const aboutUsData = {
     { label: "Customer Satisfaction", value: "4.8/5" }
   ],
   team: [
-    { name: "Jane Doe", position: "CEO", image: "/api/placeholder/100/100" },
-    { name: "John Smith", position: "CTO", image: "/api/placeholder/100/100" },
-    { name: "Alice Johnson", position: "CFO", image: "/api/placeholder/100/100" }
+    { name: "Raya Melona", position: "CEO", image: "https://imgs.search.brave.com/C4rUzBhcWUE6FObfELwxURVhz6L7wHMMHadwwiwGGsA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQz/NzgxNjg5Ny9waG90/by9idXNpbmVzcy13/b21hbi1tYW5hZ2Vy/LW9yLWh1bWFuLXJl/c291cmNlcy1wb3J0/cmFpdC1mb3ItY2Fy/ZWVyLXN1Y2Nlc3Mt/Y29tcGFueS13ZS1h/cmUtaGlyaW5nLndl/YnA_Yj0xJnM9MTcw/NjY3YSZ3PTAmaz0y/MCZjPVlRX2o4M3Bn/OWZCLUhXT2QxUXVy/M19rQm1HX290X2ha/dHk4cHZvRmtyNkE9" },
+    { name: "Julia Noman", position: "CTO", image: "https://imgs.search.brave.com/DIbClLwLJk-0VwHjf4vwNAq23PRAI2e7kPA_W8nqqbk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hc3Nl/dHMtZ2xvYmFsLndl/YnNpdGUtZmlsZXMu/Y29tLzVlYzdkYWQy/ZTZmNjI5NWE5ZTJh/MjNkZC82MGQ1OThk/MWZkNWI0M2MxM2Vl/NDY1ZWFfQW15X1Nl/cHQucG5n" },
+    { name: "Richard Norchia", position: "CFO", image: "https://imgs.search.brave.com/r54pFbdF-qFEm8L6auZCZKSprWFwITCV1QSiOQlUMic/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9waG90b2dyYXBo/LXByb2Zlc3Npb25h/bC15b3VuZy1idXNp/bmVzcy1lY29ub21p/c3RfMTI4ODY1Ny01/MDEzLmpwZz9zaXpl/PTYyNiZleHQ9anBn" }
   ]
 };
 
@@ -108,7 +108,7 @@ const AboutUs = () => {
               <CardMedia
                 component="img"
                 height="300"
-                image="/api/placeholder/600/300"
+                image="https://imgs.search.brave.com/rlzRGdJJV3sKiJOuzHkBtRGPMHay2f30hDVMkyfNerE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAyMC8w/NS8yNy8xNy8wOC9i/dWlsZGluZy01MjI4/MTAxXzY0MC5qcGc"
                 alt="GreenLoan Financial office"
               />
             </Card>
