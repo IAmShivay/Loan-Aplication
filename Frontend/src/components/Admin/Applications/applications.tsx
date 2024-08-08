@@ -53,8 +53,6 @@ const validationSchema = Yup.object().shape({
   comment: Yup.string()
     .required("Comment is required")
     .min(3, "Comment must be at least 3 characters")
-    .max(500, "Comment must not exceed 500 characters"),
-  interestRate: Yup.number()
     .required("Interest rate is required")
     .min(0, "Interest rate must be positive")
     .max(100, "Interest rate must not exceed 100%"),
@@ -127,16 +125,16 @@ const LoanApplicationTable: React.FC = () => {
     setErrors((prev) => ({ ...prev, [id]: "" }));
   };
 
-  const handleInterestRateChange = (id: number, interestRate: string) => {
-    setApplications(
-      applications.map((app) =>
-        app.user === id
-          ? { ...app, interestRate: parseFloat(interestRate) || "" }
-          : app
-      )
-    );
-    setErrors((prev) => ({ ...prev, [id]: "" }));
-  };
+  // const handleInterestRateChange = (id: number, interestRate: string) => {
+  //   setApplications(
+  //     applications.map((app) =>
+  //       app.user === id
+  //         ? { ...app, interestRate: parseFloat(interestRate) || "" }
+  //         : app
+  //     )
+  //   );
+  //   setErrors((prev) => ({ ...prev, [id]: "" }));
+  // };
 
   const validateApplication = async (id: number): Promise<boolean> => {
     const application = applications.find((app) => app.user === id);
@@ -186,8 +184,6 @@ const LoanApplicationTable: React.FC = () => {
   };
 
   const handleChatNowClick = (application: any) => {
-    // Implement chat functionality here
-    console.log("Initiating chat with:", application);
   };
 
   const getStatusColor = (status: string) => {
@@ -400,7 +396,7 @@ const LoanApplicationTable: React.FC = () => {
               disabled={app.isSubmitted}
               label="Comment"
             />
-            <TextField
+            {/* <TextField
               value={app.interestRate}
               onChange={(e) =>
                 handleInterestRateChange(app.user, e.target.value)
@@ -418,7 +414,7 @@ const LoanApplicationTable: React.FC = () => {
               InputProps={{
                 endAdornment: "%",
               }}
-            />
+            /> */}
             <Typography variant="body1" color="text.secondary">
               {app.Bank}
             </Typography>
