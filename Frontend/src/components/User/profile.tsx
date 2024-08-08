@@ -68,6 +68,7 @@ const ProfileComponent: React.FC = () => {
     password: "",
     email: user.email,
   });
+  console.log(user)
   const [profilePic, setProfilePic] = useState<string | ArrayBuffer | null>(
     null
   );
@@ -160,7 +161,7 @@ const ProfileComponent: React.FC = () => {
                 fontSize: isMobile ? "2rem" : "2.5rem",
               }}
             >
-              {formData.firstName.charAt(0)}
+              {formData.firstName}
             </Avatar>
             <input
               accept="image/*"
@@ -210,7 +211,7 @@ const ProfileComponent: React.FC = () => {
                     textAlign: "center",
                   }}
                 >
-                  {formData.firstName} {formData.lastName}
+                  {user.firstName} {user.lastName}
                 </Typography>
                 <Typography
                   variant="body1"
