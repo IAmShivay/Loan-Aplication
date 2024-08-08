@@ -5,8 +5,8 @@ import {
   Box,
   Typography,
   IconButton,
-  useMediaQuery,
-  useTheme,
+  Tabs,
+  Tab,
   Grid,
   Paper,
   Divider,
@@ -14,6 +14,10 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DescriptionIcon from "@mui/icons-material/Description";
+import PersonIcon from "@mui/icons-material/Person";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import SchoolIcon from "@mui/icons-material/School";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 interface Document {
   uploaded: boolean;
@@ -40,7 +44,6 @@ interface ApplicationDetailsProps {
   onClose: () => void;
   application: ApplicationDetails | null;
   primaryColor?: string;
-  secondaryColor?: string;
 }
 
 const StyledPaper = styled(Paper)(({ theme }) => ({
@@ -64,7 +67,9 @@ const SectionTitle = styled(Typography)(({ theme }) => ({
   fontSize: "1.2rem",
   fontWeight: 600,
   marginBottom: theme.spacing(2),
-  color: theme.palette.primary.main,
+  display: "flex",
+  alignItems: "center",
+  color: "#4caf50",
 }));
 
 const DetailItem = styled(Typography)(({ theme }) => ({
@@ -76,7 +81,7 @@ const DocumentButton = styled(Typography)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   marginBottom: theme.spacing(1),
-  color: theme.palette.secondary.main,
+  color: "#4caf50",
   "&:hover": {
     textDecoration: "underline",
   },
@@ -86,13 +91,15 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
   open,
   onClose,
   application,
-  primaryColor = "#1976d2",
+  primaryColor = "#4caf50",
 }) => {
   const [activeDocument, setActiveDocument] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<number>(0);
 
   useEffect(() => {
     if (application) {
       setActiveDocument(null);
+      setActiveTab(0);
     }
   }, [application]);
 
@@ -116,7 +123,7 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
 
   const renderDocumentButton = (document: Document, label: string) => (
     <DocumentButton onClick={() => setActiveDocument(document.url)}>
-      <DescriptionIcon sx={{ marginRight: 1 }} />
+      <DescriptionIcon sx={{ marginRight: 1, color: primaryColor }} />
       {label}
     </DocumentButton>
   );
@@ -144,30 +151,84 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
             fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
             color: primaryColor,
             mb: 3,
+            display: "flex",
+            alignItems: "center",
           }}
         >
-          Loan Application Form
+          <AssignmentIcon sx={{ marginRight: 1 }} />
+          <span>Loan Application Form</span>
         </Typography>
+        <Tabs
+          value={activeTab}
+          onChange={(_, newValue) => setActiveTab(newValue)}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          sx={{ mb: 3 }}
+        >
+          <Tab label={
+            <SectionTitle>
+              <PersonIcon sx={{ marginRight: 1 }} />
+              <span>Personal Details</span>
+            </SectionTitle>
+          } />
+          <Tab label={
+            <SectionTitle>
+              <ReceiptIcon sx={{ marginRight: 1 }} />
+              <span>Borrower Details</span>
+            </SectionTitle>
+          } />
+          <Tab label={
+            <SectionTitle>
+              <SchoolIcon sx={{ marginRight: 1 }} />
+              <span>Education Details</span>
+            </SectionTitle>
+          } />
+        </Tabs>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            {activeTab === 0 && (
+              <Box>
+                <SectionTitle>
+                  <PersonIcon sx={{ marginRight: 1 }} />
+                  <span>Personal Information</span>
+                </SectionTitle>
+                <DetailItem><strong>Name:</strong> {application.name}</DetailItem>
+                <DetailItem><strong>Email:</strong> {application.email}</DetailItem>
+                <DetailItem><strong>Phone Number:</strong> {application.phoneNumber}</DetailItem>
+                <DetailItem><strong>Age:</strong> {application.age}</DetailItem>
+                <DetailItem><strong>Address:</strong> {application.address}</DetailItem>
+              </Box>
+            )}
+            {activeTab === 1 && (
+              <Box>
+                <SectionTitle>
+                  <ReceiptIcon sx={{ marginRight: 1 }} />
+                  <span>Borrower Details</span>
+                </SectionTitle>
+                <DetailItem><strong>Loan Amount:</strong> {application.loanAmount}</DetailItem>
+                <DetailItem><strong>Comment:</strong> {application.comment || "No comment provided"}</DetailItem>
+              </Box>
+            )}
+            {activeTab === 2 && (
+              <Box>
+                <SectionTitle>
+                  <SchoolIcon sx={{ marginRight: 1 }} />
+                  <span>Education Details</span>
+                </SectionTitle>
+                <DetailItem><strong>Education:</strong> {application.education}</DetailItem>
+              </Box>
+            )}
+          </Grid>
+        </Grid>
+        <Divider sx={{ my: 3 }} />
         <Grid container spacing={3}>
           <Grid item xs={12} md={6}>
-            <Box sx={{ mb: 3 }}>
-              <SectionTitle>Personal Information</SectionTitle>
-              <DetailItem><strong>Name:</strong> {application.name}</DetailItem>
-              <DetailItem><strong>Email:</strong> {application.email}</DetailItem>
-              <DetailItem><strong>Phone Number:</strong> {application.phoneNumber}</DetailItem>
-              <DetailItem><strong>Age:</strong> {application.age}</DetailItem>
-              <DetailItem><strong>Address:</strong> {application.address}</DetailItem>
-              <DetailItem><strong>Education:</strong> {application.education}</DetailItem>
-            </Box>
-            <Divider sx={{ my: 3 }} />
-            <Box sx={{ mb: 3 }}>
-              <SectionTitle>Loan Details</SectionTitle>
-              <DetailItem><strong>Loan Amount:</strong> {application.loanAmount}</DetailItem>
-              <DetailItem><strong>Comment:</strong> {application.comment || "No comment provided"}</DetailItem>
-            </Box>
-            <Divider sx={{ my: 3 }} />
             <Box>
-              <SectionTitle>Documents</SectionTitle>
+              <SectionTitle>
+                <DescriptionIcon sx={{ marginRight: 1 }} />
+                <span>Documents</span>
+              </SectionTitle>
               {application.idProof && renderDocumentButton(application.idProof, "ID Proof")}
               {application.addressProof && renderDocumentButton(application.addressProof, "Address Proof")}
               {application.incomeProof && renderDocumentButton(application.incomeProof, "Income Proof")}
@@ -183,7 +244,10 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
                 bgcolor: "rgba(0, 0, 0, 0.03)",
               }}
             >
-              <SectionTitle>Document Viewer</SectionTitle>
+              <SectionTitle>
+                <DescriptionIcon sx={{ marginRight: 1 }} />
+                <span>Document Viewer</span>
+              </SectionTitle>
               {renderDocumentViewer()}
             </Paper>
           </Grid>
