@@ -108,7 +108,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
 
   return (
     <React.Fragment>
-      <Header />
       <Routes>
         {user?.role === "admin" ? (
           <Route path="/admin/dashboard" element={<Main />} />
