@@ -34,7 +34,7 @@ import { registerAdmin } from "../../../app/admin/adminSlice";
 import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
 import { GetDataAllApplications } from "../../../api/admin";
-
+import ChatComponent from "../../../chat/chat";
 export interface LoanApplication {
   id: any;
   user: any;
@@ -65,6 +65,7 @@ const LoanApplicationTable: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errors, setErrors] = useState<Record<number, string>>({});
   const [loading, setLoading] = useState(true);
+  const [activeChat, setActiveChat]: any = useState(null);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -170,8 +171,9 @@ const LoanApplicationTable: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleChatNowClick = (application: any) => {};
-
+  const handleChatNowClick = (application: any) => {
+    setActiveChat({ id: application.user, name: application.name });
+  };
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Approved":
@@ -257,7 +259,6 @@ const LoanApplicationTable: React.FC = () => {
                       alignItems: "center",
                     }}
                   >
-                    <Tooltip title="Approve">
                       <IconButton
                         color="success"
                         onClick={() => handleStatusChange(app.user, "Approved")}
@@ -269,8 +270,6 @@ const LoanApplicationTable: React.FC = () => {
                       >
                         <CheckCircleIcon />
                       </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Reject">
                       <IconButton
                         color="error"
                         onClick={() => handleStatusChange(app.user, "Rejected")}
@@ -282,8 +281,6 @@ const LoanApplicationTable: React.FC = () => {
                       >
                         <CancelIcon />
                       </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Submit">
                       <IconButton
                         color="primary"
                         onClick={() => handleSubmit(app.user)}
@@ -295,8 +292,6 @@ const LoanApplicationTable: React.FC = () => {
                       >
                         <SendIcon />
                       </IconButton>
-                    </Tooltip>
-                    <Tooltip title="View Details">
                       <IconButton
                         color="info"
                         onClick={() => handleViewClick(app)}
@@ -307,7 +302,6 @@ const LoanApplicationTable: React.FC = () => {
                       >
                         <VisibilityIcon />
                       </IconButton>
-                    </Tooltip>
                     <Tooltip title="Chat Now">
                       <Button
                         variant="contained"
@@ -394,7 +388,6 @@ const LoanApplicationTable: React.FC = () => {
                 marginTop: 1,
               }}
             >
-              <Tooltip title="Approve">
                 <IconButton
                   color="success"
                   onClick={() => handleStatusChange(app.user, "Approved")}
@@ -406,8 +399,6 @@ const LoanApplicationTable: React.FC = () => {
                 >
                   <CheckCircleIcon />
                 </IconButton>
-              </Tooltip>
-              <Tooltip title="Reject">
                 <IconButton
                   color="error"
                   onClick={() => handleStatusChange(app.user, "Rejected")}
@@ -419,8 +410,6 @@ const LoanApplicationTable: React.FC = () => {
                 >
                   <CancelIcon />
                 </IconButton>
-              </Tooltip>
-              <Tooltip title="Submit">
                 <IconButton
                   color="primary"
                   onClick={() => handleSubmit(app.user)}
@@ -432,8 +421,6 @@ const LoanApplicationTable: React.FC = () => {
                 >
                   <SendIcon />
                 </IconButton>
-              </Tooltip>
-              <Tooltip title="View Details">
                 <IconButton
                   color="info"
                   onClick={() => handleViewClick(app)}
@@ -444,7 +431,6 @@ const LoanApplicationTable: React.FC = () => {
                 >
                   <VisibilityIcon />
                 </IconButton>
-              </Tooltip>
             </Box>
             <Box
               sx={{
@@ -509,6 +495,12 @@ const LoanApplicationTable: React.FC = () => {
             </Alert>
           </Snackbar>
         </>
+      )}
+       {activeChat && (
+        <ChatComponent
+          applicationId={activeChat.id}
+          applicantName={activeChat.name}
+        />
       )}
     </Container>
   );
