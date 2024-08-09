@@ -11,6 +11,8 @@ import {
   Paper,
   Divider,
   styled,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -60,6 +62,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   overflowY: "auto",
   [theme.breakpoints.down("sm")]: {
     width: "95%",
+    maxHeight: "95vh",
   },
 }));
 
@@ -70,10 +73,16 @@ const SectionTitle = styled(Typography)(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   color: "#4caf50",
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "1rem",
+  },
 }));
 
 const DetailItem = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1),
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "0.9rem",
+  },
 }));
 
 const DocumentButton = styled(Typography)(({ theme }) => ({
@@ -85,6 +94,9 @@ const DocumentButton = styled(Typography)(({ theme }) => ({
   "&:hover": {
     textDecoration: "underline",
   },
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "0.9rem",
+  },
 }));
 
 const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
@@ -95,6 +107,8 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
 }) => {
   const [activeDocument, setActiveDocument] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<number>(0);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     if (application) {
@@ -148,7 +162,7 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
           component="h2"
           gutterBottom
           sx={{
-            fontSize: { xs: "1.5rem", sm: "2rem", md: "2.25rem" },
+            fontSize: { xs: "1.25rem", sm: "1.5rem", md: "2rem" },
             color: primaryColor,
             mb: 3,
             display: "flex",
@@ -163,27 +177,34 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
           onChange={(_, newValue) => setActiveTab(newValue)}
           indicatorColor="primary"
           textColor="primary"
-          variant="fullWidth"
+          variant={isMobile ? "scrollable" : "fullWidth"}
+          scrollButtons="auto"
           sx={{ mb: 3 }}
         >
-          <Tab label={
-            <SectionTitle>
-              <PersonIcon sx={{ marginRight: 1 }} />
-              <span>Personal Details</span>
-            </SectionTitle>
-          } />
-          <Tab label={
-            <SectionTitle>
-              <ReceiptIcon sx={{ marginRight: 1 }} />
-              <span>Borrower Details</span>
-            </SectionTitle>
-          } />
-          <Tab label={
-            <SectionTitle>
-              <SchoolIcon sx={{ marginRight: 1 }} />
-              <span>Education Details</span>
-            </SectionTitle>
-          } />
+          <Tab
+            label={
+              <SectionTitle>
+                <PersonIcon sx={{ marginRight: 1 }} />
+                <span>{isMobile ? "Personal" : "Personal Details"}</span>
+              </SectionTitle>
+            }
+          />
+          <Tab
+            label={
+              <SectionTitle>
+                <ReceiptIcon sx={{ marginRight: 1 }} />
+                <span>{isMobile ? "Borrower" : "Borrower Details"}</span>
+              </SectionTitle>
+            }
+          />
+          <Tab
+            label={
+              <SectionTitle>
+                <SchoolIcon sx={{ marginRight: 1 }} />
+                <span>{isMobile ? "Education" : "Education Details"}</span>
+              </SectionTitle>
+            }
+          />
         </Tabs>
         <Grid container spacing={3}>
           <Grid item xs={12}>
@@ -193,11 +214,21 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
                   <PersonIcon sx={{ marginRight: 1 }} />
                   <span>Personal Information</span>
                 </SectionTitle>
-                <DetailItem><strong>Name:</strong> {application.name}</DetailItem>
-                <DetailItem><strong>Email:</strong> {application.email}</DetailItem>
-                <DetailItem><strong>Phone Number:</strong> {application.phoneNumber}</DetailItem>
-                <DetailItem><strong>Age:</strong> {application.age}</DetailItem>
-                <DetailItem><strong>Address:</strong> {application.address}</DetailItem>
+                <DetailItem>
+                  <strong>Name:</strong> {application.name}
+                </DetailItem>
+                <DetailItem>
+                  <strong>Email:</strong> {application.email}
+                </DetailItem>
+                <DetailItem>
+                  <strong>Phone Number:</strong> {application.phoneNumber}
+                </DetailItem>
+                <DetailItem>
+                  <strong>Age:</strong> {application.age}
+                </DetailItem>
+                <DetailItem>
+                  <strong>Address:</strong> {application.address}
+                </DetailItem>
               </Box>
             )}
             {activeTab === 1 && (
@@ -206,8 +237,13 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
                   <ReceiptIcon sx={{ marginRight: 1 }} />
                   <span>Borrower Details</span>
                 </SectionTitle>
-                <DetailItem><strong>Loan Amount:</strong> {application.loanAmount}</DetailItem>
-                <DetailItem><strong>Comment:</strong> {application.comment || "No comment provided"}</DetailItem>
+                <DetailItem>
+                  <strong>Loan Amount:</strong> {application.loanAmount}
+                </DetailItem>
+                <DetailItem>
+                  <strong>Comment:</strong>{" "}
+                  {application.comment || "No comment provided"}
+                </DetailItem>
               </Box>
             )}
             {activeTab === 2 && (
@@ -216,7 +252,9 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
                   <SchoolIcon sx={{ marginRight: 1 }} />
                   <span>Education Details</span>
                 </SectionTitle>
-                <DetailItem><strong>Education:</strong> {application.education}</DetailItem>
+                <DetailItem>
+                  <strong>Education:</strong> {application.education}
+                </DetailItem>
               </Box>
             )}
           </Grid>
@@ -229,16 +267,19 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
                 <DescriptionIcon sx={{ marginRight: 1 }} />
                 <span>Documents</span>
               </SectionTitle>
-              {application.idProof && renderDocumentButton(application.idProof, "ID Proof")}
-              {application.addressProof && renderDocumentButton(application.addressProof, "Address Proof")}
-              {application.incomeProof && renderDocumentButton(application.incomeProof, "Income Proof")}
+              {application.idProof &&
+                renderDocumentButton(application.idProof, "ID Proof")}
+              {application.addressProof &&
+                renderDocumentButton(application.addressProof, "Address Proof")}
+              {application.incomeProof &&
+                renderDocumentButton(application.incomeProof, "Income Proof")}
             </Box>
           </Grid>
           <Grid item xs={12} md={6}>
             <Paper
               elevation={3}
               sx={{
-                height: { xs: "400px", sm: "500px", md: "600px" },
+                height: { xs: "300px", sm: "400px", md: "500px" },
                 p: 2,
                 mt: { xs: 3, md: 0 },
                 bgcolor: "rgba(0, 0, 0, 0.03)",

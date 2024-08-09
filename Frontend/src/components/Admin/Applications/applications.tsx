@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   Table,
@@ -75,7 +74,6 @@ const LoanApplicationTable: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isMedium = useMediaQuery(theme.breakpoints.down("md"));
 
-
   const Bank = "UCO BANK";
 
   useEffect(() => {
@@ -85,11 +83,12 @@ const LoanApplicationTable: React.FC = () => {
         setApplications(
           response.loanApplications.map((app: any) => ({
             ...app,
-            status: app.status || "Progress",
-            isSubmitted: false,
+            user: app.user,
+            status: app.status,
+            isSubmitted: app.adminResponse,
             Bank: Bank,
-            interestRate: app.interestRate || "",
-            comment: app.comment || "",
+            interestRate: app.interestRate,
+            comment: app.adminComments,
           }))
         );
         setLoading(false);
@@ -124,18 +123,6 @@ const LoanApplicationTable: React.FC = () => {
     );
     setErrors((prev) => ({ ...prev, [id]: "" }));
   };
-
-  // const handleInterestRateChange = (id: number, interestRate: string) => {
-  //   setApplications(
-  //     applications.map((app) =>
-  //       app.user === id
-  //         ? { ...app, interestRate: parseFloat(interestRate) || "" }
-  //         : app
-  //     )
-  //   );
-  //   setErrors((prev) => ({ ...prev, [id]: "" }));
-  // };
-
   const validateApplication = async (id: number): Promise<boolean> => {
     const application = applications.find((app) => app.user === id);
     if (!application) return false;
@@ -183,8 +170,7 @@ const LoanApplicationTable: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleChatNowClick = (application: any) => {
-  };
+  const handleChatNowClick = (application: any) => {};
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -230,7 +216,7 @@ const LoanApplicationTable: React.FC = () => {
                   label={app.status}
                   style={{
                     backgroundColor: getStatusColor(app.status),
-                    color: app.status === "Rejected" ? "white" : "inherit",
+                    color: "white",
                   }}
                   size="small"
                 />
@@ -261,7 +247,7 @@ const LoanApplicationTable: React.FC = () => {
                     helperText={errors[app.user]}
                     variant="outlined"
                     size="small"
-                    sx={{ flexGrow: 1, minWidth: "150px" }}
+                    sx={{ flexGrow: 1, minWidth: "100px" }}
                   />
                   <Box
                     sx={{
@@ -327,14 +313,14 @@ const LoanApplicationTable: React.FC = () => {
                         variant="contained"
                         onClick={() => handleChatNowClick(app)}
                         sx={{
-                          bgcolor: "#06a972",
+                          bgcolor: "#45a049",
                           borderRadius: "12px",
                           padding: "10px 20px",
                           boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
                           textTransform: "none",
                           fontWeight: "bold",
                           "&:hover": {
-                            bgcolor: "#45a049",
+                            bgcolor: "#06a972",
                             boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
                           },
                           transition: "all 0.3s ease",
@@ -396,25 +382,6 @@ const LoanApplicationTable: React.FC = () => {
               disabled={app.isSubmitted}
               label="Comment"
             />
-            {/* <TextField
-              value={app.interestRate}
-              onChange={(e) =>
-                handleInterestRateChange(app.user, e.target.value)
-              }
-              fullWidth
-              variant="outlined"
-              size="small"
-              sx={{ marginBottom: 1 }}
-              required
-              error={!!errors[app.user]}
-              helperText={errors[app.user] || "Interest rate is required"}
-              disabled={app.isSubmitted}
-              label="Interest Rate (%)"
-              type="number"
-              InputProps={{
-                endAdornment: "%",
-              }}
-            /> */}
             <Typography variant="body1" color="text.secondary">
               {app.Bank}
             </Typography>
@@ -489,10 +456,19 @@ const LoanApplicationTable: React.FC = () => {
               <Tooltip title="Chat Now">
                 <Button
                   variant="contained"
-                  color="primary"
                   onClick={() => handleChatNowClick(app)}
                   sx={{
-                    borderRadius: "8px",
+                    bgcolor: "#45a049",
+                    borderRadius: "12px",
+                    padding: "10px 20px",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    "&:hover": {
+                      bgcolor: "#06a972",
+                      boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
+                    },
+                    transition: "all 0.3s ease",
                   }}
                 >
                   Chat Now
@@ -511,7 +487,7 @@ const LoanApplicationTable: React.FC = () => {
         <CircularProgress />
       ) : (
         <>
-          {isMobile || isMedium? renderMobileView() : renderDesktopView()}
+          {isMobile || isMedium ? renderMobileView() : renderDesktopView()}
           {selectedApplication && (
             <ApplicationDetailsModal
               open={isModalOpen}

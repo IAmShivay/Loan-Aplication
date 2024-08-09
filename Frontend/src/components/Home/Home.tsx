@@ -17,8 +17,6 @@ import {
   HomeWorkRounded,
 } from "@mui/icons-material";
 import AssociatedBanks from "../Section/AssociatesBanks/NetworkBanks";
-import Lottie from "react-lottie";
-import animationData from "../../assets/animation/student-animation.json";
 import WhyChooseUs from "../Section/whyChooseUs/whyChooseUs"; // You'll need to create or obtain this JSON file
 const CarouselItems = [
   {
@@ -39,15 +37,6 @@ const CarouselComponent = () => {
 
   const handleApplyNow = () => {
     navigate("/apply-form");
-  };
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: animationData,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
   };
 
   return (
@@ -112,7 +101,6 @@ const CarouselComponent = () => {
             </motion.div>
           </Box>
           <Box sx={{ flex: 1, display: { xs: "none", md: "block" } }}>
-            <Lottie options={defaultOptions} />
           </Box>
         </Container>
       </Box>

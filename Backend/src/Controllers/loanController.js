@@ -1,6 +1,7 @@
 const LoanApplication = require("../Models/loanModels");
 const getDataUri = require("../Utils/dataUri");
 const cloudinary = require("cloudinary");
+const Admin = require("../Models/adminModel");
 
 exports.uploadDocuments = async (req, res) => {
   try {
@@ -12,7 +13,7 @@ exports.uploadDocuments = async (req, res) => {
       address,
       education,
       loanAmount,
-      paymentId
+      paymentId,
     } = req.body;
 
     // Validate fields
@@ -78,7 +79,7 @@ exports.uploadDocuments = async (req, res) => {
       incomeProof: {
         public_id: idFiles.public_id,
         url: idFiles.url,
-      }
+      },
     });
 
     await newLoanApplication.save();
@@ -90,14 +91,58 @@ exports.uploadDocuments = async (req, res) => {
   }
 };
 
-// Get all loan applications
+// exports.getAllLoanApplications = async (req, res) => {
+//   try {
+//     const loanApplications = await LoanApplication.find().lean();
+//     for (let loanApplication of loanApplications) {
+//       const admin = await Admin.findOne({ user: loanApplication.user }).lean();
+//       if (admin) {
+//         loanApplication.status = admin.status;
+//         loanApplication.adminResponse = admin.isSubmitted;
+//         loanApplication.adminComments = admin.comment;
+//       } else {
+//         loanApplication.adminResponse = false; // Or another default value as needed
+//       }
+//     }
+//     res.json({ loanApplications });
+//   } catch (err) {
+//     console.error("Error occurred:", err);
+//     res.status(500).send("Server Error");
+//   }
+// };
+
 exports.getAllLoanApplications = async (req, res) => {
   try {
-    const loanApplications = await LoanApplication.find();
+    // Fetch all loan applications as plain JavaScript objects
+    const loanApplications = await LoanApplication.find().lean();
+
+    // Iterate through each loan application
+    for (let loanApplication of loanApplications) {
+      // Find a corresponding admin record with the same user ID
+      const admin = await Admin.findOne({ user: loanApplication.user }).lean();
+
+      if (admin) {
+        // Update loan application's status and admin response
+        loanApplication.status = admin.status;
+        loanApplication.adminResponse = admin.isSubmitted;
+        loanApplication.adminComments = admin.comment;
+
+        // Log to check if comments are being retrieved correctly
+        console.log(`Loan Application ID: ${loanApplication._id}, Admin Comments: ${admin.comment}`);
+      } else {
+        // Set default values if no admin record is found
+        loanApplication.adminResponse = false; // Or another default value as needed
+        loanApplication.adminComments = ""; // Set a default value if necessary
+      }
+    }
+
+    // Log the final array of loan applications
+    console.log("Final Loan Applications Array:", loanApplications);
+
+    // Return the modified loan applications in the response
     res.json({ loanApplications });
   } catch (err) {
-    console.error(err);
+    console.error("Error occurred:", err);
     res.status(500).send("Server Error");
   }
 };
-
