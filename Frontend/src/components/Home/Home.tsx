@@ -17,7 +17,8 @@ import {
   HomeWorkRounded,
 } from "@mui/icons-material";
 import AssociatedBanks from "../Section/AssociatesBanks/NetworkBanks";
-import WhyChooseUs from "../Section/whyChooseUs/whyChooseUs"; // You'll need to create or obtain this JSON file
+import WhyChooseUs from "../Section/whyChooseUs/whyChooseUs";
+
 const CarouselItems = [
   {
     id: 1,
@@ -47,13 +48,16 @@ const CarouselComponent = () => {
           height: { xs: "70vh", md: "90vh" },
           position: "relative",
           overflow: "hidden",
-          backgroundColor: "#e8f5e9",
+          backgroundImage: `url('https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`, // Add your background image URL here
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           display: "flex",
           alignItems: "center",
+          color: "#fff",
         }}
       >
-        <Container maxWidth="lg" sx={{ display: "flex", alignItems: "center" }}>
-          <Box sx={{ flex: 1, color: "text.primary", pr: { md: 4 } }}>
+        <Container maxWidth="lg" sx={{ display: "flex", alignItems: "center", position: "relative", zIndex: 1 }}>
+          <Box sx={{ flex: 1, pr: { md: 4 } }}>
             <motion.div
               variants={variants}
               initial="hidden"
@@ -62,7 +66,7 @@ const CarouselComponent = () => {
             >
               <Typography
                 variant="h2"
-                sx={{ fontWeight: "bold", mb: 2, color: "#2e7d32" }}
+                sx={{ fontWeight: "bold", mb: 2, color: "#fff" }}
               >
                 {CarouselItems[0].title}
               </Typography>
@@ -73,7 +77,7 @@ const CarouselComponent = () => {
               animate="visible"
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <Typography variant="h5" sx={{ mb: 4, color: "#1b5e20" }}>
+              <Typography variant="h5" sx={{ mb: 4, color: "#e0e0e0" }}>
                 {CarouselItems[0].description}
               </Typography>
             </motion.div>
@@ -101,6 +105,7 @@ const CarouselComponent = () => {
             </motion.div>
           </Box>
           <Box sx={{ flex: 1, display: { xs: "none", md: "block" } }}>
+            {/* Optionally add a hero image or illustration here */}
           </Box>
         </Container>
       </Box>

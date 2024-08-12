@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   AppBar,
@@ -119,7 +118,7 @@ const Dashboard: React.FC = () => {
     { name: "Dashboard", icon: <DashboardIcon />, component: <Dashcard />, color: "#4CAF50" },
     { name: "Applications", icon: <AssignmentIcon />, component: <LoanApplicationTable />, color: "#2196F3" },
     { name: "My Responses", icon: <AccountBalanceIcon />, component: <div>Loans Component</div>, color: "#FF9800" },
-    { name: "Inbox", icon: <ChatIcon />, component: <div>Customers Component</div>, color: "#E91E63" },
+    { name: "Chat Now", icon: <ChatIcon />, component: <div>Customers Component</div>, color: "#E91E63" },
   ];
 
   const drawer = (
