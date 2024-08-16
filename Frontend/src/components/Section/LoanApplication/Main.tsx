@@ -8,7 +8,6 @@ import {
   Paper, 
   Typography,
   useMediaQuery,
-  Theme
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
 import BasicDetails from "./BasicDetails";

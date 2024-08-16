@@ -4,20 +4,45 @@ const cloudinary = require("cloudinary");
 const Admin = require("../Models/adminModel");
 
 exports.uploadDocuments = async (req, res) => {
+  console.log(req)
   try {
     const {
       name,
       email,
       phoneNumber,
       age,
+      tenthMarks,
+      twelfthMarks,
+      percentage,
+      bachelorCgpa,
+      university,
+      college,
+      coBorrowerName,
+      coBorrowerRelation,
+      coBorrowerDob,
+      coBorrowerIncome,
+      coBorrowerPhone,
       address,
       education,
       loanAmount,
       paymentId,
+      paymentStatus,
     } = req.body;
 
     // Validate fields
     if (
+      !paymentStatus ||
+      !tenthMarks ||
+      !twelfthMarks ||
+      !percentage ||
+      !bachelorCgpa ||
+      !university ||
+      !college ||
+      !coBorrowerName ||
+      !coBorrowerRelation ||
+      !coBorrowerDob ||
+      !coBorrowerIncome ||
+      !coBorrowerPhone ||
       !name ||
       !email ||
       !phoneNumber ||
@@ -67,7 +92,10 @@ exports.uploadDocuments = async (req, res) => {
       education,
       paymentId,
       loanAmount,
-      paymentStatus: "Pending",
+      adminResponse: "",
+      status: "",
+      adminComments: "",
+      paymentStatus,
       idProof: {
         public_id: incomeFiles.public_id,
         url: incomeFiles.url,
@@ -81,7 +109,7 @@ exports.uploadDocuments = async (req, res) => {
         url: idFiles.url,
       },
     });
-
+    console.log(req);
     await newLoanApplication.save();
 
     res.json({ newLoanApplication });
@@ -103,7 +131,7 @@ exports.getAllLoanApplications = async (req, res) => {
         loanApplication.adminResponse = admin.isSubmitted;
         loanApplication.adminComments = admin.comment;
       } else {
-        loanApplication.adminResponse = false; 
+        loanApplication.adminResponse = false;
         loanApplication.adminComments = "";
       }
     }
