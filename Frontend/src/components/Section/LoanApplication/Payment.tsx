@@ -174,7 +174,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
   };
 
   const handleTrackApplication = () => {
-    navigate("/track-application");
+    navigate("/app/v1/user/profile");
   };
 
   return (
