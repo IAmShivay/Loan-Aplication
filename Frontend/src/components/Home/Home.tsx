@@ -45,7 +45,7 @@ const CarouselComponent = () => {
       {/* Hero Section */}
       <Box
         sx={{
-          height: { xs: "70vh", md: "90vh" },
+          height: { xs: "90vh", md: "90vh" },
           position: "relative",
           overflow: "hidden",
           backgroundImage: `url('https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`, // Add your background image URL here
