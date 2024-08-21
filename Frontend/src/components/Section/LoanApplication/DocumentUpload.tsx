@@ -6,14 +6,14 @@ import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
-import { uploadDocument, removeDocument } from "../../../app/loanAppliation/DocumentSlice";
+import { uploadDocument, removeDocument } from "../../../app/LoanAppliation/DocumentSlice";
 
 const DocumentUpload: React.FC<{ nextStep: () => void; prevStep: () => void }> = ({ nextStep, prevStep }) => {
   const dispatch = useDispatch();
   const documents = useSelector((state: RootState) => state.document);
 
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile:any = useMediaQuery(theme.breakpoints.down('sm'));
 
   const allDocumentsUploaded = documents.idProof.uploaded && documents.addressProof.uploaded && documents.incomeProof.uploaded;
 

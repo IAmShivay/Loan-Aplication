@@ -17,7 +17,7 @@ import {
 import { motion } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../store";
-import { updateField } from "../../../app/loanAppliation/FormSlice";
+import { updateField } from "../../../app/LoanAppliation/FormSlice";
 import SchoolIcon from "@mui/icons-material/School";
 import GradeIcon from "@mui/icons-material/Grade";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";

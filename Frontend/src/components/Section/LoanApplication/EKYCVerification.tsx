@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store';
-import { updateEkycDetails } from '../../../app/loanAppliation/FormSlice';
+import { updateEkycDetails } from '../../../app/LoanAppliation/FormSlice';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 // Mock function for OTP verification API

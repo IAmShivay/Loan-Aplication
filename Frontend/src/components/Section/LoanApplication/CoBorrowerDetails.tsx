@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../store';
-import { updateCoBorrowerDetails } from '../../../app/loanAppliation/FormSlice';
+import { updateCoBorrowerDetails } from '../../../app/LoanAppliation/FormSlice';
 
 interface CoBorrowerDetailsProps {
   nextStep: () => void;
