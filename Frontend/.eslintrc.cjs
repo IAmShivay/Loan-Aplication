@@ -15,7 +15,6 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['react-refresh'],
   rules: {
-    // Example: Turning off specific ESLint rules
     '@typescript-eslint/no-explicit-any': 'off', // Allow the use of 'any' type
     'react-refresh/only-export-components': [
       'warn',
