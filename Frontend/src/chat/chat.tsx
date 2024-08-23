@@ -13,7 +13,8 @@ interface Message {
   file?: File;
 }
 
-const ChatComponent: React.FC<ChatComponentProps> = ({ applicationId, applicantName }) => {
+const ChatComponent: React.FC<ChatComponentProps> = ({  applicantName }) => {
+  // applicationId,
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>('');

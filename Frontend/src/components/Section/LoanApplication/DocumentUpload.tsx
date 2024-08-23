@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, Typography, IconButton, Paper, Grid, useMediaQuery, useTheme } from "@mui/material";
+import { Box, Button, Typography, IconButton, Paper, Grid} from "@mui/material";
 import { motion } from "framer-motion";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
@@ -12,8 +12,8 @@ const DocumentUpload: React.FC<{ nextStep: () => void; prevStep: () => void }> =
   const dispatch = useDispatch();
   const documents = useSelector((state: RootState) => state.document);
 
-  const theme = useTheme();
-  const isMobile:any = useMediaQuery(theme.breakpoints.down('sm'));
+  // const theme = useTheme();
+  // const isMobile:any = useMediaQuery(theme.breakpoints.down('sm'));
 
   const allDocumentsUploaded = documents.idProof.uploaded && documents.addressProof.uploaded && documents.incomeProof.uploaded;
 

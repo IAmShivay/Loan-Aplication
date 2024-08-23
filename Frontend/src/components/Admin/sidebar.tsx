@@ -66,7 +66,7 @@ const ProfileBox = styled(Box)(({ theme }) => ({
   marginTop: 'auto',
 }));
 
-const ProfileAvatar = styled(Avatar)(({ theme }) => ({
+const ProfileAvatar = styled(Avatar)(() => ({
   width: 60,
   height: 60,
   marginBottom: '8px',

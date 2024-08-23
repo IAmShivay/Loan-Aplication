@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -34,8 +33,8 @@ const BasicDetails: React.FC<{ nextStep: () => void }> = ({ nextStep }) => {
   const [isLoanAmountValid, setIsLoanAmountValid] = useState(true);
   const [interestRate, setInterestRate] = useState(12);
   const [tenure, setTenure] = useState(5);
-  const [emi, setEmi]:any = useState(0);
-
+  const [emi, setEmi]: any = useState(0);
+  console.log(isLoanAmountValid);
   const validateForm = () => {
     const newErrors = {
       name: form.name.trim() === "",

@@ -1,7 +1,6 @@
-import React from 'react';
 import { 
   Typography, Box, Grid, Card, CardContent, CardMedia, 
-  useTheme, useMediaQuery, Avatar, Chip
+  useTheme,  Avatar, Chip
 } from '@mui/material';
 import { 
   AccountBalance as AccountBalanceIcon,
@@ -53,7 +52,7 @@ const aboutUsData = {
 
 const AboutUs = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  // const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box sx={{ width: '100%', bgcolor: '#E8F5E9', py: 8 }}>

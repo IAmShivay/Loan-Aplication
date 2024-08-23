@@ -240,11 +240,9 @@ import {
   AccordionSummary,
   AccordionDetails,
   useTheme,
-  useMediaQuery,
   Container,
   Card,
   Divider,
-  Grid,
   TextField,
   Button,
   InputAdornment,
@@ -293,7 +291,7 @@ const FAQSection: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>("");
     const [expandedPanel, setExpandedPanel] = useState<string | false>(false);
   
-    const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    const handleChange = (panel: any) => (isExpanded: any) => {
       setExpandedPanel(isExpanded ? panel : false);
     };
   

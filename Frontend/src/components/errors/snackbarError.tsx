@@ -8,7 +8,7 @@ const Snackbar: React.FC = () => {
   const dispatch = useDispatch();
   const { open, message, severity } = useSelector(selectSnackbar);
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  const handleClose = (reason?: any) => {
     if (reason === "clickaway") {
       return;
     }

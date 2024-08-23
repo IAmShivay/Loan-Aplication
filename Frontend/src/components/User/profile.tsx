@@ -80,7 +80,7 @@ const ProfileComponent: React.FC = () => {
   useEffect(() => {}, [formData]);
 
   const handleTabChange = (
-    event: React.SyntheticEvent,
+    _: React.SyntheticEvent,
     newValue: "view" | "edit"
   ) => {
     setTab(newValue);

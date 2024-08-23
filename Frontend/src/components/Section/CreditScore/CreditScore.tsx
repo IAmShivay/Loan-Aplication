@@ -13,7 +13,7 @@ const GreenButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-const BackgroundSVG = styled('div')(({ theme }) => ({
+const BackgroundSVG = styled('div')(() => ({
     position: 'absolute',
     top: 0,
     left: 0,
