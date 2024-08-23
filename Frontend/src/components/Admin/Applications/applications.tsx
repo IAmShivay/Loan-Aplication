@@ -85,7 +85,7 @@ const LoanApplicationTable: React.FC = () => {
           response.loanApplications.map((app: any) => ({
             ...app,
             user: app.user,
-            status: app.status,
+            status: app.status ||"Progress",
             isSubmitted: app.adminResponse,
             Bank: Bank,
             interestRate: app.interestRate,

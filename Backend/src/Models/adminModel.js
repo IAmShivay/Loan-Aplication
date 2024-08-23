@@ -8,10 +8,6 @@ const adminSchema = new mongoose.Schema({
   comment: {
     type: String,
   },
-  interestRate: {
-    type: Number,
-    required: true,
-  },
   isSubmitted: {
     type: Boolean,
     required: true,
