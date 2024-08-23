@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   AppBar,
   Box,
@@ -24,6 +23,8 @@ import {
   TrendingUp,
 } from "@mui/icons-material";
 import { motion } from "framer-motion";
+import { logoutUser } from "../../../app/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const StudyAndPayLogo = ({ variant = "default", size = "small" }) => {
   const getSize = () => {
@@ -87,31 +88,48 @@ const StudyAndPayLogo = ({ variant = "default", size = "small" }) => {
   );
 };
 
-const pages = [
-  { name: "Home", link: "/" },
-  { name: "About Us", link: "/about-us" },
-  { name: "EMI Calculator", link: "/emi-calculator" },
-  { name: "FAQ", link: "/faq" },
-  { name: "CREDIT REPORT", link: "/app/v1/user/credit-report" },
-];
-
-const settings = [
-  { name: "Profile", link: "/app/v1/user/profile" },
-  { name: "Dashboard", link: "/app/v1/user/dashboard" },
-  { name: "Logout", link: "/user/logout" },
-];
-
 const ResponsiveAppBar = () => {
-  const { isAuthenticated } = useSelector((state: any) => state.verify);
+  const navigate = useNavigate();
+
+  const pages = [
+    { name: "Home", link: "/" },
+    { name: "About Us", link: "/about-us" },
+    { name: "EMI Calculator", link: "/emi-calculator" },
+    { name: "FAQ", link: "/faq" },
+    { name: "CREDIT REPORT", link: "/app/v1/user/credit-report" },
+  ];
+
+  const dispatch = useDispatch<any>();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+  };
+
+  const settings = [
+    { name: "Profile", link: "/app/v1/user/profile" },
+    { name: "Dashboard", link: "/app/v1/user/dashboard" },
+    { name: "Logout", onClick: handleLogout },
+  ];
+
+  const { isAuthenticated } = useSelector((state:any) => state.verify);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const handleOpenNavMenu = (event: any) => setAnchorElNav(event.currentTarget);
-  const handleOpenUserMenu = (event: any) =>
-    setAnchorElUser(event.currentTarget);
+
+  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
+  const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
+
+  const handleMenuItemClick = (setting) => {
+    if (setting.onClick) {
+      setting.onClick();
+    } else if (setting.link) {
+      navigate(setting.link);
+    }
+    handleCloseUserMenu();
+  };
 
   return (
     <AppBar
@@ -154,14 +172,15 @@ const ResponsiveAppBar = () => {
                   onClose={handleCloseNavMenu}
                 >
                   {pages.map((page) => (
-                    <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                    <MenuItem
+                      key={page.name}
+                      onClick={() => {
+                        navigate(page.link);
+                        handleCloseNavMenu();
+                      }}
+                    >
                       <Typography textAlign="center" sx={{ color: "#2e7d32" }}>
-                        <a
-                          href={page.link}
-                          style={{ textDecoration: "none", color: "inherit" }}
-                        >
-                          {page.name}
-                        </a>
+                        {page.name}
                       </Typography>
                     </MenuItem>
                   ))}
@@ -176,7 +195,7 @@ const ResponsiveAppBar = () => {
                     whileTap={{ scale: 0.95 }}
                   >
                     <Button
-                      href={page.link}
+                      onClick={() => navigate(page.link)}
                       sx={{
                         my: 2,
                         color: "#2e7d32",
@@ -223,14 +242,12 @@ const ResponsiveAppBar = () => {
                   onClose={handleCloseUserMenu}
                 >
                   {settings.map((setting) => (
-                    <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
+                    <MenuItem
+                      key={setting.name}
+                      onClick={() => handleMenuItemClick(setting)}
+                    >
                       <Typography textAlign="center" sx={{ color: "#2e7d32" }}>
-                        <a
-                          href={setting.link}
-                          style={{ textDecoration: "none", color: "inherit" }}
-                        >
-                          {setting.name}
-                        </a>
+                        {setting.name}
                       </Typography>
                     </MenuItem>
                   ))}

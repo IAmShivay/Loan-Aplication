@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { Login, Register } from "../../api/authApi";
+import { Login, Register,Logout } from "../../api/authApi";
 import { getToken ,clearToken,saveToken} from "../../utility/token";
 import { RootState } from "../../store";
 import { showSnackbar } from "../errors/errorSlice";
@@ -28,6 +28,18 @@ interface Credentials {
   password: string;
 }
 
+export const logoutUser = createAsyncThunk(
+  "auth/logoutUser",
+  async (_, thunkAPI) => {
+    try {
+      await Logout(); // Assume this function handles server-side logout
+      return null;
+    } catch (error: any) {
+      thunkAPI.dispatch(showSnackbar({ message: "Logout failed", severity: "error" }));
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (credentials: { email: string; password: string }, thunkAPI) => {
@@ -68,6 +80,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+    
       .addCase(loginUser.pending, (state) => {
         state.isLoading = true;
         state.error = "";
@@ -101,6 +114,20 @@ const authSlice = createSlice({
         }
       )
       .addCase(registerUser.rejected, (state, action: PayloadAction<any>) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+      .addCase(logoutUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.isLoading = false;
+        state.user = "";
+        state.token = null;
+        state.isAuthenticated = false;
+        state.role = "";
+      })
+      .addCase(logoutUser.rejected, (state, action: PayloadAction<any>) => {
         state.isLoading = false;
         state.error = action.payload;
       });
