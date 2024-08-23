@@ -25,7 +25,7 @@ import {
 import { motion } from "framer-motion";
 import { logoutUser } from "../../../app/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-
+import { showSnackbar } from "../../../app/errors/errorSlice";
 const StudyAndPayLogo = ({ variant = "default", size = "small" }) => {
   const getSize = () => {
     switch (size) {
@@ -89,6 +89,7 @@ const StudyAndPayLogo = ({ variant = "default", size = "small" }) => {
 };
 
 const ResponsiveAppBar = () => {
+  
   const navigate = useNavigate();
 
   const pages = [
@@ -103,6 +104,12 @@ const ResponsiveAppBar = () => {
 
   const handleLogout = () => {
     dispatch(logoutUser());
+    dispatch(
+      showSnackbar({
+        message: "You have been logged out sucessfully.",
+        severity: "error",
+      })
+    );
   };
 
   const settings = [
@@ -117,12 +124,12 @@ const ResponsiveAppBar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleOpenNavMenu = (event) => setAnchorElNav(event.currentTarget);
-  const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
+  const handleOpenNavMenu = (event:any) => setAnchorElNav(event.currentTarget);
+  const handleOpenUserMenu = (event:any) => setAnchorElUser(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
-  const handleMenuItemClick = (setting) => {
+  const handleMenuItemClick = (setting:any) => {
     if (setting.onClick) {
       setting.onClick();
     } else if (setting.link) {
