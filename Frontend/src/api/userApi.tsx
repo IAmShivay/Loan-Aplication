@@ -1,6 +1,6 @@
 import axiosInstance from "../components/apiAxios/axiosInstance";
-
 export const GetUserDataResponse = async () => {
+  
   try {
     const response = await axiosInstance.get("/details");
     console.log("Login response:", response.data);

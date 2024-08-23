@@ -11,6 +11,8 @@
 //   InputAdornment,
 //   IconButton,
 //   useMediaQuery,
+//   CssBaseline,
+//   Container,
 // } from "@mui/material";
 // import { Link as RouterLink, Navigate } from "react-router-dom";
 // import LockOpenIcon from "@mui/icons-material/LockOpen";
@@ -21,7 +23,7 @@
 // import LockIcon from "@mui/icons-material/Lock";
 // import VisibilityIcon from "@mui/icons-material/Visibility";
 // import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-
+// import { showSnackbar } from "../../../app/errors/errorSlice";
 // const theme = createTheme({
 //   palette: {
 //     primary: {
@@ -61,10 +63,8 @@
 //   const dispatch = useDispatch<AppDispatch>();
 //   const [submitting, setSubmitting] = useState(false);
 //   const [showPassword, setShowPassword] = useState(false);
-//   const { isAuthenticated, user } = useSelector((state: any) => state.verify);
+//   const { isAuthenticated, user }:any = useSelector((state: RootState) => state.verify);
 //   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-//   const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"));
-
 //   interface FormState {
 //     email: string;
 //     password: string;
@@ -102,6 +102,7 @@
 
 //   const handleSubmit = async () => {
 //     if (validateForm()) {
+
 //       setSubmitting(true);
 //       try {
 //         await dispatch(loginUser(formData));
@@ -109,9 +110,11 @@
 //       } catch (err) {
 //         console.error(err);
 //         setErrors({ email: "Login failed. Please check your credentials." });
+
 //       } finally {
 //         setSubmitting(false);
 //       }
+
 //     }
 //   };
 
@@ -125,12 +128,15 @@
 
 //   return (
 //     <ThemeProvider theme={theme}>
-//       <form>
+//       <CssBaseline />
+//       <Container maxWidth={false} disableGutters sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 //         <Box
+//           component="main"
 //           sx={{
+//             flexGrow: 1,
 //             display: "flex",
 //             flexDirection: { xs: "column", md: "row" },
-//             minHeight: "100vh",
+//             minHeight: '100%',
 //             width: "100%",
 //             bgcolor: "background.default",
 //           }}
@@ -290,13 +296,12 @@
 //             </Paper>
 //           </Box>
 //         </Box>
-//       </form>
+//       </Container>
 //     </ThemeProvider>
 //   );
 // };
 
 // export default LoginPage;
-
 
 import React, { useState, ChangeEvent } from "react";
 import {
@@ -323,6 +328,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import { showSnackbar } from "../../../app/errors/errorSlice"; // Import the showSnackbar action
 
 const theme = createTheme({
   palette: {
@@ -363,8 +369,11 @@ const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [submitting, setSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const { isAuthenticated, user }:any = useSelector((state: RootState) => state.verify);
+  const { isAuthenticated, user }: any = useSelector(
+    (state: RootState) => state.verify
+  );
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   interface FormState {
     email: string;
     password: string;
@@ -404,14 +413,39 @@ const LoginPage: React.FC = () => {
     if (validateForm()) {
       setSubmitting(true);
       try {
-        await dispatch(loginUser(formData));
-        window.location.reload();
-      } catch (err) {
+        await dispatch(loginUser(formData)).unwrap();
+        // If login is successful, reload the page
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        dispatch(
+          showSnackbar({
+            message: "Sucessfully Login.",
+            severity: "info",
+          })
+        );
+      } catch (err: any) {
         console.error(err);
+        // Trigger the Snackbar with the error message
+        dispatch(
+          showSnackbar({
+            message:
+              err.message || "Login failed. Please check your credentials.",
+            severity: "error",
+          })
+        );
         setErrors({ email: "Login failed. Please check your credentials." });
       } finally {
         setSubmitting(false);
       }
+    } else {
+      // Trigger the Snackbar with the validation error message
+      dispatch(
+        showSnackbar({
+          message: "Please fill out the form correctly.",
+          severity: "warning",
+        })
+      );
     }
   };
 
@@ -426,14 +460,18 @@ const LoginPage: React.FC = () => {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth={false} disableGutters sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Container
+        maxWidth={false}
+        disableGutters
+        sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      >
         <Box
           component="main"
           sx={{
             flexGrow: 1,
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
-            minHeight: '100%',
+            minHeight: "100%",
             width: "100%",
             bgcolor: "background.default",
           }}

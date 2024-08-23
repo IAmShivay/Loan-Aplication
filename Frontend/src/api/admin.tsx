@@ -1,4 +1,7 @@
 import axiosInstance from "../components/apiAxios/axiosInstance";
+import { showSnackbar } from "../app/errors/errorSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
 
 interface Credentials {
   Bank: string;
@@ -12,10 +15,13 @@ interface Credentials {
 }
 
 export const RegisterAdminResponse = async (credentials: Credentials) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   try {
     const response = await axiosInstance.post("/registerAdmin", credentials);
     return response.data;
   } catch (error) {
+    dispatch(showSnackbar({ message: "Test Snackbar", severity: "success" }));
     handleAxiosError(error);
   }
 };

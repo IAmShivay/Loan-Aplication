@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Box, IconButton, Badge, Paper, Typography, TextField, Button, Avatar } from '@mui/material';
+import { Box, IconButton, Badge, Paper, Typography, TextField } from '@mui/material';
 import { Chat as ChatIcon, Close as CloseIcon, Send as SendIcon, AttachFile as AttachFileIcon } from '@mui/icons-material';
 
 interface ChatComponentProps {

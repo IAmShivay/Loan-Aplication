@@ -5,6 +5,8 @@ import documentReducer from "./app/LoanAppliation/DocumentSlice";
 import adminReducer from "./app/admin/adminSlice";
 import verifyReducer from "./app/auth/checkAuthSlice";
 import userReducer from "./app/user/userSlice";
+import snackbarReducer from './app/errors/errorSlice';
+
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -12,7 +14,9 @@ const store = configureStore({
     document: documentReducer,
     admin: adminReducer,
     verify: verifyReducer,
-    user:userReducer
+    user:userReducer,
+    snackbar: snackbarReducer,
+
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { Login, Register } from "../../api/authApi";
 import { getToken ,clearToken,saveToken} from "../../utility/token";
 import { RootState } from "../../store";
-
+import { showSnackbar } from "../errors/errorSlice";
 interface AuthState {
   user: string | "";
   token: string | "";
@@ -36,6 +36,7 @@ export const loginUser = createAsyncThunk(
       saveToken(data?.token);
       return data;
     } catch (error: any) {
+      thunkAPI.dispatch(showSnackbar({ message: error.response.data.message, severity: "error" }));
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }

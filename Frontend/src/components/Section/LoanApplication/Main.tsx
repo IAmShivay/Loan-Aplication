@@ -15,17 +15,17 @@ import DocumentUpload from "./DocumentUpload";
 import FeePayment from "./Payment";
 import AcademicDetails from "./AcademicDetails";
 import CoBorrowerDetails from "./CoBorrowerDetails";
-import EKYCVerification from "./EKYCVerification";
+// import EKYCVerification from "./EKYCVerification";
 import InfoIcon from '@mui/icons-material/Info';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import PaymentIcon from '@mui/icons-material/Payment';
 import SchoolIcon from '@mui/icons-material/School';
 import GroupIcon from '@mui/icons-material/Group';
-import VerifiedIcon from '@mui/icons-material/Verified';
+// import VerifiedIcon from '@mui/icons-material/Verified';
 import { StepIconProps } from '@mui/material/StepIcon';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 
-const steps = ["Basic Details", "Academic Details", "Co-borrower Details", "eKYC Verification", "Document Upload", "Fee Payment"];
+const steps = ["Basic Details", "Academic Details", "Co-borrower Details", "Document Upload", "Fee Payment"];
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -82,9 +82,9 @@ function ColorlibStepIcon(props: StepIconProps) {
     1: <InfoIcon />,
     2: <SchoolIcon />,
     3: <GroupIcon />,
-    4: <VerifiedIcon />,
-    5: <UploadFileIcon />,
-    6: <PaymentIcon />,
+    // 4: <VerifiedIcon />,
+    4: <UploadFileIcon />,
+    5: <PaymentIcon />,
   };
 
   return (
@@ -118,7 +118,7 @@ const LoanApplicationForm: React.FC = () => {
                 minWidth: isMobile ? '600px' : 'auto',
               }}
             >
-              {steps.map((label, index) => (
+              {steps.map((label) => (
                 <Step key={label}>
                   <StepLabel 
                     StepIconComponent={ColorlibStepIcon} 
@@ -140,9 +140,9 @@ const LoanApplicationForm: React.FC = () => {
             {activeStep === 0 && <BasicDetails nextStep={nextStep} />}
             {activeStep === 1 && <AcademicDetails nextStep={nextStep} prevStep={prevStep} />}
             {activeStep === 2 && <CoBorrowerDetails nextStep={nextStep} prevStep={prevStep} />}
-            {activeStep === 3 && <EKYCVerification nextStep={nextStep} prevStep={prevStep} />}
-            {activeStep === 4 && <DocumentUpload nextStep={nextStep} prevStep={prevStep} />}
-            {activeStep === 5 && <FeePayment prevStep={prevStep} />}
+            {/* {activeStep === 3 && <EKYCVerification nextStep={nextStep} prevStep={prevStep} />} */}
+            {activeStep === 3 && <DocumentUpload nextStep={nextStep} prevStep={prevStep} />}
+            {activeStep === 4 && <FeePayment prevStep={prevStep} />}
           </Box>
         </Paper>
       </Box>

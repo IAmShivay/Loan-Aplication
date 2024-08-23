@@ -95,7 +95,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
 
       if (typeof window.Razorpay === "undefined") {
         console.error(
-          "Razorpay SDK is not loaded. Please check your internet connection and try again."
+          "Check your internet connection and try again."
         );
         return;
       }
