@@ -20,8 +20,9 @@ import {
 import { ExitToApp, AccountBalance } from "@mui/icons-material";
 import { styled } from "@mui/system";
 import axiosInstance from "../apiAxios/axiosInstance";
-import { AppDispatch } from "../../store";
-import { useDispatch } from "react-redux";
+// import { AppDispatch } from "../../store";
+// import { useDispatch } from "react-redux";
+import Header from "../../components/Section/Header/Header.tsx";
 const theme = createTheme({
   palette: {
     primary: {
@@ -145,6 +146,7 @@ const LoanItem: React.FC<any> = React.memo(
             {bank}
           </Typography>
         </Box>
+
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
           Loan Amount: ₹{amount.toLocaleString()}
         </Typography>
@@ -185,7 +187,6 @@ const LoanItem: React.FC<any> = React.memo(
 );
 
 const UserDashboard: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>()
   const [data, setData] = useState<Loan[]>([]);
 
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
@@ -207,7 +208,7 @@ const UserDashboard: React.FC = () => {
         }
       } catch (error) {
         // setError(error); // Handle any errors
-        console.log(error)
+        console.log(error);
       }
     };
 
@@ -217,7 +218,7 @@ const UserDashboard: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleRequestCall = (bank: string) => {
-    alert(`Request call for ₹{bank}`);
+    alert(`Request call for ₹${bank}`);
   };
 
   const handleViewDetails = (loan: Loan) => {
@@ -229,163 +230,166 @@ const UserDashboard: React.FC = () => {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: 4 }}>
-        <Container maxWidth="lg">
-          <Paper
-            elevation={3}
-            sx={{
-              p: { xs: 2, sm: 4 },
-              mb: 4,
-              borderRadius: 4,
-              backgroundColor: theme.palette.background.paper,
-              color: theme.palette.text.primary,
-            }}
-          >
-            <Box
-              display="flex"
-              flexDirection={{ xs: "column", sm: "row" }}
-              justifyContent="space-between"
-              alignItems={{ xs: "flex-start", sm: "center" }}
-              mb={3}
-            >
-              <Box mb={{ xs: 2, sm: 0 }}>
-                <Typography
-                  variant="h4"
-                  component="h1"
-                  fontWeight="bold"
-                  gutterBottom
-                  color="primary"
-                >
-                  Welcome back
-                </Typography>
-                <Typography variant="subtitle1" color="text.secondary">
-                  Loan Application Dashboard
-                </Typography>
-              </Box>
-              <Avatar
-                sx={{
-                  width: 80,
-                  height: 80,
-                  border: `2px solid ₹{theme.palette.primary.main}`,
-                }}
-              />
-            </Box>
-          </Paper>
-
-          <Grid container spacing={3}>
-            {data.map((loan, index) => (
-              <Grid item xs={12} sm={6} md={3} key={index}>
-                <LoanItem
-                  bank={loan.Bank}
-                  status={loan.status}
-                  amount={loan.loanAmount}
-                  onRequestCall={() => handleRequestCall(loan.Bank)}
-                  onViewDetails={() => handleViewDetails(loan)}
-                />
-              </Grid>
-            ))}
-          </Grid>
-
-          <Box mt={4} display="flex" justifyContent="center">
-            <Button
-              variant="contained"
-              color="secondary"
-              startIcon={<ExitToApp />}
-              size={isMobile ? "medium" : "large"}
+    <>
+      <Header />
+      <ThemeProvider theme={theme}>
+        <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: 4 }}>
+          <Container maxWidth="lg">
+            <Paper
+              elevation={3}
               sx={{
-                borderRadius: "50px",
-                px: { xs: 3, sm: 4 },
-                py: { xs: 1, sm: 1.5 },
-                fontWeight: "bold",
-                width: { xs: "100%", sm: "auto" },
+                p: { xs: 2, sm: 4 },
+                mb: 4,
+                borderRadius: 4,
+                backgroundColor: theme.palette.background.paper,
+                color: theme.palette.text.primary,
               }}
             >
-              Logout
-            </Button>
-          </Box>
-        </Container>
-
-        <Dialog
-          open={!!selectedLoan}
-          onClose={handleCloseDetails}
-          PaperProps={{
-            style: {
-              borderRadius: 16,
-              padding: theme.spacing(2),
-            },
-          }}
-        >
-          <DialogTitle sx={{ fontWeight: "bold", color: "primary.main" }}>
-            {selectedLoan?.Bank} Loan Details
-          </DialogTitle>
-          <DialogContent>
-            {selectedLoan && (
-              <Box>
-                <Box sx={{ mb: 2 }}>
-                  <Typography component="span" variant="body1">
-                    Status:{" "}
+              <Box
+                display="flex"
+                flexDirection={{ xs: "column", sm: "row" }}
+                justifyContent="space-between"
+                alignItems={{ xs: "flex-start", sm: "center" }}
+                mb={3}
+              >
+                <Box mb={{ xs: 2, sm: 0 }}>
+                  <Typography
+                    variant="h4"
+                    component="h1"
+                    fontWeight="bold"
+                    gutterBottom
+                    color="primary"
+                  >
+                    Welcome back
                   </Typography>
-                  <Chip
-                    label={selectedLoan.status}
-                    sx={{
-                      backgroundColor: (() => {
-                        switch (selectedLoan.status) {
-                          case "Approved":
-                            return "#4caf50";
-                          case "rejected":
-                            return "#f44336";
-                          case "in-progress":
-                            return "#ff9800";
-                          default:
-                            return "#2196f3";
-                        }
-                      })(),
-                      color: "#ffffff",
-                    }}
-                    size="small"
-                  />
+                  <Typography variant="subtitle1" color="text.secondary">
+                    Loan Application Dashboard
+                  </Typography>
                 </Box>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  Loan Amount:{" "}
-                  <strong>₹{selectedLoan.loanAmount.toLocaleString()}</strong>
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  Interest Rate: <strong>{selectedLoan.interestRate}%</strong>
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  Loan Term: <strong>{selectedLoan.term} years</strong>
-                </Typography>
-                <Typography variant="body1" sx={{ mb: 2 }}>
-                  Estimated Monthly Payment:{" "}
-                  <strong>
-                    ₹
-                    {(
-                      (selectedLoan.loanAmount *
-                        (selectedLoan.interestRate / 100 / 12)) /
-                      (1 -
-                        Math.pow(
-                          1 + selectedLoan.interestRate / 100 / 12,
-                          -selectedLoan.term * 12
-                        ))
-                    ).toFixed(2)}
-                  </strong>
-                </Typography>
+                <Avatar
+                  sx={{
+                    width: 80,
+                    height: 80,
+                    border: `2px solid ₹{theme.palette.primary.main}`,
+                  }}
+                />
               </Box>
-            )}
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={handleCloseDetails}
-              color="primary"
-              variant="contained"
-            >
-              Close
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </Box>
-    </ThemeProvider>
+            </Paper>
+
+            <Grid container spacing={3}>
+              {data.map((loan, index) => (
+                <Grid item xs={12} sm={6} md={3} key={index}>
+                  <LoanItem
+                    bank={loan.Bank}
+                    status={loan.status}
+                    amount={loan.loanAmount}
+                    onRequestCall={() => handleRequestCall(loan.Bank)}
+                    onViewDetails={() => handleViewDetails(loan)}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+
+            <Box mt={4} display="flex" justifyContent="center">
+              <Button
+                variant="contained"
+                color="secondary"
+                startIcon={<ExitToApp />}
+                size={isMobile ? "medium" : "large"}
+                sx={{
+                  borderRadius: "50px",
+                  px: { xs: 3, sm: 4 },
+                  py: { xs: 1, sm: 1.5 },
+                  fontWeight: "bold",
+                  width: { xs: "100%", sm: "auto" },
+                }}
+              >
+                Logout
+              </Button>
+            </Box>
+          </Container>
+
+          <Dialog
+            open={!!selectedLoan}
+            onClose={handleCloseDetails}
+            PaperProps={{
+              style: {
+                borderRadius: 16,
+                padding: theme.spacing(2),
+              },
+            }}
+          >
+            <DialogTitle sx={{ fontWeight: "bold", color: "primary.main" }}>
+              {selectedLoan?.Bank} Loan Details
+            </DialogTitle>
+            <DialogContent>
+              {selectedLoan && (
+                <Box>
+                  <Box sx={{ mb: 2 }}>
+                    <Typography component="span" variant="body1">
+                      Status:{" "}
+                    </Typography>
+                    <Chip
+                      label={selectedLoan.status}
+                      sx={{
+                        backgroundColor: (() => {
+                          switch (selectedLoan.status) {
+                            case "Approved":
+                              return "#4caf50";
+                            case "rejected":
+                              return "#f44336";
+                            case "in-progress":
+                              return "#ff9800";
+                            default:
+                              return "#2196f3";
+                          }
+                        })(),
+                        color: "#ffffff",
+                      }}
+                      size="small"
+                    />
+                  </Box>
+                  <Typography variant="body1" sx={{ mb: 2 }}>
+                    Loan Amount:{" "}
+                    <strong>₹{selectedLoan.loanAmount.toLocaleString()}</strong>
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 2 }}>
+                    Interest Rate: <strong>{selectedLoan.interestRate}%</strong>
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 2 }}>
+                    Loan Term: <strong>{selectedLoan.term} years</strong>
+                  </Typography>
+                  <Typography variant="body1" sx={{ mb: 2 }}>
+                    Estimated Monthly Payment:{" "}
+                    <strong>
+                      ₹
+                      {(
+                        (selectedLoan.loanAmount *
+                          (selectedLoan.interestRate / 100 / 12)) /
+                        (1 -
+                          Math.pow(
+                            1 + selectedLoan.interestRate / 100 / 12,
+                            -selectedLoan.term * 12
+                          ))
+                      ).toFixed(2)}
+                    </strong>
+                  </Typography>
+                </Box>
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={handleCloseDetails}
+                color="primary"
+                variant="contained"
+              >
+                Close
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </Box>
+      </ThemeProvider>
+    </>
   );
 };
 

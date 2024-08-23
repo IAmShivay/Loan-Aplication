@@ -13,6 +13,10 @@ import FAQSection from "./components/Section/faq/faq.tsx";
 import ProfileComponent from "./components/User/profile.tsx";
 import CreditScoreComponent from "./components/Section/CreditScore/CreditScore.tsx";
 import SessionExpiredPopup from "./components/Section/Error/Error.tsx";
+import PrivacyAndTermsComponent from "./components/privacy/privacy.tsx";
+import TermsAndConditions from "./components/privacy/terms-condition.tsx";
+import PrivacyPolicy from "./components/privacy/privacy-policy.tsx";
+import ReturnRefundPolicy from "./components/privacy/return-policy.tsx";
 
 const LoanApplicationForm = lazy(
   () => import("./components/Section/LoanApplication/Main.tsx")
@@ -76,6 +80,10 @@ const GenralRoute: React.FC = () => (
       <Route path="/apply-form" element={<LoanApplicationForm />} />
       <Route path="about-us" element={<AboutUs />} />
       <Route path="emi-calculator" element={<EMICalculator />} />
+      <Route path="our-policy" element={<PrivacyAndTermsComponent />} />
+      <Route path="terms-of-use" element={<TermsAndConditions />} />
+      <Route path="privacy-policy" element={<PrivacyPolicy />} />
+      <Route path="refund-policy" element={<ReturnRefundPolicy />} />
       <Route path="faq" element={<FAQSection />} />
     </Routes>
     <Footer />

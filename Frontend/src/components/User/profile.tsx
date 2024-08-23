@@ -17,6 +17,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import { useSelector } from "react-redux";
+import Header from "../../components/Section/Header/Header.tsx";
+
 const GreenTabs = styled(Tabs)(({ theme }) => ({
   borderBottom: "1px solid",
   borderColor: theme.palette.divider,
@@ -68,7 +70,7 @@ const ProfileComponent: React.FC = () => {
     password: "",
     email: user.email,
   });
-  console.log(user)
+  console.log(user);
   const [profilePic, setProfilePic] = useState<string | ArrayBuffer | null>(
     null
   );
@@ -114,196 +116,204 @@ const ProfileComponent: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          width: "100%",
-          maxWidth: "800px",
-          margin: "0 auto",
-          bgcolor: theme.palette.background.paper,
-          borderRadius: "8px",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          overflow: "hidden",
-        }}
-      >
+    <>
+      {" "}
+      <Header />
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box
           sx={{
-            width: "100%",
-            height: isMobile ? "150px" : "200px",
-            backgroundColor: theme.palette.success.light,
             display: "flex",
-            justifyContent: "center",
-            alignItems: "flex-end",
-            position: "relative",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+            maxWidth: "800px",
+            margin: "0 auto",
+            bgcolor: theme.palette.background.paper,
+            borderRadius: "8px",
+            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+            overflow: "hidden",
           }}
         >
           <Box
             sx={{
-              position: "absolute",
-              bottom: isMobile ? "-50px" : "-60px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              "&:hover .camera-button": {
-                opacity: 0.6,
-              },
+              width: "100%",
+              height: isMobile ? "150px" : "200px",
+              backgroundColor: theme.palette.success.light,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "flex-end",
+              position: "relative",
             }}
           >
-            <Avatar
-              src={profilePic as string}
+            <Box
               sx={{
-                width: isMobile ? 100 : 120,
-                height: isMobile ? 100 : 120,
-                border: `4px solid ${theme.palette.background.paper}`,
-                bgcolor: theme.palette.success.main,
-                fontSize: isMobile ? "2rem" : "2.5rem",
+                position: "absolute",
+                bottom: isMobile ? "-50px" : "-60px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                "&:hover .camera-button": {
+                  opacity: 0.6,
+                },
               }}
             >
-              {formData.firstName}
-            </Avatar>
-            <input
-              accept="image/*"
-              id="profile-pic-input"
-              type="file"
-              style={{ display: "none" }}
-              onChange={handleProfilePicChange}
-            />
-            <label htmlFor="profile-pic-input">
-              <IconButton
-                color="primary"
-                component="span"
-                className="camera-button"
+              <Avatar
+                src={profilePic as string}
                 sx={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  width: "100%",
-                  height: "100%",
-                  backgroundColor: "rgba(0, 0, 0, 0.5)",
-                  color: "#ffffff",
-                  opacity: 0,
-                  transition: "opacity 0.3s",
-                  "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+                  width: isMobile ? 100 : 120,
+                  height: isMobile ? 100 : 120,
+                  border: `4px solid ${theme.palette.background.paper}`,
+                  bgcolor: theme.palette.success.main,
+                  fontSize: isMobile ? "2rem" : "2.5rem",
                 }}
               >
-                <CameraAltIcon />
-              </IconButton>
-            </label>
-          </Box>
-        </Box>
-
-        <Box sx={{ width: "100%", mt: isMobile ? 8 : 10, px: 2 }}>
-          <GreenTabs value={tab} onChange={handleTabChange} variant="fullWidth">
-            <Tab label="View Profile" value="view" />
-            <Tab label="Edit Profile" value="edit" />
-          </GreenTabs>
-
-          <Box sx={{ p: 3 }}>
-            {tab === "view" ? (
-              <Box>
-                <Typography
-                  variant="h5"
+                {formData.firstName}
+              </Avatar>
+              <input
+                accept="image/*"
+                id="profile-pic-input"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleProfilePicChange}
+              />
+              <label htmlFor="profile-pic-input">
+                <IconButton
+                  color="primary"
+                  component="span"
+                  className="camera-button"
                   sx={{
-                    color: theme.palette.success.main,
-                    mb: 2,
-                    textAlign: "center",
-                  }}
-                >
-                  {user.firstName} {user.lastName}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{ color: theme.palette.success.main, mb: 1 }}
-                >
-                  email: {formData.email}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  sx={{ color: theme.palette.success.main, mb: 2 }}
-                >
-                  Password: ********
-                </Typography>
-                <Button
-                  startIcon={<EditIcon />}
-                  variant="outlined"
-                  onClick={() => setTab("edit")}
-                  fullWidth
-                  sx={{
-                    color: theme.palette.success.main,
-                    borderColor: theme.palette.success.main,
-                    "&:hover": {
-                      borderColor: theme.palette.success.dark,
-                      backgroundColor: theme.palette.success.light,
-                    },
-                  }}
-                >
-                  Edit Profile
-                </Button>
-              </Box>
-            ) : (
-              <Box>
-                <GreenTextField
-                  label="First Name"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={handleChange}
-                />
-                <GreenTextField
-                  label="Last Name"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={handleChange}
-                />
-                <GreenTextField
-                  label="Password"
-                  type="password"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
-                <GreenTextField
-                  label="Email"
-                  type="tel"
-                  variant="outlined"
-                  fullWidth
-                  margin="normal"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-                <Button
-                  variant="contained"
-                  onClick={handleSave}
-                  sx={{
-                    mt: 2,
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
                     width: "100%",
-                    background: `linear-gradient(45deg, ${theme.palette.success.main} 30%, ${theme.palette.success.dark} 90%)`,
-                    color: "white",
-                    "&:hover": {
-                      background: `linear-gradient(45deg, ${theme.palette.success.dark} 30%, ${theme.palette.success.main} 90%)`,
-                    },
+                    height: "100%",
+                    backgroundColor: "rgba(0, 0, 0, 0.5)",
+                    color: "#ffffff",
+                    opacity: 0,
+                    transition: "opacity 0.3s",
+                    "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.7)" },
                   }}
-                  endIcon={<SaveIcon />}
                 >
-                  Save Changes
-                </Button>
-              </Box>
-            )}
+                  <CameraAltIcon />
+                </IconButton>
+              </label>
+            </Box>
+          </Box>
+
+          <Box sx={{ width: "100%", mt: isMobile ? 8 : 10, px: 2 }}>
+            <GreenTabs
+              value={tab}
+              onChange={handleTabChange}
+              variant="fullWidth"
+            >
+              <Tab label="View Profile" value="view" />
+              <Tab label="Edit Profile" value="edit" />
+            </GreenTabs>
+
+            <Box sx={{ p: 3 }}>
+              {tab === "view" ? (
+                <Box>
+                  <Typography
+                    variant="h5"
+                    sx={{
+                      color: theme.palette.success.main,
+                      mb: 2,
+                      textAlign: "center",
+                    }}
+                  >
+                    {user.firstName} {user.lastName}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: theme.palette.success.main, mb: 1 }}
+                  >
+                    email: {formData.email}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    sx={{ color: theme.palette.success.main, mb: 2 }}
+                  >
+                    Password: ********
+                  </Typography>
+                  <Button
+                    startIcon={<EditIcon />}
+                    variant="outlined"
+                    onClick={() => setTab("edit")}
+                    fullWidth
+                    sx={{
+                      color: theme.palette.success.main,
+                      borderColor: theme.palette.success.main,
+                      "&:hover": {
+                        borderColor: theme.palette.success.dark,
+                        backgroundColor: theme.palette.success.light,
+                      },
+                    }}
+                  >
+                    Edit Profile
+                  </Button>
+                </Box>
+              ) : (
+                <Box>
+                  <GreenTextField
+                    label="First Name"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                  />
+                  <GreenTextField
+                    label="Last Name"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                  />
+                  <GreenTextField
+                    label="Password"
+                    type="password"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                  />
+                  <GreenTextField
+                    label="Email"
+                    type="tel"
+                    variant="outlined"
+                    fullWidth
+                    margin="normal"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={handleSave}
+                    sx={{
+                      mt: 2,
+                      width: "100%",
+                      background: `linear-gradient(45deg, ${theme.palette.success.main} 30%, ${theme.palette.success.dark} 90%)`,
+                      color: "white",
+                      "&:hover": {
+                        background: `linear-gradient(45deg, ${theme.palette.success.dark} 30%, ${theme.palette.success.main} 90%)`,
+                      },
+                    }}
+                    endIcon={<SaveIcon />}
+                  >
+                    Save Changes
+                  </Button>
+                </Box>
+              )}
+            </Box>
           </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </>
   );
 };
 
