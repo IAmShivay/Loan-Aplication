@@ -13,7 +13,7 @@ interface Credentials {
 
 export const RegisterAdminResponse = async (credentials: Credentials) => {
   try {
-    const response = await axiosInstance.post("/registerAdmin", credentials);
+    const response = await axiosInstance.put("/registerAdmin", credentials);
     return response.data;
   } catch (error) {
     handleAxiosError(error);

@@ -11,7 +11,7 @@ const Header: React.FC<HeaderProps> = ({ onMenuClick }) => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton edge="start" color="inherit" aria-label="menu" onClick={onMenuClick}>
+        <IconButton edge="start" color="inherit" aria-label="menu" onClick={onMenuClick} >
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" style={{ flexGrow: 1 }}>

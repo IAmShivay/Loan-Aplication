@@ -4,7 +4,6 @@ const cloudinary = require("cloudinary");
 const Admin = require("../Models/adminModel");
 
 exports.uploadDocuments = async (req, res) => {
-  console.log(req)
   try {
     const {
       name,

@@ -14,7 +14,6 @@ import {
   useTheme,
   Card,
   CardContent,
-  Chip,
   Container,
   CircularProgress,
   Snackbar,
@@ -22,11 +21,12 @@ import {
   IconButton,
   Tooltip,
   Button,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import CancelIcon from "@mui/icons-material/Cancel";
 import ApplicationDetailsModal from "../Applications/view";
 import { LoanApplications } from "./type";
 import * as Yup from "yup";
@@ -35,11 +35,12 @@ import { AppDispatch } from "../../../store";
 import { useDispatch } from "react-redux";
 import { GetDataAllApplications } from "../../../api/admin";
 import ChatComponent from "../../../chat/chat";
+import { useSelector } from "react-redux";
 export interface LoanApplication {
   id: any;
   user: any;
   name: string;
-  status: "Progress" | "Approved" | "Rejected";
+  status: string;
   comment: string;
   Bank: any;
   isSubmitted: boolean;
@@ -51,13 +52,32 @@ export interface LoanApplication {
 const validationSchema = Yup.object().shape({
   comment: Yup.string()
     .required("Comment is required")
-    .min(3, "Comment must be at least 3 characters")
+    .min(3, "Comment must be at least 3 characters"),
+  interestRate: Yup.number()
     .required("Interest rate is required")
     .min(0, "Interest rate must be positive")
     .max(100, "Interest rate must not exceed 100%"),
 });
 
+const statusOptions = [
+  { value: "Progress", label: "In Progress", color: "#FFA726" },
+  {
+    value: "ReviewingDocuments",
+    label: "Reviewing Documents",
+    color: "#29B6F6",
+  },
+  {
+    value: "ConditionallyApproved",
+    label: "Conditionally Approved",
+    color: "#66BB6A",
+  },
+  { value: "PendingApproval", label: "Pending Approval", color: "#AB47BC" },
+  { value: "Approved", label: "Approved", color: "#4CAF50" },
+  { value: "Rejected", label: "Rejected", color: "#E53935" },
+];
+
 const LoanApplicationTable: React.FC = () => {
+  const { user } = useSelector((state: any) => state.verify);
   const dispatch = useDispatch<AppDispatch>();
   const [applications, setApplications] = useState<LoanApplication[]>([]);
   const [selectedApplication, setSelectedApplication] =
@@ -74,9 +94,6 @@ const LoanApplicationTable: React.FC = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isMedium = useMediaQuery(theme.breakpoints.down("md"));
-
-  const Bank = "UCO BANK";
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -85,10 +102,10 @@ const LoanApplicationTable: React.FC = () => {
           response.loanApplications.map((app: any) => ({
             ...app,
             user: app.user,
-            status: app.status ||"Progress",
+            status: app.status || "Progress",
             isSubmitted: app.adminResponse,
-            Bank: Bank,
-            interestRate: app.interestRate,
+            Bank: user?.BankName,
+            interestRate: "" || 0,
             comment: app.adminComments,
           }))
         );
@@ -107,13 +124,16 @@ const LoanApplicationTable: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleStatusChange = (id: number, status: "Approved" | "Rejected") => {
+  const handleStatusChange = (id: number, event: SelectChangeEvent<string>) => {
+    const newStatus = event.target.value;
     setApplications(
-      applications.map((app) => (app.user === id ? { ...app, status } : app))
+      applications.map((app) =>
+        app.user === id ? { ...app, status: newStatus } : app
+      )
     );
     setSnackbar({
       open: true,
-      message: `Application ${status}`,
+      message: `Application status updated to ${newStatus}`,
       severity: "success",
     });
   };
@@ -124,6 +144,7 @@ const LoanApplicationTable: React.FC = () => {
     );
     setErrors((prev) => ({ ...prev, [id]: "" }));
   };
+
   const validateApplication = async (id: number): Promise<boolean> => {
     const application = applications.find((app) => app.user === id);
     if (!application) return false;
@@ -174,15 +195,12 @@ const LoanApplicationTable: React.FC = () => {
   const handleChatNowClick = (application: any) => {
     setActiveChat({ id: application.user, name: application.name });
   };
+
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case "Approved":
-        return "#4CAF50";
-      case "Rejected":
-        return "#E53935";
-      default:
-        return "#E8F5E9";
-    }
+    const statusOption = statusOptions.find(
+      (option) => option.value === status
+    );
+    return statusOption ? statusOption.color : "#E8F5E9";
   };
 
   const renderDesktopView = () => (
@@ -214,14 +232,25 @@ const LoanApplicationTable: React.FC = () => {
               <TableCell>{app.user}</TableCell>
               <TableCell>{app.name}</TableCell>
               <TableCell>
-                <Chip
-                  label={app.status}
-                  style={{
+                <Select
+                  value={app.status}
+                  onChange={(e) => handleStatusChange(app.user, e)}
+                  size="small"
+                  sx={{
+                    borderRadius: "10px",
                     backgroundColor: getStatusColor(app.status),
                     color: "white",
+                    "&:before": { borderColor: "white" },
+                    "&:after": { borderColor: "white" },
+                    "& .MuiSvgIcon-root": { color: "white" },
                   }}
-                  size="small"
-                />
+                >
+                  {statusOptions.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </Select>
               </TableCell>
               <TableCell>
                 <Typography variant="body1">{app.Bank}</Typography>
@@ -259,49 +288,27 @@ const LoanApplicationTable: React.FC = () => {
                       alignItems: "center",
                     }}
                   >
-                      <IconButton
-                        color="success"
-                        onClick={() => handleStatusChange(app.user, "Approved")}
-                        disabled={app.status !== "Progress" || app.isSubmitted}
-                        sx={{
-                          borderRadius: "50%",
-                          padding: 1,
-                        }}
-                      >
-                        <CheckCircleIcon />
-                      </IconButton>
-                      <IconButton
-                        color="error"
-                        onClick={() => handleStatusChange(app.user, "Rejected")}
-                        disabled={app.status !== "Progress" || app.isSubmitted}
-                        sx={{
-                          borderRadius: "50%",
-                          padding: 1,
-                        }}
-                      >
-                        <CancelIcon />
-                      </IconButton>
-                      <IconButton
-                        color="primary"
-                        onClick={() => handleSubmit(app.user)}
-                        disabled={app.isSubmitted}
-                        sx={{
-                          borderRadius: "50%",
-                          padding: 1,
-                        }}
-                      >
-                        <SendIcon />
-                      </IconButton>
-                      <IconButton
-                        color="info"
-                        onClick={() => handleViewClick(app)}
-                        sx={{
-                          borderRadius: "50%",
-                          padding: 1,
-                        }}
-                      >
-                        <VisibilityIcon />
-                      </IconButton>
+                    <IconButton
+                      color="primary"
+                      onClick={() => handleSubmit(app.user)}
+                      disabled={app.isSubmitted}
+                      sx={{
+                        borderRadius: "50%",
+                        padding: 1,
+                      }}
+                    >
+                      <SendIcon />
+                    </IconButton>
+                    <IconButton
+                      color="info"
+                      onClick={() => handleViewClick(app)}
+                      sx={{
+                        borderRadius: "50%",
+                        padding: 1,
+                      }}
+                    >
+                      <VisibilityIcon />
+                    </IconButton>
                     <Tooltip title="Chat Now">
                       <Button
                         variant="contained"
@@ -352,15 +359,27 @@ const LoanApplicationTable: React.FC = () => {
             <Typography variant="subtitle1" color="text.secondary">
               ID: {app.user}
             </Typography>
-            <Chip
-              label={app.status}
-              style={{
-                backgroundColor: getStatusColor(app.status),
-                color: app.status === "Rejected" ? "white" : "inherit",
-              }}
+            <Select
+              value={app.status}
+              onChange={(e) => handleStatusChange(app.user, e)}
               size="small"
-              sx={{ marginBottom: 1 }}
-            />
+              fullWidth
+              sx={{
+                borderRadius: "10px",
+                backgroundColor: getStatusColor(app.status),
+                color: "white",
+                marginBottom: 1,
+                "&:before": { borderColor: "white" },
+                "&:after": { borderColor: "white" },
+                "& .MuiSvgIcon-root": { color: "white" },
+              }}
+            >
+              {statusOptions.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </Select>
             <TextField
               value={app.comment}
               onChange={(e) => handleCommentChange(app.user, e.target.value)}
@@ -388,49 +407,27 @@ const LoanApplicationTable: React.FC = () => {
                 marginTop: 1,
               }}
             >
-                <IconButton
-                  color="success"
-                  onClick={() => handleStatusChange(app.user, "Approved")}
-                  disabled={app.status !== "Progress" || app.isSubmitted}
-                  sx={{
-                    borderRadius: "50%",
-                    padding: 1,
-                  }}
-                >
-                  <CheckCircleIcon />
-                </IconButton>
-                <IconButton
-                  color="error"
-                  onClick={() => handleStatusChange(app.user, "Rejected")}
-                  disabled={app.status !== "Progress" || app.isSubmitted}
-                  sx={{
-                    borderRadius: "50%",
-                    padding: 1,
-                  }}
-                >
-                  <CancelIcon />
-                </IconButton>
-                <IconButton
-                  color="primary"
-                  onClick={() => handleSubmit(app.user)}
-                  disabled={app.isSubmitted}
-                  sx={{
-                    borderRadius: "50%",
-                    padding: 1,
-                  }}
-                >
-                  <SendIcon />
-                </IconButton>
-                <IconButton
-                  color="info"
-                  onClick={() => handleViewClick(app)}
-                  sx={{
-                    borderRadius: "50%",
-                    padding: 1,
-                  }}
-                >
-                  <VisibilityIcon />
-                </IconButton>
+              <IconButton
+                color="primary"
+                onClick={() => handleSubmit(app.user)}
+                disabled={app.isSubmitted}
+                sx={{
+                  borderRadius: "50%",
+                  padding: 1,
+                }}
+              >
+                <SendIcon />
+              </IconButton>
+              <IconButton
+                color="info"
+                onClick={() => handleViewClick(app)}
+                sx={{
+                  borderRadius: "50%",
+                  padding: 1,
+                }}
+              >
+                <VisibilityIcon />
+              </IconButton>
             </Box>
             <Box
               sx={{
@@ -496,7 +493,7 @@ const LoanApplicationTable: React.FC = () => {
           </Snackbar>
         </>
       )}
-       {activeChat && (
+      {activeChat && (
         <ChatComponent
           applicationId={activeChat.id}
           applicantName={activeChat.name}

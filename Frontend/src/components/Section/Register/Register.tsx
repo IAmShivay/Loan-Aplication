@@ -8,9 +8,11 @@ import {
   Link,
   ThemeProvider,
   createTheme,
+  CssBaseline,
   InputAdornment,
   IconButton,
   useMediaQuery,
+  Container,
 } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -138,6 +140,12 @@ const RegisterPage: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Container
+        maxWidth={false}
+        disableGutters
+        sx={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      >
       <form>
         <Box
           sx={{
@@ -358,7 +366,7 @@ const RegisterPage: React.FC = () => {
             </Paper>
           </Box>
         </Box>
-      </form>
+      </form></Container>
     </ThemeProvider>
   );
 };

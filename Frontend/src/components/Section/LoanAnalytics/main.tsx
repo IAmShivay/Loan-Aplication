@@ -12,6 +12,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Chip,
   Avatar,
   Button,
   Dialog,
@@ -31,45 +32,36 @@ import {
   Pie,
   Cell,
   Legend,
-  LineChart,
-  Line,
 } from 'recharts';
-import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import EventIcon from '@mui/icons-material/Event';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import CommentIcon from '@mui/icons-material/Comment';
 
-const COLORS = ['#4CAF50', '#2196F3', '#FF9800', '#E91E63', '#9C27B0'];
-
-const callRequestsData = [
-  { status: 'Pending', count: 15 },
-  { status: 'Scheduled', count: 8 },
-  { status: 'Completed', count: 22 },
+const responseData = [
+  { status: 'Approved', count: 45 },
+  { status: 'Rejected', count: 25 },
+  { status: 'Pending', count: 30 },
 ];
 
-const dailyRequestsData = [
-  { day: 'Mon', requests: 5 },
-  { day: 'Tue', requests: 8 },
-  { day: 'Wed', requests: 12 },
-  { day: 'Thu', requests: 10 },
-  { day: 'Fri', requests: 7 },
-  { day: 'Sat', requests: 3 },
-  { day: 'Sun', requests: 2 },
+const responseTimeData = [
+  { day: 'Mon', avgTime: 2.5 },
+  { day: 'Tue', avgTime: 1.8 },
+  { day: 'Wed', avgTime: 3.2 },
+  { day: 'Thu', avgTime: 2.1 },
+  { day: 'Fri', avgTime: 2.7 },
+  { day: 'Sat', avgTime: 1.5 },
+  { day: 'Sun', avgTime: 1.2 },
 ];
 
-const weeklyTrendData = [
-  { week: 'Week 1', requests: 30 },
-  { week: 'Week 2', requests: 35 },
-  { week: 'Week 3', requests: 25 },
-  { week: 'Week 4', requests: 40 },
-];
+const COLORS = ['#4CAF50', '#FF9800', '#2196F3', '#E91E63', '#9C27B0'];
 
-const CallsRequested: React.FC = () => {
+const MyResponses: React.FC = () => {
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedRequest, setSelectedRequest] = useState<any>(null);
+  const [selectedResponse, setSelectedResponse] = useState<any>(null);
 
-  const handleOpenDialog = (request: any) => {
-    setSelectedRequest(request);
+  const handleOpenDialog = (response: any) => {
+    setSelectedResponse(response);
     setOpenDialog(true);
   };
 
@@ -111,64 +103,64 @@ const CallsRequested: React.FC = () => {
     </Card>
   );
 
-  const pendingCallRequests = [
-    { id: 1, applicant: 'John Doe', loanAmount: '$15,000', requestTime: '2 hours ago', preferredTime: '2023-05-10 14:00' },
-    { id: 2, applicant: 'Jane Smith', loanAmount: '$8,000', requestTime: '5 hours ago', preferredTime: '2023-05-11 10:00' },
-    { id: 3, applicant: 'Mike Johnson', loanAmount: '$25,000', requestTime: '1 day ago', preferredTime: '2023-05-12 16:00' },
-    { id: 4, applicant: 'Sarah Williams', loanAmount: '$12,000', requestTime: '2 days ago', preferredTime: '2023-05-13 11:00' },
-    { id: 5, applicant: 'Robert Brown', loanAmount: '$20,000', requestTime: '3 days ago', preferredTime: '2023-05-14 15:00' },
+  const recentResponses = [
+    { id: 1, applicant: 'John Doe', amount: '$15,000', status: 'Approved', time: '2 hours ago' },
+    { id: 2, applicant: 'Jane Smith', amount: '$8,000', status: 'Pending', time: '5 hours ago' },
+    { id: 3, applicant: 'Mike Johnson', amount: '$25,000', status: 'Rejected', time: '1 day ago' },
+    { id: 4, applicant: 'Sarah Williams', amount: '$12,000', status: 'Approved', time: '2 days ago' },
+    { id: 5, applicant: 'Robert Brown', amount: '$20,000', status: 'Pending', time: '3 days ago' },
   ];
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Typography variant="h4" gutterBottom fontWeight="bold">
-        Calls Requested
+        My Responses
       </Typography>
       <Grid container spacing={3}>
         {/* Key Metrics */}
         <Grid item xs={12} sm={6} md={3}>
           <MetricCard
-            title="Total Requests"
-            value={45}
-            icon={<PhoneInTalkIcon sx={{ color: COLORS[0], fontSize: 40 }} />}
+            title="Total Responses"
+            value={100}
+            icon={<CommentIcon sx={{ color: COLORS[0], fontSize: 40 }} />}
             color={COLORS[0]}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <MetricCard
-            title="Pending Calls"
-            value={15}
-            icon={<AccessTimeIcon sx={{ color: COLORS[1], fontSize: 40 }} />}
+            title="Approval Rate"
+            value="45%"
+            icon={<CheckCircleIcon sx={{ color: COLORS[1], fontSize: 40 }} />}
             color={COLORS[1]}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <MetricCard
-            title="Scheduled Calls"
-            value={8}
-            icon={<EventIcon sx={{ color: COLORS[2], fontSize: 40 }} />}
+            title="Rejection Rate"
+            value="25%"
+            icon={<CancelIcon sx={{ color: COLORS[2], fontSize: 40 }} />}
             color={COLORS[2]}
           />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <MetricCard
             title="Avg. Response Time"
-            value="1.5 days"
-            icon={<TrendingUpIcon sx={{ color: COLORS[3], fontSize: 40 }} />}
+            value="2.1 days"
+            icon={<AccessTimeIcon sx={{ color: COLORS[3], fontSize: 40 }} />}
             color={COLORS[3]}
           />
         </Grid>
 
-        {/* Call Requests Status Chart */}
+        {/* Response Status Chart */}
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 2, height: 400 }}>
             <Typography variant="h6" gutterBottom fontWeight="bold">
-              Call Requests Status
+              Response Status
             </Typography>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={callRequestsData}
+                  data={responseData}
                   cx="50%"
                   cy="50%"
                   innerRadius={60}
@@ -180,7 +172,7 @@ const CallsRequested: React.FC = () => {
                     `${name} ${(percent * 100).toFixed(0)}%`
                   }
                 >
-                  {callRequestsData.map((entry, index) => (
+                  {responseData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
@@ -191,15 +183,15 @@ const CallsRequested: React.FC = () => {
           </Paper>
         </Grid>
 
-        {/* Daily Requests Chart */}
+        {/* Response Time Chart */}
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 2, height: 400 }}>
             <Typography variant="h6" gutterBottom fontWeight="bold">
-              Daily Call Requests
+              Average Response Time by Day
             </Typography>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={dailyRequestsData}
+                data={responseTimeData}
                 margin={{
                   top: 5,
                   right: 30,
@@ -211,8 +203,8 @@ const CallsRequested: React.FC = () => {
                 <XAxis dataKey="day" />
                 <YAxis />
                 <Tooltip />
-                <Bar dataKey="requests" fill={COLORS[4]}>
-                  {dailyRequestsData.map((entry, index) => (
+                <Bar dataKey="avgTime" fill={COLORS[4]}>
+                  {responseTimeData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Bar>
@@ -221,68 +213,54 @@ const CallsRequested: React.FC = () => {
           </Paper>
         </Grid>
 
-        {/* Weekly Trend Chart */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 2, height: 300 }}>
-            <Typography variant="h6" gutterBottom fontWeight="bold">
-              Weekly Call Requests Trend
-            </Typography>
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={weeklyTrendData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="week" />
-                <YAxis />
-                <Tooltip />
-                <Line type="monotone" dataKey="requests" stroke={COLORS[0]} activeDot={{ r: 8 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </Paper>
-        </Grid>
-
-        {/* Pending Call Requests */}
+        {/* Recent Responses */}
         <Grid item xs={12}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="h6" gutterBottom fontWeight="bold">
-              Pending Call Requests
+              Recent Responses
             </Typography>
             <TableContainer>
               <Table>
                 <TableHead>
                   <TableRow>
                     <TableCell>Applicant</TableCell>
-                    <TableCell>Loan Amount</TableCell>
-                    <TableCell>Request Time</TableCell>
-                    <TableCell>Preferred Time</TableCell>
+                    <TableCell>Amount</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Time</TableCell>
                     <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {pendingCallRequests.map((request) => (
-                    <TableRow key={request.id}>
+                  {recentResponses.map((response) => (
+                    <TableRow key={response.id}>
                       <TableCell>
                         <Box display="flex" alignItems="center">
-                          <Avatar sx={{ mr: 2 }}>{request.applicant[0]}</Avatar>
-                          {request.applicant}
+                          <Avatar sx={{ mr: 2 }}>{response.applicant[0]}</Avatar>
+                          {response.applicant}
                         </Box>
                       </TableCell>
-                      <TableCell>{request.loanAmount}</TableCell>
-                      <TableCell>{request.requestTime}</TableCell>
-                      <TableCell>{request.preferredTime}</TableCell>
+                      <TableCell>{response.amount}</TableCell>
+                      <TableCell>
+                        <Chip
+                          label={response.status}
+                          color={
+                            response.status === 'Approved'
+                              ? 'success'
+                              : response.status === 'Rejected'
+                              ? 'error'
+                              : 'warning'
+                          }
+                          size="small"
+                        />
+                      </TableCell>
+                      <TableCell>{response.time}</TableCell>
                       <TableCell>
                         <Button
                           variant="outlined"
                           size="small"
-                          onClick={() => handleOpenDialog(request)}
+                          onClick={() => handleOpenDialog(response)}
                         >
-                          Schedule Call
+                          View Details
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -294,39 +272,40 @@ const CallsRequested: React.FC = () => {
         </Grid>
       </Grid>
 
-      {/* Schedule Call Dialog */}
+      {/* Response Details Dialog */}
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Schedule Call</DialogTitle>
+        <DialogTitle>Response Details</DialogTitle>
         <DialogContent>
-          {selectedRequest && (
+          {selectedResponse && (
             <Box>
               <Typography variant="body1">
-                <strong>Applicant:</strong> {selectedRequest.applicant}
+                <strong>Applicant:</strong> {selectedResponse.applicant}
               </Typography>
               <Typography variant="body1">
-                <strong>Loan Amount:</strong> {selectedRequest.loanAmount}
+                <strong>Amount:</strong> {selectedResponse.amount}
               </Typography>
               <Typography variant="body1">
-                <strong>Preferred Time:</strong> {selectedRequest.preferredTime}
+                <strong>Status:</strong> {selectedResponse.status}
+              </Typography>
+              <Typography variant="body1">
+                <strong>Time:</strong> {selectedResponse.time}
               </Typography>
               <Typography variant="body1" sx={{ mt: 2 }}>
-                <strong>Additional Notes:</strong>
+                <strong>Additional Comments:</strong>
               </Typography>
               <Typography variant="body2">
-                The applicant has requested a call to discuss their loan application. Please schedule the call at their preferred time or propose an alternative time slot.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+                incididunt ut labore et dolore magna aliqua.
               </Typography>
             </Box>
           )}
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleCloseDialog} variant="contained" color="primary">
-            Confirm Schedule
-          </Button>
+          <Button onClick={handleCloseDialog}>Close</Button>
         </DialogActions>
       </Dialog>
     </Box>
   );
 };
 
-export default CallsRequested;
+export default MyResponses;

@@ -63,6 +63,7 @@ interface FormData {
 
 const ProfileComponent: React.FC = () => {
   const { user } = useSelector((state: any) => state.verify);
+  console.log(user);
   const [tab, setTab] = useState<"view" | "edit">("view");
   const [formData, setFormData] = useState<FormData>({
     firstName: user.firstName,

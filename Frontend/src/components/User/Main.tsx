@@ -20,9 +20,8 @@ import {
 import { ExitToApp, AccountBalance } from "@mui/icons-material";
 import { styled } from "@mui/system";
 import axiosInstance from "../apiAxios/axiosInstance";
-// import { AppDispatch } from "../../store";
-// import { useDispatch } from "react-redux";
 import Header from "../../components/Section/Header/Header.tsx";
+import { useSelector } from "react-redux";
 const theme = createTheme({
   palette: {
     primary: {
@@ -171,8 +170,9 @@ const LoanItem: React.FC<any> = React.memo(
           onClick={onViewDetails}
           sx={{ mb: 1 }}
         >
-          View Details
+          View Status
         </Button>
+
         <Button
           variant="contained"
           color="primary"
@@ -181,6 +181,15 @@ const LoanItem: React.FC<any> = React.memo(
         >
           Request Call
         </Button>
+        <Button
+          variant="outlined"
+          color="primary"
+          fullWidth
+          onClick={onViewDetails}
+          sx={{ mt: 1 }}
+        >
+          View Application
+        </Button>
       </DashboardItem>
     );
   }
@@ -188,7 +197,8 @@ const LoanItem: React.FC<any> = React.memo(
 
 const UserDashboard: React.FC = () => {
   const [data, setData] = useState<Loan[]>([]);
-
+  const { user } = useSelector((state: any) => state.verify);
+  console.log(user);
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
 
   useEffect(() => {
@@ -260,13 +270,14 @@ const UserDashboard: React.FC = () => {
                     gutterBottom
                     color="primary"
                   >
-                    Welcome back
+                    Welcome back, {user.Name}! 😊{" "}
                   </Typography>
                   <Typography variant="subtitle1" color="text.secondary">
                     Loan Application Dashboard
                   </Typography>
                 </Box>
                 <Avatar
+                src="https://th.bing.com/th/id/OIP.sQITeQsafh6osAKTB25AMgHaFj?w=247&h=186&c=7&r=0&o=5&pid=1.7"
                   sx={{
                     width: 80,
                     height: 80,

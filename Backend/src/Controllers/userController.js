@@ -7,11 +7,12 @@ const cloudinary = require("cloudinary");
 const Admin = require("../Models/adminModel");
 
 exports.registerUser = catchAsyncError(async (req, res, next) => {
-  const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    folder: "avatars",
-    width: 150,
-    crop: "scale",
-  });
+  console.log(req.body)
+  // const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+  //   folder: "avatars",
+  //   width: 150,
+  //   crop: "scale",
+  // });
 
   const { firstName, lastName, email, password, role } = req.body;
   const emails = await User.findOne({ email: req.body.email });
@@ -24,10 +25,10 @@ exports.registerUser = catchAsyncError(async (req, res, next) => {
     email,
     password,
     role,
-    avatar: {
-      public_id: myCloud.public_id,
-      url: myCloud.secure_url,
-    },
+    // avatar: {
+    //   public_id: myCloud.public_id,
+    //   url: myCloud.secure_url,
+    // },
   });
   sendToken(user, res, 201);
 });
@@ -251,8 +252,9 @@ exports.deleteUserProfile = catchAsyncError(async (req, res, next) => {
 
 exports.getUserDetailsA = catchAsyncError(async (req, res, next) => {
   const userId = req.user.id;
+  console.log(userId);
   const admins = await Admin.find({ user: userId });
-
+console.log(admins)
   if (admins.length === 0) {
     return next(
       new ErrorHandler("No admins found with the specified user field", 404)

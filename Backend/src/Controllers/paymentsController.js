@@ -1,5 +1,5 @@
 const { Request, Response } = require('express');
-const razorpayInstance = require('../service/razorpay.service');
+const razorpayInstance = require('../Service/Razorpay.service');
 const crypto = require('crypto');
 
 const createOrder = async (req, res) => {
@@ -24,6 +24,7 @@ const verifyPayment = async (req, res) => {
   const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
   try {
+    console.log(process.env.RAZORPAY_KEY_SECRET);
     const generated_signature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
       .update(`${razorpay_order_id}|${razorpay_payment_id}`)
       .digest('hex');
