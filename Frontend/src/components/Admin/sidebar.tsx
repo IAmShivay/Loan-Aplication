@@ -21,7 +21,6 @@
 // import LoanApplicationTable from "./Applications/applications";
 // import { useTheme } from "@mui/material/styles";
 
-
 // const drawerWidth = 240;
 
 // const ModernAppBar = styled(AppBar)(({ theme }) => ({
@@ -281,18 +280,18 @@ const ColorfulListItemButton = styled(ListItemButton)(({ theme }) => ({
 }));
 
 const ProfileBox = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  padding: '16px',
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  padding: "16px",
   borderTop: `1px solid ${theme.palette.divider}`,
-  marginTop: 'auto',
+  marginTop: "auto",
 }));
 
 const ProfileAvatar = styled(Avatar)(() => ({
   width: 60,
   height: 60,
-  marginBottom: '8px',
+  marginBottom: "8px",
 }));
 
 interface ProfileProps {
@@ -320,7 +319,8 @@ const Dashboard: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Dashboard");
-  const [selectedComponent, setSelectedComponent] = useState<JSX.Element | null>(<LoanAnalytics/>);
+  const [selectedComponent, setSelectedComponent] =
+    useState<JSX.Element | null>(<LoanAnalytics />);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -353,14 +353,42 @@ const Dashboard: React.FC = () => {
   };
 
   const menuItems = [
-    { name: "Dashboard", icon: <DashboardIcon />, component: <LoanAnalytics />, color: "#4CAF50" },
-    { name: "Applications", icon: <AssignmentIcon />, component: <LoanApplicationTable />, color: "#2196F3" },
-    { name: "My Responses", icon: <AccountBalanceIcon />, component: <MyResponses/>, color: "#FF9800" },
-    { name: "Calls Requested", icon: <ChatIcon />, component: <CallsRequested/>, color: "#E91E63" },
+    {
+      name: "Dashboard",
+      icon: <DashboardIcon />,
+      component: <LoanAnalytics />,
+      color: "#4CAF50",
+    },
+    {
+      name: "Applications",
+      icon: <AssignmentIcon />,
+      component: <LoanApplicationTable />,
+      color: "#2196F3",
+    },
+    {
+      name: "My Responses",
+      icon: <AccountBalanceIcon />,
+      component: <MyResponses />,
+      color: "#FF9800",
+    },
+    {
+      name: "Calls Requested",
+      icon: <ChatIcon />,
+      component: <CallsRequested />,
+      color: "#E91E63",
+    },
   ];
 
   const drawer = (
-    <Box sx={{ padding: "20px", display: 'flex', flexDirection: 'column', height: '100%', backgroundColor:"#E9F5EA"}}>
+    <Box
+      sx={{
+        padding: "20px",
+        display: "flex",
+        flexDirection: "column",
+        height: "100%",
+        backgroundColor: "#E9F5EA",
+      }}
+    >
       <List>
         {menuItems.map((item) => (
           <ColorfulListItemButton
@@ -377,20 +405,27 @@ const Dashboard: React.FC = () => {
               },
             }}
           >
-            <Box component="span" sx={{ color: item.color, marginRight: "16px" }}>
+            <Box
+              component="span"
+              sx={{ color: item.color, marginRight: "16px" }}
+            >
               {item.icon}
             </Box>
             <ListItemText primary={item.name} />
           </ColorfulListItemButton>
         ))}
       </List>
-      <Profile name="John Doe" email="john.doe@example.com" avatarUrl="https://via.placeholder.com/60" />
+      <Profile
+        name="John Doe"
+        email="john.doe@example.com"
+        avatarUrl="https://via.placeholder.com/60"
+      />
     </Box>
   );
 
   return (
     <Box sx={{ display: "flex" }}>
-      <ModernAppBar>
+      <ModernAppBar sx={{ backgroundColor: "#E9F5EA" }}>
         <Toolbar>
           {isMobile && (
             <IconButton
@@ -398,21 +433,62 @@ const Dashboard: React.FC = () => {
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ marginRight: "20px" }}
+              sx={{ marginRight: "20px", backgroundColor: "#E9F5EA" }}
             >
               <MenuIcon />
             </IconButton>
           )}
-          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ flexGrow: 1, height: "10vh" }}
+          >
             Dashboard Header
           </Typography>
-          <Button color="inherit" onClick={handleVisitSite}>
+          <Button
+            variant="contained"
+            sx={{
+              margin: 1,
+              backgroundColor: "#4CAF50", // Primary green
+              color: "#FFFFFF",
+              borderRadius: 2,
+              "&:hover": {
+                backgroundColor: "#388E3C", // Darker green on hover
+              },
+            }}
+            onClick={handleVisitSite}
+          >
             Visit Site
           </Button>
-          <Button color="inherit" onClick={handleEditProfile}>
+          <Button
+            variant="contained"
+            sx={{
+              margin: 1,
+              backgroundColor: "#66BB6A", // Light green
+              color: "#FFFFFF",
+              borderRadius: 2,
+              "&:hover": {
+                backgroundColor: "#4CAF50", // Medium green on hover
+              },
+            }}
+            onClick={handleEditProfile}
+          >
             Edit Profile
           </Button>
-          <Button color="inherit" onClick={handleLogout}>
+          <Button
+            variant="contained"
+            sx={{
+              margin: 1,
+              backgroundColor: "#E53935", // Red for logout
+              color: "#FFFFFF",
+              borderRadius: 2,
+              "&:hover": {
+                backgroundColor: "#C62828", // Darker red on hover
+              },
+            }}
+            onClick={handleLogout}
+          >
             Logout
           </Button>
         </Toolbar>
@@ -432,7 +508,10 @@ const Dashboard: React.FC = () => {
           }}
           sx={{
             display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
         >
           {drawer}
@@ -441,7 +520,10 @@ const Dashboard: React.FC = () => {
           variant="permanent"
           sx={{
             display: { xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": { boxSizing: "border-box", width: drawerWidth },
+            "& .MuiDrawer-paper": {
+              boxSizing: "border-box",
+              width: drawerWidth,
+            },
           }}
           open
         >
