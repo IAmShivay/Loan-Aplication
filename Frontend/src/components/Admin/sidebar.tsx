@@ -206,8 +206,8 @@ const Dashboard: React.FC = () => {
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <ModernAppBar sx={{ backgroundColor: "#E9F5EA" }}>
+    <Box  sx={{ display: "flex" }}>
+      <ModernAppBar sx={{ backgroundColor: "#E9F5EA",borderBottom: '1px solid #B0BEC5' }}>
         <Toolbar>
           {isMobile && (
             <IconButton
@@ -246,7 +246,7 @@ const Dashboard: React.FC = () => {
             variant="contained"
             sx={{
               margin: 1,
-              backgroundColor: "#66BB6A", // Light green
+              backgroundColor: "#009688", // Light green
               color: "#FFFFFF",
               borderRadius: 2,
               "&:hover": {
