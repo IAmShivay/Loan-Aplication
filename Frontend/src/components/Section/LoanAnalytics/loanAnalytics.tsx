@@ -1,6 +1,5 @@
 
-
-import React from 'react';
+import React from "react";
 import {
   Box,
   Grid,
@@ -9,7 +8,7 @@ import {
   Card,
   CardContent,
   LinearProgress,
-} from '@mui/material';
+} from "@mui/material";
 import {
   BarChart,
   Bar,
@@ -24,39 +23,38 @@ import {
   Legend,
   LineChart,
   Line,
-} from 'recharts';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
-import TrendingDownIcon from '@mui/icons-material/TrendingDown';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+} from "recharts";
+import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import TrendingDownIcon from "@mui/icons-material/TrendingDown";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const applicationStatusData = [
-  { name: 'Approved', value: 45 },
-  { name: 'Pending', value: 30 },
-  { name: 'Rejected', value: 25 },
+  { name: "Approved", value: 45 },
+  { name: "Pending", value: 30 },
+  { name: "Rejected", value: 25 },
 ];
 
 const monthlyApplicationsData = [
-  { month: 'Jan', applications: 65, approvals: 40 },
-  { month: 'Feb', applications: 59, approvals: 38 },
-  { month: 'Mar', applications: 80, approvals: 55 },
-  { month: 'Apr', applications: 81, approvals: 60 },
-  { month: 'May', applications: 56, approvals: 42 },
-  { month: 'Jun', applications: 55, approvals: 40 },
+  { month: "Jan", applications: 65, approvals: 40 },
+  { month: "Feb", applications: 59, approvals: 38 },
+  { month: "Mar", applications: 80, approvals: 55 },
+  { month: "Apr", applications: 81, approvals: 60 },
+  { month: "May", applications: 56, approvals: 42 },
+  { month: "Jun", applications: 55, approvals: 40 },
 ];
 
 const loanAmountData = [
-  { amount: '0-5k', count: 20 },
-  { amount: '5k-10k', count: 35 },
-  { amount: '10k-20k', count: 25 },
-  { amount: '20k-50k', count: 15 },
-  { amount: '50k+', count: 5 },
+  { amount: "0-5k", count: 20 },
+  { amount: "5k-10k", count: 35 },
+  { amount: "10k-20k", count: 25 },
+  { amount: "20k-50k", count: 15 },
+  { amount: "50k+", count: 5 },
 ];
 
-const COLORS = ['#4CAF50', '#2196F3', '#FF9800', '#E91E63', '#9C27B0'];
+const COLORS = ["#4CAF50", "#2196F3", "#FF9800", "#E91E63", "#9C27B0"];
 
 const LoanAnalytics: React.FC = () => {
-
   const MetricCard: React.FC<{
     title: string;
     value: string | number;
@@ -76,13 +74,19 @@ const LoanAnalytics: React.FC = () => {
             </Typography>
             <Box display="flex" alignItems="center">
               {change >= 0 ? (
-                <TrendingUpIcon fontSize="small" sx={{ color: 'success.main', mr: 0.5 }} />
+                <TrendingUpIcon
+                  fontSize="small"
+                  sx={{ color: "success.main", mr: 0.5 }}
+                />
               ) : (
-                <TrendingDownIcon fontSize="small" sx={{ color: 'error.main', mr: 0.5 }} />
+                <TrendingDownIcon
+                  fontSize="small"
+                  sx={{ color: "error.main", mr: 0.5 }}
+                />
               )}
               <Typography
                 variant="body2"
-                sx={{ color: change >= 0 ? 'success.main' : 'error.main' }}
+                sx={{ color: change >= 0 ? "success.main" : "error.main" }}
               >
                 {Math.abs(change)}% from last month
               </Typography>
@@ -91,11 +95,11 @@ const LoanAnalytics: React.FC = () => {
           <Box
             sx={{
               backgroundColor: `${color}22`,
-              borderRadius: '50%',
+              borderRadius: "50%",
               p: 1,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             {icon}
@@ -106,10 +110,25 @@ const LoanAnalytics: React.FC = () => {
   );
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Typography variant="h4" gutterBottom fontWeight="bold">
+    <Box sx={{ flexGrow: 1, p: 2 }}>
+      <Typography
+        variant="h6"
+        component="h1"
+        gutterBottom
+        fontWeight="bold"
+        sx={{
+          borderBottom: "2px solid",
+          borderColor: "#C9E7CB",
+          paddingBottom: 2,
+          marginBottom: 3,
+          textTransform: "uppercase",
+          letterSpacing: 1.2,
+          color: "#007A33", // Example darker green
+        }}
+      >
         Loan Application Analytics
       </Typography>
+
       <Grid container spacing={3}>
         {/* Key Metrics */}
         <Grid item xs={12} sm={6} md={3}>
@@ -151,11 +170,25 @@ const LoanAnalytics: React.FC = () => {
 
         {/* Application Status Chart */}
         <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 2, height: 400 }}>
-            <Typography variant="h6" gutterBottom fontWeight="bold">
+          <Paper sx={{ p: 2, height: '100%' }}>
+            <Typography
+              variant="h6"
+              component="h1"
+              gutterBottom
+              fontWeight="bold"
+              sx={{
+                borderBottom: "2px solid",
+                borderColor: "#C9E7CB",
+                paddingBottom: 2,
+                marginBottom: 3,
+                textTransform: "uppercase",
+                letterSpacing: 1.2,
+                color: "#007A33", // Example darker green
+              }}
+            >
               Application Status
             </Typography>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height={400}>
               <PieChart>
                 <Pie
                   data={applicationStatusData}
@@ -171,7 +204,10 @@ const LoanAnalytics: React.FC = () => {
                   }
                 >
                   {applicationStatusData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -183,11 +219,25 @@ const LoanAnalytics: React.FC = () => {
 
         {/* Monthly Applications Chart */}
         <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 2, height: 400 }}>
-            <Typography variant="h6" gutterBottom fontWeight="bold">
+          <Paper sx={{ p: 2, height: '100%' }}>
+            <Typography
+              variant="h6"
+              component="h1"
+              gutterBottom
+              fontWeight="bold"
+              sx={{
+                borderBottom: "2px solid",
+                borderColor: "#C9E7CB",
+                paddingBottom: 2,
+                marginBottom: 3,
+                textTransform: "uppercase",
+                letterSpacing: 1.2,
+                color: "#007A33", // Example darker green
+              }}
+            >
               Monthly Applications & Approvals
             </Typography>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height={400}>
               <LineChart
                 data={monthlyApplicationsData}
                 margin={{
@@ -202,7 +252,12 @@ const LoanAnalytics: React.FC = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="applications" stroke={COLORS[0]} activeDot={{ r: 8 }} />
+                <Line
+                  type="monotone"
+                  dataKey="applications"
+                  stroke={COLORS[0]}
+                  activeDot={{ r: 8 }}
+                />
                 <Line type="monotone" dataKey="approvals" stroke={COLORS[1]} />
               </LineChart>
             </ResponsiveContainer>
@@ -211,11 +266,26 @@ const LoanAnalytics: React.FC = () => {
 
         {/* Loan Amount Distribution */}
         <Grid item xs={12}>
-          <Paper sx={{ p: 2, height: 400 }}>
-            <Typography variant="h6" gutterBottom fontWeight="bold">
+          <Paper sx={{ p: 2, height: '100%' }}>
+            <Typography
+              variant="h6"
+              component="h1"
+              gutterBottom
+              fontWeight="bold"
+              marginTop={5}
+              sx={{
+                borderBottom: "2px solid",
+                borderColor: "#C9E7CB",
+                paddingBottom: 2,
+                marginBottom: 3,
+                textTransform: "uppercase",
+                letterSpacing: 1.2,
+                color: "#007A33", // Example darker green
+              }}
+            >
               Loan Amount Distribution
             </Typography>
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height={400}>
               <BarChart
                 data={loanAmountData}
                 margin={{
@@ -232,7 +302,10 @@ const LoanAnalytics: React.FC = () => {
                 <Legend />
                 <Bar dataKey="count" fill={COLORS[4]}>
                   {loanAmountData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Bar>
               </BarChart>
@@ -241,17 +314,17 @@ const LoanAnalytics: React.FC = () => {
         </Grid>
 
         {/* Top Loan Purposes */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} mt={4}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="h6" gutterBottom fontWeight="bold">
               Top Loan Purposes
             </Typography>
             {[
-              { purpose: 'Home Improvement', percentage: 30 },
-              { purpose: 'Debt Consolidation', percentage: 25 },
-              { purpose: 'Business', percentage: 20 },
-              { purpose: 'Education', percentage: 15 },
-              { purpose: 'Other', percentage: 10 },
+              { purpose: "Home Improvement", percentage: 30 },
+              { purpose: "Debt Consolidation", percentage: 25 },
+              { purpose: "Business", percentage: 20 },
+              { purpose: "Education", percentage: 15 },
+              { purpose: "Other", percentage: 10 },
             ].map((item, index) => (
               <Box key={item.purpose} sx={{ mb: 2 }}>
                 <Box display="flex" justifyContent="space-between">
@@ -263,13 +336,13 @@ const LoanAnalytics: React.FC = () => {
                 <LinearProgress
                   variant="determinate"
                   value={item.percentage}
-                  sx={{ 
-                    height: 8, 
+                  sx={{
+                    height: 8,
                     borderRadius: 5,
                     backgroundColor: `${COLORS[index]}22`,
-                    '& .MuiLinearProgress-bar': {
+                    "& .MuiLinearProgress-bar": {
                       backgroundColor: COLORS[index],
-                    }
+                    },
                   }}
                 />
               </Box>
@@ -278,18 +351,46 @@ const LoanAnalytics: React.FC = () => {
         </Grid>
 
         {/* Recent Activity */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} mt={4}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="h6" gutterBottom fontWeight="bold">
               Recent Activity
             </Typography>
             {[
-              { action: 'Loan Approved', amount: '$15,000', applicant: 'John Doe', time: '2 hours ago' },
-              { action: 'New Application', amount: '$8,000', applicant: 'Jane Smith', time: '5 hours ago' },
-              { action: 'Loan Rejected', amount: '$25,000', applicant: 'Mike Johnson', time: '1 day ago' },
-              { action: 'Loan Disbursed', amount: '$12,000', applicant: 'Sarah Williams', time: '2 days ago' },
+              {
+                action: "Loan Approved",
+                amount: "$15,000",
+                applicant: "John Doe",
+                time: "2 hours ago",
+              },
+              {
+                action: "New Application",
+                amount: "$8,000",
+                applicant: "Jane Smith",
+                time: "5 hours ago",
+              },
+              {
+                action: "Loan Rejected",
+                amount: "$25,000",
+                applicant: "Mike Johnson",
+                time: "1 day ago",
+              },
+              {
+                action: "Loan Disbursed",
+                amount: "$12,000",
+                applicant: "Sarah Williams",
+                time: "2 days ago",
+              },
             ].map((item, index) => (
-              <Box key={index} sx={{ mb: 2, pb: 2, borderBottom: index < 3 ? 1 : 0, borderColor: 'divider' }}>
+              <Box
+                key={index}
+                sx={{
+                  mb: 2,
+                  pb: 2,
+                  borderBottom: index < 3 ? 1 : 0,
+                  borderColor: "divider",
+                }}
+              >
                 <Typography variant="subtitle2" fontWeight="bold">
                   {item.action}
                 </Typography>
