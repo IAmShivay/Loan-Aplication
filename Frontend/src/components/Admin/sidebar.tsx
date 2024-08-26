@@ -239,13 +239,12 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import ChatIcon from "@mui/icons-material/Chat";
 import MenuIcon from "@mui/icons-material/Menu";
-import Dashcard from "./Dashcard";
 import LoanApplicationTable from "./Applications/applications";
 import { useTheme } from "@mui/material/styles";
 import Avatar from "@mui/material/Avatar";
 import LoanAnalytics from "../Section/LoanAnalytics/loanAnalytics";
 import MyResponses from "../Section/LoanAnalytics/main";
-import CallsRequested from "./Dashcard";
+import CallsRequested from "./CallRequests";
 
 const drawerWidth = 240;
 
@@ -321,7 +320,7 @@ const Dashboard: React.FC = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState("Dashboard");
-  const [selectedComponent, setSelectedComponent] = useState<JSX.Element | null>(<Dashcard />);
+  const [selectedComponent, setSelectedComponent] = useState<JSX.Element | null>(<LoanAnalytics/>);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);

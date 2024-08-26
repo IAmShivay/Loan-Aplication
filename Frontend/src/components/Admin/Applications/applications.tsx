@@ -63,14 +63,10 @@ const statusOptions = [
   { value: "Progress", label: "In Progress", color: "#FFA726" },
   {
     value: "ReviewingDocuments",
-    label: "Reviewing Documents",
+    label: "Reviewing Docs",
     color: "#29B6F6",
   },
-  {
-    value: "ConditionallyApproved",
-    label: "Conditionally Approved",
-    color: "#66BB6A",
-  },
+  { value: "Loan Disbursed", label: "Loan Disbursed", color: "#009688" },
   { value: "PendingApproval", label: "Pending Approval", color: "#AB47BC" },
   { value: "Approved", label: "Approved", color: "#4CAF50" },
   { value: "Rejected", label: "Rejected", color: "#E53935" },
