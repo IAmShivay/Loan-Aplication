@@ -26,6 +26,8 @@ import MyResponses from "../Section/LoanAnalytics/main";
 import CallsRequested from "./CallRequests";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { ContactEmergency } from "@mui/icons-material";
+import ContactsTechnicalTeam from "../Section/contactUS/contactTechnical";
 const drawerWidth = 240;
 
 const ModernAppBar = styled(AppBar)(({ theme }) => ({
@@ -161,6 +163,12 @@ const Dashboard: React.FC = () => {
       icon: <ChatIcon />,
       component: <CallsRequested />,
       color: "#E91E63",
+    },
+    {
+      name: "Technical Team",
+      icon: <ContactEmergency />,
+      component: <ContactsTechnicalTeam />,
+      color: "#009688",
     },
   ];
 

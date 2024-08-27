@@ -25,6 +25,9 @@ import { useSelector } from "react-redux";
 import { logoutUser } from "../../app/auth/authSlice";
 import { showSnackbar } from "../../app/errors/errorSlice";
 import { useDispatch } from "react-redux";
+import Footer from "../Section/Footer/Footer.tsx";
+
+// Create a theme for consistent styling
 const theme = createTheme({
   palette: {
     primary: {
@@ -41,6 +44,12 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h4: {
+      fontWeight: 600,
+    },
+    body1: {
+      fontWeight: 400,
+    },
   },
   components: {
     MuiButton: {
@@ -58,11 +67,11 @@ const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderRadius: "15px",
-          transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+          borderRadius: "20px",
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
           "&:hover": {
             transform: "translateY(-5px)",
-            boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
+            boxShadow: "0 10px 20px rgba(0,0,0,0.2)",
           },
         },
       },
@@ -71,33 +80,29 @@ const theme = createTheme({
 });
 
 // Styled components
-
 const DashboardItem = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   display: "flex",
   flexDirection: "column",
   height: "100%",
-  transition: "all 0.3s ease",
-  "&:hover": {
-    transform: "translateY(-5px)",
-  },
+  transition: "transform 0.3s ease",
   background: theme.palette.background.paper,
+  boxShadow: theme.shadows[2],
 }));
 
 const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
-  height: 8,
-  borderRadius: 4,
+  height: 10,
+  borderRadius: 5,
   [`&.MuiLinearProgress-colorPrimary`]: {
-    backgroundColor: theme.palette.grey[300],
+    backgroundColor: theme.palette.grey[200],
   },
   [`& .MuiLinearProgress-bar`]: {
-    borderRadius: 4,
+    borderRadius: 5,
     backgroundColor: theme.palette.primary.main,
   },
 }));
 
 // Interfaces
-
 interface Loan {
   Bank: string;
   status: "in-progress" | "Approved" | "rejected";
@@ -107,7 +112,6 @@ interface Loan {
 }
 
 // LoanItem component
-
 const LoanItem: React.FC<any> = React.memo(
   ({ bank, status, amount, onRequestCall, onViewDetails }) => {
     const getLoanProgress = (status: string): number => {
@@ -124,7 +128,6 @@ const LoanItem: React.FC<any> = React.memo(
     };
 
     // Loan Progress
-
     const loanProgress = getLoanProgress(status);
 
     const getStatusColor = (status: string) => {
@@ -141,7 +144,7 @@ const LoanItem: React.FC<any> = React.memo(
     };
 
     return (
-      <DashboardItem elevation={1}>
+      <DashboardItem elevation={3}>
         <Box display="flex" alignItems="center" mb={2}>
           <AccountBalance color="primary" sx={{ fontSize: 32, mr: 1 }} />
           <Typography variant="h6" component="h2">
@@ -202,7 +205,6 @@ const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<any>();
   const [data, setData] = useState<Loan[]>([]);
   const { user } = useSelector((state: any) => state.verify);
-  console.log(user);
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
 
   useEffect(() => {
@@ -212,8 +214,6 @@ const UserDashboard: React.FC = () => {
           "http://localhost:3000/api/v1/details"
         );
 
-        console.log(response.data); // Log the response data
-
         // Handle data based on actual response structure
         if (Array.isArray(response.data.data)) {
           setData(response.data.data); // Set the data array
@@ -221,7 +221,6 @@ const UserDashboard: React.FC = () => {
           console.error("API response data is not an array", response.data);
         }
       } catch (error) {
-        // setError(error); // Handle any errors
         console.log(error);
       }
     };
@@ -242,15 +241,17 @@ const UserDashboard: React.FC = () => {
   const handleCloseDetails = () => {
     setSelectedLoan(null);
   };
+
   const handleLogout = () => {
     dispatch(logoutUser());
     dispatch(
       showSnackbar({
-        message: "You have been logged out sucessfully.",
-        severity: "error",
+        message: "You have been logged out successfully.",
+        severity: "success",
       })
     );
   };
+
   return (
     <>
       <Header />
@@ -265,6 +266,7 @@ const UserDashboard: React.FC = () => {
                 borderRadius: 4,
                 backgroundColor: theme.palette.background.paper,
                 color: theme.palette.text.primary,
+                boxShadow: theme.shadows[3],
               }}
             >
               <Box
@@ -278,14 +280,9 @@ const UserDashboard: React.FC = () => {
                   <Typography
                     variant="h4"
                     component="h1"
-                    fontWeight="bold"
-                    gutterBottom
                     color="primary"
                   >
-                    Welcome back, {user.Name}! 😊{" "}
-                  </Typography>
-                  <Typography variant="subtitle1" color="text.secondary">
-                    Loan Application Dashboard
+                    Welcome back, {user.Name}! 😊
                   </Typography>
                 </Box>
                 <Avatar
@@ -293,7 +290,7 @@ const UserDashboard: React.FC = () => {
                   sx={{
                     width: 80,
                     height: 80,
-                    border: `2px solid ₹{theme.palette.primary.main}`,
+                    border: `2px solid ${theme.palette.primary.main}`,
                   }}
                 />
               </Box>
@@ -301,7 +298,7 @@ const UserDashboard: React.FC = () => {
 
             <Grid container spacing={3}>
               {data.map((loan, index) => (
-                <Grid item xs={12} sm={6} md={3} key={index}>
+                <Grid item xs={12} sm={6} md={4} key={index}>
                   <LoanItem
                     bank={loan.Bank}
                     status={loan.status}
@@ -343,7 +340,7 @@ const UserDashboard: React.FC = () => {
               },
             }}
           >
-            <DialogTitle sx={{ fontWeight: "bold", color: "primary.main" }}>
+            <DialogTitle sx={{ fontWeight: "bold", color: theme.palette.primary.main }}>
               {selectedLoan?.Bank} Loan Details
             </DialogTitle>
             <DialogContent>
@@ -412,6 +409,7 @@ const UserDashboard: React.FC = () => {
             </DialogActions>
           </Dialog>
         </Box>
+        <Footer />
       </ThemeProvider>
     </>
   );
