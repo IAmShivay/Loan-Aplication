@@ -28,6 +28,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ContactEmergency } from "@mui/icons-material";
 import ContactsTechnicalTeam from "../Section/contactUS/contactTechnical";
+import { StudyAndPayLogo } from "../Section/Header/Header";
 const drawerWidth = 240;
 
 const ModernAppBar = styled(AppBar)(({ theme }) => ({
@@ -104,9 +105,7 @@ const Dashboard: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState("Dashboard");
   const [selectedComponent, setSelectedComponent] =
     useState<JSX.Element | null>(<LoanAnalytics />);
-  const {user} = useSelector(
-    (state: any) => state.verify
-  );
+  const { user } = useSelector((state: any) => state.verify);
   const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
@@ -182,7 +181,9 @@ const Dashboard: React.FC = () => {
         backgroundColor: "#E9F5EA",
       }}
     >
-      <List>
+      <StudyAndPayLogo size="small" />
+      <List sx={{ paddingTop: "20px" }}>
+        {" "}
         {menuItems.map((item) => (
           <ColorfulListItemButton
             key={item.name}
@@ -211,7 +212,10 @@ const Dashboard: React.FC = () => {
       <Profile
         name={`${user.firstName} ${user.lastName}`}
         email={user.email}
-        avatarUrl={user.avatarUrl || "https://th.bing.com/th/id/OIP.QZFpakBNIoztU2ImGbkgHwHaLH?rs=1&pid=ImgDetMain"} 
+        avatarUrl={
+          user.avatarUrl ||
+          "https://th.bing.com/th/id/OIP.QZFpakBNIoztU2ImGbkgHwHaLH?rs=1&pid=ImgDetMain"
+        }
       />
     </Box>
   );

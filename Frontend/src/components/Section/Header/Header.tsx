@@ -26,7 +26,7 @@ import { motion } from "framer-motion";
 import { logoutUser } from "../../../app/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { showSnackbar } from "../../../app/errors/errorSlice";
-const StudyAndPayLogo = ({ variant = "default", size = "small" }) => {
+export const StudyAndPayLogo = ({ variant = "default", size = "small" }) => {
   const getSize = () => {
     switch (size) {
       case "small":
