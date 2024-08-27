@@ -288,7 +288,7 @@ const LoanApplicationTable: React.FC = () => {
                       onChange={(e) =>
                         handleCommentChange(app.user, e.target.value)
                       }
-                      disabled={!!app.comment || app.isSubmitted}
+                      disabled={app.status === "Loan Disbursed" || app.isSubmitted}
                       error={!!errors[app.user]}
                       helperText={errors[app.user]}
                       variant="outlined"
@@ -425,7 +425,7 @@ const LoanApplicationTable: React.FC = () => {
               required
               error={!!errors[app.user]}
               helperText={errors[app.user] || "Comment is required"}
-              disabled={!!app.comment || app.isSubmitted}
+              disabled={app.status === "Loan Disbursed" || app.isSubmitted}
               label="Comment"
             />
             <Typography variant="body1" color="text.secondary">

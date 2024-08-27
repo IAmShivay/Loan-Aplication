@@ -29,6 +29,9 @@ import { useSelector } from "react-redux";
 import { ContactEmergency } from "@mui/icons-material";
 import ContactsTechnicalTeam from "../Section/contactUS/contactTechnical";
 import { StudyAndPayLogo } from "../Section/Header/Header";
+import { useDispatch } from "react-redux";
+import { logoutUser } from "../../app/auth/authSlice";
+import { showSnackbar } from "../../app/errors/errorSlice";
 const drawerWidth = 240;
 
 const ModernAppBar = styled(AppBar)(({ theme }) => ({
@@ -99,6 +102,7 @@ const Profile: React.FC<ProfileProps> = ({ name, email, avatarUrl }) => {
 };
 
 const Dashboard: React.FC = () => {
+  const dispatch = useDispatch<any>();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -129,8 +133,13 @@ const Dashboard: React.FC = () => {
   };
 
   const handleLogout = () => {
-    console.log("Logout clicked");
-    // Add your logout logic here
+    dispatch(logoutUser());
+    dispatch(
+      showSnackbar({
+        message: "You have been logged out successfully.",
+        severity: "success",
+      })
+    );
   };
 
   const handleEditProfile = () => {
@@ -182,8 +191,25 @@ const Dashboard: React.FC = () => {
       }}
     >
       <StudyAndPayLogo size="small" />
+
       <List sx={{ paddingTop: "20px" }}>
-        {" "}
+        <Typography
+          variant="h6"
+          component="h1"
+          gutterBottom
+          fontWeight="bold"
+          sx={{
+            borderBottom: "1px solid",
+            borderColor: "#C9E7CB",
+            paddingBottom: 1,
+            marginBottom: 1,
+            textTransform: "uppercase",
+            letterSpacing: 1,
+            color: "#007A33", // Example darker green
+          }}
+        >
+          {" "}
+        </Typography>{" "}
         {menuItems.map((item) => (
           <ColorfulListItemButton
             key={item.name}
@@ -209,6 +235,40 @@ const Dashboard: React.FC = () => {
           </ColorfulListItemButton>
         ))}
       </List>
+      {/* <Typography
+        variant="h6"
+        component="h1"
+        gutterBottom
+        fontWeight="bold"
+        sx={{
+          borderBottom: "1px solid",
+          borderColor: "#C9E7CB",
+          paddingBottom: 1,
+          marginBottom: 1,
+          textTransform: "uppercase",
+          letterSpacing: 1,
+          color: "#007A33", // Example darker green
+        }}
+      >
+        Analytics
+      </Typography>
+      <Typography
+        variant="h6"
+        component="h1"
+        gutterBottom
+        fontWeight="bold"
+        sx={{
+          borderBottom: "2px solid",
+          borderColor: "#C9E7CB",
+          paddingBottom: 2,
+          marginBottom: 3,
+          textTransform: "uppercase",
+          letterSpacing: 1.2,
+          color: "#007A33", // Example darker green
+        }}
+      >
+        Banks{" "}
+      </Typography> */}
       <Profile
         name={`${user.firstName} ${user.lastName}`}
         email={user.email}
