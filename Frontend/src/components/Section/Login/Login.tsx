@@ -1,5 +1,3 @@
-
-
 import React, { useState, ChangeEvent } from "react";
 import {
   TextField,
@@ -146,9 +144,9 @@ const LoginPage: React.FC = () => {
   };
 
   if (isAuthenticated) {
-    if (user?.role === "admin" && user?.isVerified === true) {
+    if (user?.role === "Lending Partner" && user?.isVerified === true) {
       return <Navigate to="/app/v1/admin/dashboard" replace />;
-    } else if (user.role === "admin" && user?.isVerified === false) {
+    } else if (user.role === "Lending Partner" && user?.isVerified === false) {
       {
         dispatch(
           showSnackbar({
@@ -157,9 +155,10 @@ const LoginPage: React.FC = () => {
           })
         );
       }
-    } else if (user.role === "user") {
+    } else if (user.role === "loanApplicant") {
       return <Navigate to="/app/v1/user/dashboard" replace />;
-    }}
+    }
+  }
 
   return (
     <ThemeProvider theme={theme}>
