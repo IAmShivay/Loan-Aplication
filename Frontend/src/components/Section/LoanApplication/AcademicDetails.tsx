@@ -21,11 +21,13 @@ import { updateField } from "../../../app/LoanAppliation/FormSlice";
 import SchoolIcon from "@mui/icons-material/School";
 import GradeIcon from "@mui/icons-material/Grade";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { universities } from "../../constants/universities";
+import { colleges } from "../../constants/colleges";
 
-const universities = ["University A", "University B", "University C"];
-const colleges = ["College X", "College Y", "College Z"];
-
-const AcademicDetails: React.FC<{ nextStep: () => void; prevStep: () => void }> = ({ nextStep, prevStep }) => {
+const AcademicDetails: React.FC<{
+  nextStep: () => void;
+  prevStep: () => void;
+}> = ({ nextStep, prevStep }) => {
   const dispatch = useDispatch();
   const form = useSelector((state: RootState) => state.form);
 
@@ -40,10 +42,14 @@ const AcademicDetails: React.FC<{ nextStep: () => void; prevStep: () => void }> 
 
   const validateForm = () => {
     const newErrors = {
-      tenthMarks: form.tenthMarks.trim() === "" || isNaN(parseFloat(form.tenthMarks)),
-      twelfthMarks: form.twelfthMarks.trim() === "" || isNaN(parseFloat(form.twelfthMarks)),
-      percentage: form.percentage.trim() === "" || isNaN(parseFloat(form.percentage)),
-      bachelorCgpa: form.bachelorCgpa.trim() === "" || isNaN(parseFloat(form.bachelorCgpa)),
+      tenthMarks:
+        form.tenthMarks.trim() === "" || isNaN(parseFloat(form.tenthMarks)),
+      twelfthMarks:
+        form.twelfthMarks.trim() === "" || isNaN(parseFloat(form.twelfthMarks)),
+      percentage:
+        form.percentage.trim() === "" || isNaN(parseFloat(form.percentage)),
+      bachelorCgpa:
+        form.bachelorCgpa.trim() === "" || isNaN(parseFloat(form.bachelorCgpa)),
       university: form.university.trim() === "",
       college: form.college.trim() === "",
     };
@@ -57,15 +63,14 @@ const AcademicDetails: React.FC<{ nextStep: () => void; prevStep: () => void }> 
     }
   };
 
-  const handleChange =
-    (field: string) => (e:any) => {
-      const value = e.target.value;
-      dispatch(updateField({ [field]: value }));
-      setErrors((prev) => ({
-        ...prev,
-        [field]: value.trim() === "" || isNaN(parseFloat(value)),
-      }));
-    };
+  const handleChange = (field: string) => (e: any) => {
+    const value = e.target.value;
+    dispatch(updateField({ [field]: value }));
+    setErrors((prev) => ({
+      ...prev,
+      [field]: value.trim() === "" || isNaN(parseFloat(value)),
+    }));
+  };
 
   return (
     <Container maxWidth="md">
@@ -89,12 +94,20 @@ const AcademicDetails: React.FC<{ nextStep: () => void; prevStep: () => void }> 
         <Divider sx={{ mb: 4 }} />
         <Grid container spacing={4}>
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold", color: "#388e3c" }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{ fontWeight: "bold", color: "#388e3c" }}
+            >
               School Information
             </Typography>
             {[
               { label: "10th Marks", field: "tenthMarks", icon: <GradeIcon /> },
-              { label: "12th Marks", field: "twelfthMarks", icon: <GradeIcon /> },
+              {
+                label: "12th Marks",
+                field: "twelfthMarks",
+                icon: <GradeIcon />,
+              },
             ].map((item, index) => (
               <motion.div
                 key={item.field}
@@ -109,22 +122,38 @@ const AcademicDetails: React.FC<{ nextStep: () => void; prevStep: () => void }> 
                   value={form[item.field as keyof typeof form]}
                   onChange={handleChange(item.field)}
                   error={errors[item.field as keyof typeof errors]}
-                  helperText={errors[item.field as keyof typeof errors] ? `${item.label} is required` : ""}
+                  helperText={
+                    errors[item.field as keyof typeof errors]
+                      ? `${item.label} is required`
+                      : ""
+                  }
                   sx={{ mb: 2, backgroundColor: "white" }}
                   InputProps={{
-                    startAdornment: <InputAdornment position="start">{item.icon}</InputAdornment>,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        {item.icon}
+                      </InputAdornment>
+                    ),
                   }}
                 />
               </motion.div>
             ))}
           </Grid>
           <Grid item xs={12} md={6}>
-            <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold", color: "#388e3c" }}>
+            <Typography
+              variant="h6"
+              gutterBottom
+              sx={{ fontWeight: "bold", color: "#388e3c" }}
+            >
               College Information
             </Typography>
             {[
               { label: "Percentage", field: "percentage", icon: <GradeIcon /> },
-              { label: "Bachelor's CGPA", field: "bachelorCgpa", icon: <SchoolIcon /> },
+              {
+                label: "Bachelor's CGPA",
+                field: "bachelorCgpa",
+                icon: <SchoolIcon />,
+              },
             ].map((item, index) => (
               <motion.div
                 key={item.field}
@@ -139,10 +168,18 @@ const AcademicDetails: React.FC<{ nextStep: () => void; prevStep: () => void }> 
                   value={form[item.field as keyof typeof form]}
                   onChange={handleChange(item.field)}
                   error={errors[item.field as keyof typeof errors]}
-                  helperText={errors[item.field as keyof typeof errors] ? `${item.label} is required` : ""}
+                  helperText={
+                    errors[item.field as keyof typeof errors]
+                      ? `${item.label} is required`
+                      : ""
+                  }
                   sx={{ mb: 2, backgroundColor: "white" }}
                   InputProps={{
-                    startAdornment: <InputAdornment position="start">{item.icon}</InputAdornment>,
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        {item.icon}
+                      </InputAdornment>
+                    ),
                   }}
                 />
               </motion.div>
@@ -150,7 +187,11 @@ const AcademicDetails: React.FC<{ nextStep: () => void; prevStep: () => void }> 
           </Grid>
         </Grid>
         <Box mt={4}>
-          <Typography variant="h6" gutterBottom sx={{ fontWeight: "bold", color: "#388e3c" }}>
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{ fontWeight: "bold", color: "#388e3c" }}
+          >
             Institution Details
           </Typography>
           <Grid container spacing={3}>
@@ -163,6 +204,7 @@ const AcademicDetails: React.FC<{ nextStep: () => void; prevStep: () => void }> 
                 <FormControl fullWidth>
                   <InputLabel>University</InputLabel>
                   <Select
+                    variant="standard"
                     value={form.university}
                     onChange={handleChange("university")}
                     error={errors.university}
@@ -190,6 +232,7 @@ const AcademicDetails: React.FC<{ nextStep: () => void; prevStep: () => void }> 
                 <FormControl fullWidth>
                   <InputLabel>College</InputLabel>
                   <Select
+                    variant="standard"
                     value={form.college}
                     onChange={handleChange("college")}
                     error={errors.college}
