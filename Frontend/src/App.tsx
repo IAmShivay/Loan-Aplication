@@ -17,6 +17,7 @@ import PrivacyAndTermsComponent from "./components/privacy/privacy.tsx";
 import TermsAndConditions from "./components/privacy/terms-condition.tsx";
 import PrivacyPolicy from "./components/privacy/privacy-policy.tsx";
 import ReturnRefundPolicy from "./components/privacy/return-policy.tsx";
+import NotFound from "./notFound.tsx";
 
 const LoanApplicationForm = lazy(
   () => import("./components/Section/LoanApplication/Main.tsx")
@@ -85,6 +86,7 @@ const GenralRoute: React.FC = () => (
       <Route path="privacy-policy" element={<PrivacyPolicy />} />
       <Route path="refund-policy" element={<ReturnRefundPolicy />} />
       <Route path="faq" element={<FAQSection />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
     <Footer />
   </React.Fragment>
@@ -96,6 +98,7 @@ const PublicRoute: React.FC = () => (
     <Routes>
       <Route path="register" element={<RegisterPage />} />
       <Route path="login" element={<LoginPage />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
     <Footer />
   </React.Fragment>
@@ -117,7 +120,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   return (
     <React.Fragment>
       <Routes>
-        {user?.role  === "lendingPartner" ? (
+        {user?.role === "lendingPartner" ? (
           <Route path="/admin/dashboard" element={<Main />} />
         ) : (
           <Route path="/user/dashboard" element={<UserDashboard />} />
@@ -125,7 +128,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
         <Route path="/user/credit-report" element={<CreditScoreComponent />} />
         <Route path="/user/profile" element={<ProfileComponent />} />
 
-        <Route path="*" element={<Navigate to="/user/login" />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </React.Fragment>
   );
