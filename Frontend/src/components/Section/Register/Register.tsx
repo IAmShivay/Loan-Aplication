@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   TextField,
   Button,
@@ -18,7 +18,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink, Navigate } from "react-router-dom";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../../app/auth/authSlice";
@@ -28,7 +28,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import PersonIcon from "@mui/icons-material/Person";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-
+import { showSnackbar } from "../../../app/errors/errorSlice";
 const theme = createTheme({
   palette: {
     primary: {
@@ -66,13 +66,11 @@ const theme = createTheme({
 
 const RegisterPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const [submitting, setSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
+  const { isAuthenticated, user }: any = useSelector(
+    (state: RootState) => state.verify
   );
-  const userRole = useSelector((state: RootState) => state.auth.role);
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   interface FormState {
@@ -126,6 +124,15 @@ const RegisterPage: React.FC = () => {
       setSubmitting(true);
       try {
         await dispatch(registerUser(formData));
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        dispatch(
+          showSnackbar({
+            message: "You have been sucessfully loggedin.",
+            severity: "info",
+          })
+        );
       } catch (err) {
         console.error(err);
         setErrors({ email: "Registration failed. Please try again." });
@@ -134,17 +141,22 @@ const RegisterPage: React.FC = () => {
       }
     }
   };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      if (userRole === "admin") {
-        navigate("/app/v1/admin/dashboard");
-      } else if (userRole === "user") {
-        navigate("/app/v1/user/dashboard");
+  if (isAuthenticated) {
+    if (user?.role === "lendingPartner" && user?.isVerified === true) {
+      return <Navigate to="/app/v1/admin/dashboard" replace />;
+    } else if (user?.role === "lendingPartner" && user?.isVerified === false) {
+      {
+        dispatch(
+          showSnackbar({
+            message: "Please wait while we verify your account.",
+            severity: "warning",
+          })
+        );
       }
+    } else if (user.role === "loanApplicant") {
+      return <Navigate to="/app/v1/user/dashboard" replace />;
     }
-  }, [isAuthenticated, userRole, navigate]);
-
+  }
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

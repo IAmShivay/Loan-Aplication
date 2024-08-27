@@ -59,6 +59,7 @@ export const registerUser = createAsyncThunk(
   async (credentials: Credentials, thunkAPI) => {
     try {
       const data = await Register(credentials);
+      saveToken(data?.token);
       return data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data);

@@ -144,9 +144,9 @@ const LoginPage: React.FC = () => {
   };
 
   if (isAuthenticated) {
-    if (user?.role === "Lending Partner" && user?.isVerified === true) {
+    if (user?.role === "lendingPartner" && user?.isVerified === true) {
       return <Navigate to="/app/v1/admin/dashboard" replace />;
-    } else if (user.role === "Lending Partner" && user?.isVerified === false) {
+    } else if (user.role === "lendingPartner" && user?.isVerified === false) {
       {
         dispatch(
           showSnackbar({

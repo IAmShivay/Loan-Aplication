@@ -117,7 +117,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   return (
     <React.Fragment>
       <Routes>
-        {user?.role  === "Lending Partner" ? (
+        {user?.role  === "lendingPartner" ? (
           <Route path="/admin/dashboard" element={<Main />} />
         ) : (
           <Route path="/user/dashboard" element={<UserDashboard />} />
