@@ -146,12 +146,20 @@ const LoginPage: React.FC = () => {
   };
 
   if (isAuthenticated) {
-    if (user.role === "admin") {
+    if (user?.role === "admin" && user?.isVerified === true) {
       return <Navigate to="/app/v1/admin/dashboard" replace />;
+    } else if (user.role === "admin" && user?.isVerified === false) {
+      {
+        dispatch(
+          showSnackbar({
+            message: "Please wait while we verify your account.",
+            severity: "warning",
+          })
+        );
+      }
     } else if (user.role === "user") {
       return <Navigate to="/app/v1/user/dashboard" replace />;
-    }
-  }
+    }}
 
   return (
     <ThemeProvider theme={theme}>

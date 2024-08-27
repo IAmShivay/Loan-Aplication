@@ -203,7 +203,7 @@ const LoanAnalytics: React.FC = () => {
                     `${name} ${(percent * 100).toFixed(0)}%`
                   }
                 >
-                  {applicationStatusData.map((entry, index) => (
+                  {applicationStatusData.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}
@@ -301,7 +301,7 @@ const LoanAnalytics: React.FC = () => {
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="count" fill={COLORS[4]}>
-                  {loanAmountData.map((entry, index) => (
+                  {loanAmountData.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}

@@ -239,7 +239,8 @@ const CallsRequested: React.FC = () => {
                       `${name} ${(percent * 100).toFixed(0)}%`
                     }
                   >
-                    {callRequestsData.map((entry, index) => (
+                    {callRequestsData.map((_, index) => (
+                      
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
@@ -290,7 +291,7 @@ const CallsRequested: React.FC = () => {
                   <YAxis />
                   <Tooltip />
                   <Bar dataKey="requests" fill={COLORS[4]}>
-                    {dailyRequestsData.map((entry, index) => (
+                    {dailyRequestsData.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}

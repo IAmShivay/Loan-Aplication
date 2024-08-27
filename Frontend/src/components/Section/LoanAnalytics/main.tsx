@@ -231,7 +231,7 @@ const MyResponses: React.FC = () => {
                       `${name} ${(percent * 100).toFixed(0)}%`
                     }
                   >
-                    {responseData.map((entry, index) => (
+                    {responseData.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
@@ -282,7 +282,7 @@ const MyResponses: React.FC = () => {
                   <YAxis />
                   <Tooltip />
                   <Bar dataKey="avgTime" fill={COLORS[4]}>
-                    {responseTimeData.map((entry, index) => (
+                    {responseTimeData.map((_, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
