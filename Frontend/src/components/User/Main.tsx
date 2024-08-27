@@ -22,6 +22,9 @@ import { styled } from "@mui/system";
 import axiosInstance from "../apiAxios/axiosInstance";
 import Header from "../../components/Section/Header/Header.tsx";
 import { useSelector } from "react-redux";
+import { logoutUser } from "../../app/auth/authSlice";
+import { showSnackbar } from "../../app/errors/errorSlice";
+import { useDispatch } from "react-redux";
 const theme = createTheme({
   palette: {
     primary: {
@@ -196,6 +199,7 @@ const LoanItem: React.FC<any> = React.memo(
 );
 
 const UserDashboard: React.FC = () => {
+  const dispatch = useDispatch<any>();
   const [data, setData] = useState<Loan[]>([]);
   const { user } = useSelector((state: any) => state.verify);
   console.log(user);
@@ -238,7 +242,15 @@ const UserDashboard: React.FC = () => {
   const handleCloseDetails = () => {
     setSelectedLoan(null);
   };
-
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    dispatch(
+      showSnackbar({
+        message: "You have been logged out sucessfully.",
+        severity: "error",
+      })
+    );
+  };
   return (
     <>
       <Header />
@@ -277,7 +289,7 @@ const UserDashboard: React.FC = () => {
                   </Typography>
                 </Box>
                 <Avatar
-                src="https://th.bing.com/th/id/OIP.sQITeQsafh6osAKTB25AMgHaFj?w=247&h=186&c=7&r=0&o=5&pid=1.7"
+                  src="https://th.bing.com/th/id/OIP.sQITeQsafh6osAKTB25AMgHaFj?w=247&h=186&c=7&r=0&o=5&pid=1.7"
                   sx={{
                     width: 80,
                     height: 80,
@@ -314,6 +326,7 @@ const UserDashboard: React.FC = () => {
                   fontWeight: "bold",
                   width: { xs: "100%", sm: "auto" },
                 }}
+                onClick={handleLogout}
               >
                 Logout
               </Button>
