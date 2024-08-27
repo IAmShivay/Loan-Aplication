@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import {
   AppBar,
@@ -26,6 +25,7 @@ import LoanAnalytics from "../Section/LoanAnalytics/loanAnalytics";
 import MyResponses from "../Section/LoanAnalytics/main";
 import CallsRequested from "./CallRequests";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 const drawerWidth = 240;
 
 const ModernAppBar = styled(AppBar)(({ theme }) => ({
@@ -102,7 +102,10 @@ const Dashboard: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState("Dashboard");
   const [selectedComponent, setSelectedComponent] =
     useState<JSX.Element | null>(<LoanAnalytics />);
-    const navigate = useNavigate();
+  const {user} = useSelector(
+    (state: any) => state.verify
+  );
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -130,7 +133,7 @@ const Dashboard: React.FC = () => {
   };
 
   const handleEditProfile = () => {
-    navigate('/app/v1/user/profile');
+    navigate("/app/v1/user/profile");
     // Add your edit profile logic here
   };
 
@@ -198,16 +201,22 @@ const Dashboard: React.FC = () => {
         ))}
       </List>
       <Profile
-        name="John Doe"
-        email="john.doe@example.com"
-        avatarUrl="https://via.placeholder.com/60"
+        name={`${user.firstName} ${user.lastName}`}
+        email={user.email}
+        avatarUrl={user.avatarUrl || "https://th.bing.com/th/id/OIP.QZFpakBNIoztU2ImGbkgHwHaLH?rs=1&pid=ImgDetMain"} 
       />
     </Box>
   );
 
   return (
-    <Box  sx={{ display: "flex" }}>
-      <ModernAppBar sx={{ backgroundColor: "#E9F5EA",borderBottom: '1px solid #B0BEC5' }}>
+    <Box sx={{ display: "flex" }}>
+      <ModernAppBar
+        sx={{
+          backgroundColor: "#E9F5EA",
+          borderBottom: "1px solid #B0BEC5",
+          justifyItems: "center",
+        }}
+      >
         <Toolbar>
           {isMobile && (
             <IconButton
@@ -225,12 +234,14 @@ const Dashboard: React.FC = () => {
             noWrap
             component="div"
             sx={{ flexGrow: 1, height: "10vh" }}
-          >
-          </Typography>
+          ></Typography>
           <Button
             variant="contained"
             sx={{
               margin: 1,
+              padding: "4px 8px", // Smaller padding
+              fontSize: "0.70rem", // Smaller font size
+              minWidth: "auto", // Remove default minWidth to allow the button to shrink
               backgroundColor: "#4CAF50", // Primary green
               color: "#FFFFFF",
               borderRadius: 2,
@@ -242,10 +253,14 @@ const Dashboard: React.FC = () => {
           >
             Visit Site
           </Button>
+
           <Button
             variant="contained"
             sx={{
               margin: 1,
+              padding: "4px 8px", // Smaller padding
+              fontSize: "0.70rem", // Smaller font size
+              minWidth: "auto", // Remove default minWidth to allow the button to shrink
               backgroundColor: "#009688", // Light green
               color: "#FFFFFF",
               borderRadius: 2,
@@ -257,10 +272,14 @@ const Dashboard: React.FC = () => {
           >
             Edit Profile
           </Button>
+
           <Button
             variant="contained"
             sx={{
               margin: 1,
+              padding: "4px 8px", // Smaller padding
+              fontSize: "0.70rem", // Smaller font size
+              minWidth: "auto", // Remove default minWidth to allow the button to shrink
               backgroundColor: "#E53935", // Red for logout
               color: "#FFFFFF",
               borderRadius: 2,

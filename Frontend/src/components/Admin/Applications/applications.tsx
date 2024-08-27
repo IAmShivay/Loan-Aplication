@@ -200,144 +200,181 @@ const LoanApplicationTable: React.FC = () => {
   };
 
   const renderDesktopView = () => (
-    <TableContainer
-      component={Paper}
-      elevation={3}
-      sx={{ borderRadius: 2, overflow: "hidden" }}
-    >
-      <Table>
-        <TableHead>
-          <TableRow sx={{ backgroundColor: "#4CAF50" }}>
-            <TableCell sx={{ color: "white" }}>ID</TableCell>
-            <TableCell sx={{ color: "white" }}>Name</TableCell>
-            <TableCell sx={{ color: "white" }}>Status</TableCell>
-            <TableCell sx={{ color: "white" }}>Bank</TableCell>
-            <TableCell sx={{ color: "white" }}>Actions</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {applications.map((app) => (
-            <TableRow
-              key={app.user}
-              sx={{
-                "&:nth-of-type(odd)": {
-                  backgroundColor: "#E8F5E9",
-                },
-              }}
-            >
-              <TableCell>{app.user}</TableCell>
-              <TableCell>{app.name}</TableCell>
-              <TableCell>
-                <Select
-                  value={app.status}
-                  onChange={(e) => handleStatusChange(app.user, e)}
-                  size="small"
-                  sx={{
-                    borderRadius: "10px",
-                    backgroundColor: getStatusColor(app.status),
-                    color: "white",
-                    "&:before": { borderColor: "white" },
-                    "&:after": { borderColor: "white" },
-                    "& .MuiSvgIcon-root": { color: "white" },
-                  }}
-                >
-                  {statusOptions.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </TableCell>
-              <TableCell>
-                <Typography variant="body1">{app.Bank}</Typography>
-              </TableCell>
-              <TableCell>
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    gap: 1,
-                    flexWrap: "wrap",
-                  }}
-                >
-                  <TextField
-                    required
-                    id={`comment-${app.user}`}
-                    label="Add Comments"
-                    value={app.comment}
-                    onChange={(e) =>
-                      handleCommentChange(app.user, e.target.value)
-                    }
-                    disabled={app.isSubmitted}
-                    error={!!errors[app.user]}
-                    helperText={errors[app.user]}
-                    variant="outlined"
+    <>
+      {" "}
+      <Typography
+        variant="h6"
+        component="h1"
+        gutterBottom
+        fontWeight="bold"
+        sx={{
+          borderBottom: "2px solid",
+          borderColor: "#C9E7CB",
+          paddingBottom: 2,
+          marginBottom: 3,
+          textTransform: "uppercase",
+          letterSpacing: 1.2,
+          color: "#007A33", // Example darker green
+        }}
+      >
+        Total Applications{" "}
+      </Typography>
+      <TableContainer
+        component={Paper}
+        elevation={3}
+        sx={{ borderRadius: 2, overflow: "hidden" }}
+      >
+        <Table>
+          <TableHead>
+            <TableRow sx={{ backgroundColor: "#4CAF50" }}>
+              <TableCell sx={{ color: "white" }}>ID</TableCell>
+              <TableCell sx={{ color: "white" }}>Name</TableCell>
+              <TableCell sx={{ color: "white" }}>Status</TableCell>
+              <TableCell sx={{ color: "white" }}>Bank</TableCell>
+              <TableCell sx={{ color: "white" }}>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {applications.map((app) => (
+              <TableRow
+                key={app.user}
+                sx={{
+                  "&:nth-of-type(odd)": {
+                    backgroundColor: "#E8F5E9",
+                  },
+                }}
+              >
+                <TableCell>{app.user}</TableCell>
+                <TableCell>{app.name}</TableCell>
+                <TableCell>
+                  <Select
+                    value={app.status}
+                    onChange={(e) => handleStatusChange(app.user, e)}
                     size="small"
-                    sx={{ flexGrow: 1, minWidth: "100px" }}
-                  />
+                    sx={{
+                      borderRadius: "10px",
+                      backgroundColor: getStatusColor(app.status),
+                      color: "white",
+                      "&:before": { borderColor: "white" },
+                      "&:after": { borderColor: "white" },
+                      "& .MuiSvgIcon-root": { color: "white" },
+                    }}
+                  >
+                    {statusOptions.map((option) => (
+                      <MenuItem key={option.value} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="body1">{app.Bank}</Typography>
+                </TableCell>
+                <TableCell>
                   <Box
                     sx={{
                       display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
                       gap: 1,
                       flexWrap: "wrap",
-                      alignItems: "center",
                     }}
                   >
-                    <IconButton
-                      color="primary"
-                      onClick={() => handleSubmit(app.user)}
+                    <TextField
+                      required
+                      id={`comment-${app.user}`}
+                      label="Add Comments"
+                      value={app.comment}
+                      onChange={(e) =>
+                        handleCommentChange(app.user, e.target.value)
+                      }
                       disabled={app.isSubmitted}
+                      error={!!errors[app.user]}
+                      helperText={errors[app.user]}
+                      variant="outlined"
+                      size="small"
+                      sx={{ flexGrow: 1, minWidth: "100px" }}
+                    />
+                    <Box
                       sx={{
-                        borderRadius: "50%",
-                        padding: 1,
+                        display: "flex",
+                        gap: 1,
+                        flexWrap: "wrap",
+                        alignItems: "center",
                       }}
                     >
-                      <SendIcon />
-                    </IconButton>
-                    <IconButton
-                      color="info"
-                      onClick={() => handleViewClick(app)}
-                      sx={{
-                        borderRadius: "50%",
-                        padding: 1,
-                      }}
-                    >
-                      <VisibilityIcon />
-                    </IconButton>
-                    <Tooltip title="Chat Now">
-                      <Button
-                        variant="contained"
-                        onClick={() => handleChatNowClick(app)}
+                      <IconButton
+                        color="primary"
+                        onClick={() => handleSubmit(app.user)}
+                        disabled={app.isSubmitted}
                         sx={{
-                          bgcolor: "#45a049",
-                          borderRadius: "12px",
-                          padding: "10px 20px",
-                          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
-                          textTransform: "none",
-                          fontWeight: "bold",
-                          "&:hover": {
-                            bgcolor: "#06a972",
-                            boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
-                          },
-                          transition: "all 0.3s ease",
+                          borderRadius: "50%",
+                          padding: 1,
                         }}
                       >
-                        Chat Now
-                      </Button>
-                    </Tooltip>
+                        <SendIcon />
+                      </IconButton>
+                      <IconButton
+                        color="info"
+                        onClick={() => handleViewClick(app)}
+                        sx={{
+                          borderRadius: "50%",
+                          padding: 1,
+                        }}
+                      >
+                        <VisibilityIcon />
+                      </IconButton>
+                      <Tooltip title="Chat Now">
+                        <Button
+                          variant="contained"
+                          onClick={() => handleChatNowClick(app)}
+                          sx={{
+                            bgcolor: "#45a049",
+                            borderRadius: "12px",
+                            padding: "10px 20px",
+                            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                            textTransform: "none",
+                            fontWeight: "bold",
+                            "&:hover": {
+                              bgcolor: "#06a972",
+                              boxShadow: "0px 6px 12px rgba(0, 0, 0, 0.3)",
+                            },
+                            transition: "all 0.3s ease",
+                          }}
+                        >
+                          Chat Now
+                        </Button>
+                      </Tooltip>
+                    </Box>
                   </Box>
-                </Box>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 
   const renderMobileView = () => (
     <Box sx={{ padding: 2, height: "80vh", overflowY: "auto" }}>
+      <Typography
+        variant="h6"
+        component="h1"
+        gutterBottom
+        fontWeight="bold"
+        sx={{
+          borderBottom: "2px solid",
+          borderColor: "#C9E7CB",
+          paddingBottom: 2,
+          marginBottom: 3,
+          textTransform: "uppercase",
+          letterSpacing: 1.2,
+          color: "#007A33", // Example darker green
+        }}
+      >
+        Total Applications{" "}
+      </Typography>
       {applications.map((app) => (
         <Card
           key={app.user}

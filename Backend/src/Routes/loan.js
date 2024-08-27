@@ -22,8 +22,8 @@ router.post(
 
 router.get(
   "/getAllapplications",
-  // isAuthenticated,
-  // authorizedRoles("admin"),
+  isAuthenticated,
+  authorizedRoles("admin"),
 loanApplicationController.getAllLoanApplications);
 
 module.exports = router;
