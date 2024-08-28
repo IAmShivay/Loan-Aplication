@@ -1,28 +1,28 @@
 // src/components/UnauthorizedPage.tsx
-import React from 'react';
-import { Container, Typography, Button, Paper } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-import { Fade } from '@mui/material';
-
+import React from "react";
+import { Container, Typography, Button, Paper } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import { Fade } from "@mui/material";
+ 
 const UnauthorizedPage: React.FC = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
   const handleGoHome = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
     <Container
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh', // Ensure full height
-        width: '100%', // Ensure full width
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh", // Ensure full height
+        width: "100%", // Ensure full width
         background: `url(${theme.palette.background.default}) no-repeat center center fixed`,
-        backgroundSize: 'cover',
+        backgroundSize: "cover",
         padding: 0,
       }}
     >
@@ -31,11 +31,11 @@ const UnauthorizedPage: React.FC = () => {
           elevation={6}
           style={{
             padding: theme.spacing(4),
-            width: '100%', // Allow full width of the container
-            maxWidth: '600px', // Set a maxWidth to avoid being too wide
-            textAlign: 'center',
+            width: "100%", // Allow full width of the container
+            maxWidth: "600px", // Set a maxWidth to avoid being too wide
+            textAlign: "center",
             backgroundColor: theme.palette.background.paper,
-            borderRadius: '15px',
+            borderRadius: "15px",
           }}
         >
           <Typography variant="h1" color="error" gutterBottom>
@@ -45,7 +45,8 @@ const UnauthorizedPage: React.FC = () => {
             Unauthorized Access
           </Typography>
           <Typography variant="body1" color="textSecondary" paragraph>
-            You do not have permission to access this page. Please contact your administrator if you believe this is an error.
+            You do not have permission to access this page. Please contact your
+            administrator if you believe this is an error.
           </Typography>
           <Button
             variant="contained"
