@@ -37,7 +37,7 @@ import { GetDataAllApplications } from "../../../api/admin";
 import ChatComponent from "../../../chat/chat";
 import { useSelector } from "react-redux";
 export interface LoanApplication {
-  id: any;
+  _id: any;
   user: any;
   name: string;
   status: string;
@@ -198,7 +198,19 @@ const LoanApplicationTable: React.FC = () => {
     );
     return statusOption ? statusOption.color : "#E8F5E9";
   };
+  const message = `
+  Hi ${applications[0]?.name},
 
+  We've received your loan application (ID: ${applications[0]?._id}).
+  I'm from ${user?.BankName} and need some additional information to move forward.
+  Please share any relevant documents or details at your earliest convenience.
+  
+  Thank you!
+  Best,
+  ${user.firstName}
+  `;
+
+  const encodedMessage = encodeURIComponent(message);
   const renderDesktopView = () => (
     <>
       {" "}
@@ -288,7 +300,9 @@ const LoanApplicationTable: React.FC = () => {
                       onChange={(e) =>
                         handleCommentChange(app.user, e.target.value)
                       }
-                      disabled={app.status === "Loan Disbursed" || app.isSubmitted}
+                      disabled={
+                        app.status === "Loan Disbursed" || app.isSubmitted
+                      }
                       error={!!errors[app.user]}
                       helperText={errors[app.user]}
                       variant="outlined"
@@ -324,10 +338,11 @@ const LoanApplicationTable: React.FC = () => {
                       >
                         <VisibilityIcon />
                       </IconButton>
-                      {/* <Tooltip title="Chat Now">
+                      <Tooltip title="Chat Now">
                         <Button
                           variant="contained"
-                          onClick={() => handleChatNowClick(app)}
+                          // onClick={() => handleChatNowClick(app)}
+                          href={`https://wa.me/+91${app?.phoneNumber}?text=${encodedMessage}`}
                           sx={{
                             bgcolor: "#45a049",
                             borderRadius: "12px",
@@ -341,10 +356,12 @@ const LoanApplicationTable: React.FC = () => {
                             },
                             transition: "all 0.3s ease",
                           }}
+                          target="_blank" // Ensure the link opens in a new tab
+                          rel="noopener noreferrer" // Security best practice
                         >
                           Chat Now
                         </Button>
-                      </Tooltip> */}
+                      </Tooltip>
                     </Box>
                   </Box>
                 </TableCell>
