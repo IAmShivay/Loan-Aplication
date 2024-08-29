@@ -145,3 +145,38 @@ exports.getAllLoanApplications = async (req, res) => {
     res.status(500).send("Server Error");
   }
 };
+
+exports.getSingleLoanApplication = async (req, res) => {
+  try {
+    // Extract the loan application ID from the request parameters
+    const { loanApplicationId } = req.user._id;
+
+    // Find the loan application by its ID
+    const loanApplication = await LoanApplication.findById(loanApplicationId).lean();
+
+    if (!loanApplication) {
+      return res.status(404).json({ message: "Loan application not found" });
+    }
+
+    // Find the corresponding admin details
+    const admin = await Admin.findOne({ user: loanApplication.user }).lean();
+
+    if (admin) {
+      loanApplication.status = admin.status;
+      loanApplication.adminResponse = admin.isSubmitted;
+      loanApplication.adminComments = admin.comment;
+    } else {
+      loanApplication.adminResponse = false;
+      loanApplication.adminComments = "";
+    }
+
+    // Log the loan application details
+    console.log("Loan Application Details:", loanApplication);
+
+    // Return the modified loan application in the response
+    res.json({ loanApplication });
+  } catch (err) {
+    console.error("Error occurred:", err);
+    res.status(500).send("Server Error");
+  }
+};

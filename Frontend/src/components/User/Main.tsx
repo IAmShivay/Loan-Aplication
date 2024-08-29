@@ -26,7 +26,8 @@ import { logoutUser } from "../../app/auth/authSlice";
 import { showSnackbar } from "../../app/errors/errorSlice";
 import { useDispatch } from "react-redux";
 import Footer from "../Section/Footer/Footer.tsx";
-
+import ApplicationDetailsModal from "../Admin/Applications/view.tsx";
+import { LoanApplications } from "../Admin/Applications/type.tsx";
 // Create a theme for consistent styling
 const theme = createTheme({
   palette: {
@@ -187,25 +188,20 @@ const LoanItem: React.FC<any> = React.memo(
         >
           Request Call
         </Button>
-        <Button
-          variant="outlined"
-          color="primary"
-          fullWidth
-          onClick={onViewDetails}
-          sx={{ mt: 1 }}
-        >
-          View Application
-        </Button>
       </DashboardItem>
     );
   }
 );
 
 const UserDashboard: React.FC = () => {
+  const [selectedApplication, setSelectedApplication] =
+    useState<LoanApplications | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch<any>();
   const [data, setData] = useState<Loan[]>([]);
   const { user } = useSelector((state: any) => state.verify);
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
+  const [applications, setApplications] = useState<LoanApplications[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -227,6 +223,33 @@ const UserDashboard: React.FC = () => {
 
     fetchData();
   }, []);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(
+          "http://localhost:3000/api/v1/getSingleApplication"
+        );
+
+        // Handle data based on actual response structure
+        if (response.data && Array.isArray(response.data.loanApplications)) {
+          // Assuming you want the first application or modify the logic to select the desired one
+          const applicationToView = response.data.loanApplications[0];
+          setApplications(applicationToView);
+        } else {
+          console.error("API response data is not an array", response.data);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleViewClick = (application: any) => {
+    setSelectedApplication(application);
+    setIsModalOpen(true);
+  };
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -251,9 +274,15 @@ const UserDashboard: React.FC = () => {
       })
     );
   };
-
   return (
     <>
+      {selectedApplication && (
+        <ApplicationDetailsModal
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          application={selectedApplication}
+        />
+      )}
       <Header />
       <ThemeProvider theme={theme}>
         <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: 4 }}>
@@ -277,13 +306,34 @@ const UserDashboard: React.FC = () => {
                 mb={3}
               >
                 <Box mb={{ xs: 2, sm: 0 }}>
-                  <Typography
-                    variant="h4"
-                    component="h1"
-                    color="primary"
-                  >
+                  <Typography variant="h4" component="h1" color="primary">
                     Welcome back, {user.Name}! 😊
                   </Typography>
+                  <Button
+                    variant="contained"
+                    fullWidth
+                    sx={{
+                      borderBottom: "4px solid #C9E7CB",
+                      marginTop: 4,
+                      paddingY: 2,
+                      paddingX: 2,
+                      marginBottom: 3,
+                      textTransform: "uppercase",
+                      letterSpacing: 1.2,
+                      color: "#ffffff", // White text
+                      backgroundColor: "#007A33", // Darker green background
+                      fontWeight: "bold",
+                      fontSize: "1.25rem", // Adjust the font size as needed
+                      "&:hover": {
+                        backgroundColor: "#005f28", // Darker green on hover
+                      },
+                      borderRadius: "8px", // Rounded corners for a modern look
+                      boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
+                    }}
+                    onClick={() => handleViewClick(applications)}
+                  >
+                    View Your Application
+                  </Button>
                 </Box>
                 <Avatar
                   src="https://th.bing.com/th/id/OIP.sQITeQsafh6osAKTB25AMgHaFj?w=247&h=186&c=7&r=0&o=5&pid=1.7"
@@ -340,7 +390,9 @@ const UserDashboard: React.FC = () => {
               },
             }}
           >
-            <DialogTitle sx={{ fontWeight: "bold", color: theme.palette.primary.main }}>
+            <DialogTitle
+              sx={{ fontWeight: "bold", color: theme.palette.primary.main }}
+            >
               {selectedLoan?.Bank} Loan Details
             </DialogTitle>
             <DialogContent>
@@ -373,27 +425,6 @@ const UserDashboard: React.FC = () => {
                   <Typography variant="body1" sx={{ mb: 2 }}>
                     Loan Amount:{" "}
                     <strong>₹{selectedLoan.loanAmount.toLocaleString()}</strong>
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 2 }}>
-                    Interest Rate: <strong>{selectedLoan.interestRate}%</strong>
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 2 }}>
-                    Loan Term: <strong>{selectedLoan.term} years</strong>
-                  </Typography>
-                  <Typography variant="body1" sx={{ mb: 2 }}>
-                    Estimated Monthly Payment:{" "}
-                    <strong>
-                      ₹
-                      {(
-                        (selectedLoan.loanAmount *
-                          (selectedLoan.interestRate / 100 / 12)) /
-                        (1 -
-                          Math.pow(
-                            1 + selectedLoan.interestRate / 100 / 12,
-                            -selectedLoan.term * 12
-                          ))
-                      ).toFixed(2)}
-                    </strong>
                   </Typography>
                 </Box>
               )}

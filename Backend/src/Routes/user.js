@@ -29,12 +29,12 @@ router.route("/verify").get(isAuthenticated, getUserDetails);
 router.route("/me/update").put(isAuthenticated, updateUserProfile);
 router
   .route("/admin/alluser")
-  .get(isAuthenticated, authorizedRoles("admin"), getAllUserDetails);
+  .get(isAuthenticated, authorizedRoles("lendingPartner"), getAllUserDetails);
 router
   .route("/admin/users/:id")
-  .get(isAuthenticated, authorizedRoles("admin"), getSingleUser)
-  .put(isAuthenticated, authorizedRoles("admin"), updateUserRole)
-  .delete(isAuthenticated, authorizedRoles("admin"), deleteUserProfile);
+  .get(isAuthenticated, authorizedRoles("lendingPartner"), getSingleUser)
+  .put(isAuthenticated, authorizedRoles("lendingPartner"), updateUserRole)
+  .delete(isAuthenticated, authorizedRoles("lendingPartner"), deleteUserProfile);
 
 router.route("/logout").get(logOutUser);
 module.exports = router;

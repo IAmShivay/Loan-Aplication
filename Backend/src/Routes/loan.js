@@ -9,7 +9,7 @@ const { isAuthenticated, authorizedRoles } = require("../Middleware/auth");
 router.post(
   "/loan-application",
   isAuthenticated,
-  authorizedRoles("user"),
+  authorizedRoles("loanApplicant"),
   upload.fields([
     { name: "incomeProof", maxCount: 1 },
     { name: "idProof", maxCount: 1 },
@@ -23,7 +23,15 @@ router.post(
 router.get(
   "/getAllapplications",
   isAuthenticated,
-  authorizedRoles("admin"),
-loanApplicationController.getAllLoanApplications);
+  authorizedRoles("lendingPartner"),
+  loanApplicationController.getAllLoanApplications
+);
+router.get(
+  "/getSingleApplication",
+  isAuthenticated,
+  authorizedRoles("loanApplicant"),
+  loanApplicationController.getAllLoanApplications
+);
+
 
 module.exports = router;

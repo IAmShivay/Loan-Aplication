@@ -118,7 +118,7 @@ const ApplicationDetailsModal: React.FC<ApplicationDetailsProps> = ({
   }, [application]);
 
   if (!application) return null;
-
+console.log(application)
   const renderDocumentViewer = () => {
     if (!activeDocument) return <Typography>NO DOCUMENT SELECTED</Typography>;
 
