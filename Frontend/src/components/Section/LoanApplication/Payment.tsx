@@ -78,7 +78,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
           } catch (error: any) {
             console.error("Error submitting form:", error);
             setSnackbarMessage(
-              error?.response?.data?.message || "Unknown error occurred."
+              error?.response?.data?.message || "Your Application is not submitted."
             );
             setSnackbarOpen(true);
           }

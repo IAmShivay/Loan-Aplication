@@ -324,7 +324,7 @@ const LoanApplicationTable: React.FC = () => {
                       >
                         <VisibilityIcon />
                       </IconButton>
-                      <Tooltip title="Chat Now">
+                      {/* <Tooltip title="Chat Now">
                         <Button
                           variant="contained"
                           onClick={() => handleChatNowClick(app)}
@@ -344,7 +344,7 @@ const LoanApplicationTable: React.FC = () => {
                         >
                           Chat Now
                         </Button>
-                      </Tooltip>
+                      </Tooltip> */}
                     </Box>
                   </Box>
                 </TableCell>

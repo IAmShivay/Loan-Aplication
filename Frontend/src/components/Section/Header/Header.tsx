@@ -26,6 +26,7 @@ import { motion } from "framer-motion";
 import { logoutUser } from "../../../app/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { showSnackbar } from "../../../app/errors/errorSlice";
+
 export const StudyAndPayLogo = ({ variant = "default", size = "small" }) => {
   const getSize = () => {
     switch (size) {
@@ -89,7 +90,6 @@ export const StudyAndPayLogo = ({ variant = "default", size = "small" }) => {
 };
 
 const ResponsiveAppBar = () => {
-  
   const navigate = useNavigate();
 
   const pages = [
@@ -97,8 +97,9 @@ const ResponsiveAppBar = () => {
     { name: "About Us", link: "/about-us" },
     { name: "EMI Calculator", link: "/emi-calculator" },
     { name: "FAQ", link: "/faq" },
-    // { name: "CREDIT REPORT", link: "/app/v1/user/credit-report" },
   ];
+
+  const signInSignUpPage = { name: "SIGN IN/SIGN UP", link: "/user/login" };
 
   const dispatch = useDispatch<any>();
 
@@ -106,7 +107,7 @@ const ResponsiveAppBar = () => {
     dispatch(logoutUser());
     dispatch(
       showSnackbar({
-        message: "You have been logged out sucessfully.",
+        message: "You have been logged out successfully.",
         severity: "error",
       })
     );
@@ -118,18 +119,19 @@ const ResponsiveAppBar = () => {
     { name: "Logout", onClick: handleLogout },
   ];
 
-  const { isAuthenticated } = useSelector((state:any) => state.verify);
+  const { isAuthenticated } = useSelector((state: any) => state.verify);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
-  const handleOpenNavMenu = (event:any) => setAnchorElNav(event.currentTarget);
-  const handleOpenUserMenu = (event:any) => setAnchorElUser(event.currentTarget);
+  const handleOpenNavMenu = (event: any) => setAnchorElNav(event.currentTarget);
+  const handleOpenUserMenu = (event: any) =>
+    setAnchorElUser(event.currentTarget);
   const handleCloseNavMenu = () => setAnchorElNav(null);
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
-  const handleMenuItemClick = (setting:any) => {
+  const handleMenuItemClick = (setting: any) => {
     if (setting.onClick) {
       setting.onClick();
     } else if (setting.link) {
@@ -191,10 +193,33 @@ const ResponsiveAppBar = () => {
                       </Typography>
                     </MenuItem>
                   ))}
+                  <MenuItem
+                    key={signInSignUpPage.name}
+                    onClick={() => {
+                      navigate(signInSignUpPage.link);
+                      handleCloseNavMenu();
+                    }}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      sx={{
+                        width: "100%",
+                        color: "#ffffff",
+                        // fontWeight: "bold",
+                        backgroundColor: "#2e7d32",
+                        "&:hover": {
+                          backgroundColor: "#1b5e20",
+                        },
+                      }}
+                    >
+                      {signInSignUpPage.name}
+                    </Button>
+                  </MenuItem>
                 </Menu>
               </>
             ) : (
-              <Box sx={{ display: "flex" }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
                 {pages.map((page) => (
                   <motion.div
                     key={page.name}
@@ -217,6 +242,28 @@ const ResponsiveAppBar = () => {
                     </Button>
                   </motion.div>
                 ))}
+                <motion.div
+                  key={signInSignUpPage.name}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ marginLeft: "8px" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate(signInSignUpPage.link)}
+                    sx={{
+                      my: 2,
+                      // fontWeight: "bold",
+                      backgroundColor: "#2e7d32",
+                      "&:hover": {
+                        backgroundColor: "#1b5e20",
+                      },
+                    }}
+                  >
+                    {signInSignUpPage.name}
+                  </Button>
+                </motion.div>
               </Box>
             )}
 
