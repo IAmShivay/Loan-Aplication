@@ -23,32 +23,80 @@ const PrivacyPolicy: React.FC = () => {
           </Typography>
           
           <Typography variant="body1" paragraph>
-            Your privacy is important to us. It is our policy to respect your privacy regarding any information we may collect from you across our website.
+            Welcome to Studynpay.com. We value your privacy and are committed to protecting your personal information. This Privacy Policy outlines how we collect, use, and protect your data.
           </Typography>
 
           <Typography variant="h5" sx={{ color: '#006400', mt: 4, mb: 2 }}>
             1. Information We Collect
           </Typography>
           <Typography variant="body1" paragraph>
-            We only ask for personal information when we truly need it to provide a service to you. We collect it by fair and lawful means, with your knowledge and consent.
+            We collect the following personal information from users through forms on our website:
+            <ul>
+              <li>Name</li>
+              <li>Email Address</li>
+              <li>Phone Number</li>
+              <li>ID</li>
+            </ul>
+            This information is collected through forms on our website.
           </Typography>
 
           <Typography variant="h5" sx={{ color: '#006400', mt: 4, mb: 2 }}>
-            2. Use of Information
+            2. How We Use Your Information
           </Typography>
           <Typography variant="body1" paragraph>
-            We only retain collected information for as long as necessary to provide you with your requested service. What data we store, we'll protect within commercially acceptable means to prevent loss and theft, as well as unauthorized access, disclosure, copying, use or modification.
+            We use the collected information to:
+            <ul>
+              <li>Send your details to our trusted loan providers who will process your loan application.</li>
+              <li>Communicate with you regarding the status of your application.</li>
+            </ul>
           </Typography>
 
           <Typography variant="h5" sx={{ color: '#006400', mt: 4, mb: 2 }}>
-            3. Cookies
+            3. Sharing Your Information
           </Typography>
           <Typography variant="body1" paragraph>
-            We use cookies to remember your preferences and improve your browsing experience. You can choose to disable cookies through your individual browser options.
+            We may share your information with:
+            <ul>
+              <li>Third-party loan providers who process your loan application.</li>
+              <li>Agents who assist in handling your application and related services.</li>
+            </ul>
+            We may also disclose your information if required by law.
+          </Typography>
+
+          <Typography variant="h5" sx={{ color: '#006400', mt: 4, mb: 2 }}>
+            4. Data Security
+          </Typography>
+          <Typography variant="body1" paragraph>
+            We employ the following measures to protect your data:
+            <ul>
+              <li>Private servers for storing data.</li>
+              <li>Full encryption of data using SSL RSA 256 certificates to ensure secure transmission and storage.</li>
+            </ul>
+          </Typography>
+
+          <Typography variant="h5" sx={{ color: '#006400', mt: 4, mb: 2 }}>
+            5. User Rights
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Users have the right to access, correct, or delete their personal data. To exercise these rights, please contact our technical team at <a href="mailto:shivaysharma77893@gmail.com">shivaysharma77893@gmail.com</a>.
+          </Typography>
+
+          <Typography variant="h5" sx={{ color: '#006400', mt: 4, mb: 2 }}>
+            6. Changes to This Privacy Policy
+          </Typography>
+          <Typography variant="body1" paragraph>
+            We will notify users of any changes to this Privacy Policy via email.
+          </Typography>
+
+          <Typography variant="h5" sx={{ color: '#006400', mt: 4, mb: 2 }}>
+            7. Contact Information
+          </Typography>
+          <Typography variant="body1" paragraph>
+            For any questions about this Privacy Policy, please contact us at <a href="mailto:support@studynpay.com">support@studynpay.com</a>.
           </Typography>
 
           <Typography variant="body2" sx={{ mt: 4, color: '#006400' }}>
-            Last updated: [Insert Date]
+            Last updated: August 29, 2024
           </Typography>
         </Paper>
       </Container>

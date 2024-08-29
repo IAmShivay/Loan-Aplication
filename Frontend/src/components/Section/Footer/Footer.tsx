@@ -14,16 +14,16 @@ const Footer = () => {
         { text: 'Mission & Values', href: '/mission' },
         { text: 'Team', href: '/team' },
         { text: 'Careers', href: '/careers' },
-        { text: 'Press', href: '/press' },
+        // { text: 'Press', href: '/press' },
       ],
     },
     {
       title: 'Student Loans',
       links: [
-        { text: 'Undergraduate Loans', href: '/undergraduate-loans' },
-        { text: 'Graduate Loans', href: '/graduate-loans' },
-        { text: 'Refinancing Options', href: '/refinancing-options' },
-        { text: 'Loan Calculator', href: '/loan-calculator' },
+        { text: 'Undergraduate Loans', href: '/apply-form' },
+        { text: 'Graduate Loans', href: '/apply-form' },
+        // { text: 'Refinancing Options', href: '/refinancing-options' },
+        { text: 'Loan Calculator', href: '/Loan-calculator' },
       ],
     },
     {
@@ -31,8 +31,8 @@ const Footer = () => {
       links: [
         { text: 'Contact Us', href: '/contact' },
         { text: 'FAQs', href: '/faqs' },
-        { text: 'Loan Repayment', href: '/loan-repayment' },
-        { text: 'Customer Service', href: '/customer-service' },
+        // { text: 'Loan Repayment', href: '/loan-repayment' },
+        // { text: 'Customer Service', href: '/customer-service' },
       ],
     },
     {
@@ -40,8 +40,8 @@ const Footer = () => {
       links: [
         { text: 'Privacy Policy', href: '/privacy-policy' },
         { text: 'Terms of Use', href: '/terms-of-use' },
-        { text: 'Licensing Information', href: '/licensing' },
-        { text: 'Disclosures', href: '/disclosures' },
+        { text: 'Refund Policy', href: '/refund-policy' },
+        // { text: 'Disclosures', href: '/disclosures' },
       ],
     },
   ];

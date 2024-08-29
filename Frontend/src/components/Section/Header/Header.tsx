@@ -97,7 +97,7 @@ const ResponsiveAppBar = () => {
     { name: "About Us", link: "/about-us" },
     { name: "EMI Calculator", link: "/emi-calculator" },
     { name: "FAQ", link: "/faq" },
-    { name: "CREDIT REPORT", link: "/app/v1/user/credit-report" },
+    // { name: "CREDIT REPORT", link: "/app/v1/user/credit-report" },
   ];
 
   const dispatch = useDispatch<any>();

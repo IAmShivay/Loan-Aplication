@@ -23,32 +23,40 @@ const ReturnRefundPolicy: React.FC = () => {
           </Typography>
           
           <Typography variant="body1" paragraph>
-            We want you to be completely satisfied with your purchase. If you're not entirely happy with your order, we're here to help.
+            This Return and Refund Policy applies specifically to the platform fee paid for loan applications on Studynpay.com.
           </Typography>
 
           <Typography variant="h5" sx={{ color: '#006400', mt: 4, mb: 2 }}>
-            1. Returns
+            1. Refund Conditions
           </Typography>
           <Typography variant="body1" paragraph>
-            You have 30 days from the date of delivery to return an item. To be eligible for a return, your item must be unused and in the same condition that you received it.
+            Refunds are available under the following conditions:
+            <ul>
+              <li>If you do not receive any response from us within 5 business days after submitting your loan application.</li>
+              <li>If the loan application is not approved due to reasons related to your credit history or other personal reasons, a refund will not be granted.</li>
+            </ul>
           </Typography>
 
           <Typography variant="h5" sx={{ color: '#006400', mt: 4, mb: 2 }}>
-            2. Refunds
+            2. How to Request a Refund
           </Typography>
           <Typography variant="body1" paragraph>
-            Once we receive your item, we will inspect it and notify you that we have received your returned item. We will immediately notify you on the status of your refund after inspecting the item.
+            To request a refund, you must:
+            <ul>
+              <li>Send an email to <a href="mailto:support@studynpay.com">support@studynpay.com</a>.</li>
+              <li>Include your registered email ID and transaction ID in the refund request.</li>
+            </ul>
           </Typography>
 
           <Typography variant="h5" sx={{ color: '#006400', mt: 4, mb: 2 }}>
-            3. Shipping
+            3. Refund Processing Time
           </Typography>
           <Typography variant="body1" paragraph>
-            You will be responsible for paying for your own shipping costs for returning your item. Shipping costs are non-refundable.
+            If your refund request is approved, the refund will be processed within 7 business days.
           </Typography>
 
           <Typography variant="body2" sx={{ mt: 4, color: '#006400' }}>
-            Last updated: [Insert Date]
+            Last updated: August 29, 2024
           </Typography>
         </Paper>
       </Container>

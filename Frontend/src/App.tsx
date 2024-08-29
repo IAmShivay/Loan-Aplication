@@ -80,7 +80,7 @@ const GenralRoute: React.FC = () => (
       <Route path="/" element={<Home />} />
       <Route path="/apply-form" element={<LoanApplicationForm />} />
       <Route path="about-us" element={<AboutUs />} />
-      <Route path="emi-calculator" element={<EMICalculator />} />
+      <Route path="Loan-calculator" element={<EMICalculator />} />
       <Route path="our-policy" element={<PrivacyAndTermsComponent />} />
       <Route path="terms-of-use" element={<TermsAndConditions />} />
       <Route path="privacy-policy" element={<PrivacyPolicy />} />
