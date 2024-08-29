@@ -1,58 +1,34 @@
 import { 
   Typography, Box, Grid, Card, CardContent, CardMedia, 
-  useTheme,  Avatar, Chip
+  useTheme, Avatar, Chip 
 } from '@mui/material';
-import { 
-  AccountBalance as AccountBalanceIcon,
-  Security as SecurityIcon,
-  Speed as SpeedIcon,
-  People as PeopleIcon
-} from '@mui/icons-material';
 
 const aboutUsData = {
-  companyName: "GreenLoan Financial",
-  slogan: "Empowering Your Financial Future",
-  description: "GreenLoan Financial is a leading innovator in the loan industry, committed to providing accessible, transparent, and sustainable financial solutions. With over two decades of experience, we've helped millions of customers achieve their dreams through smart financing options.",
-  mission: "Our mission is to democratize access to credit, enabling individuals and businesses to thrive through responsible lending practices and cutting-edge financial technology.",
-  vision: "We envision a world where financial empowerment is within everyone's reach, fostering economic growth and personal success.",
-  keyFeatures: [
-    { 
-      icon: <AccountBalanceIcon />, 
-      title: "Competitive Rates", 
-      description: "Our algorithms ensure you always get the best possible interest rates." 
-    },
-    { 
-      icon: <SecurityIcon />, 
-      title: "Secure Process", 
-      description: "Bank-level encryption and security protocols protect your sensitive information." 
-    },
-    { 
-      icon: <SpeedIcon />, 
-      title: "Fast Approval", 
-      description: "Get approved in minutes, not days, with our streamlined application process." 
-    },
-    { 
-      icon: <PeopleIcon />, 
-      title: "Personalized Service", 
-      description: "Our AI-powered system adapts to your unique financial situation." 
-    }
-  ],
+  companyName: "StudyNPay.com",
+  slogan: "Empowering Education, Financing Futures",
+  description: "At StudyNPay.com, we alleviate the stress of financing your education. We streamline the loan application process by partnering with trusted financial institutions, allowing you to submit one application and receive hassle-free approval and disbursement of funds. Our goal is to make financing your studies simple and stress-free, so you can focus on your education.",
+  mission: "Our mission is to ensure that financial barriers do not hinder anyone's education. We are dedicated to providing seamless and accessible loan solutions so that every individual can pursue their studies without compromise. By supporting students through a smooth loan process, we aim to empower the future of our society.",
+  vision: "We envision a world where every student has the opportunity to achieve their academic and career goals without the burden of financial obstacles. Our commitment is to transform the educational financing landscape, making it more accessible, efficient, and supportive for all learners, so they can focus on building a brighter future.",
+  keyFeatures: [],
   stats: [
-    { label: "Customers Served", value: "2M+" },
-    { label: "Loan Volume", value: "$10B+" },
-    { label: "Average Savings", value: "15%" },
-    { label: "Customer Satisfaction", value: "4.8/5" }
+    { label: "Customers Served", value: "1K+" }
   ],
   team: [
-    { name: "Raya Melona", position: "CEO", image: "https://imgs.search.brave.com/C4rUzBhcWUE6FObfELwxURVhz6L7wHMMHadwwiwGGsA/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQz/NzgxNjg5Ny9waG90/by9idXNpbmVzcy13/b21hbi1tYW5hZ2Vy/LW9yLWh1bWFuLXJl/c291cmNlcy1wb3J0/cmFpdC1mb3ItY2Fy/ZWVyLXN1Y2Nlc3Mt/Y29tcGFueS13ZS1h/cmUtaGlyaW5nLndl/YnA_Yj0xJnM9MTcw/NjY3YSZ3PTAmaz0y/MCZjPVlRX2o4M3Bn/OWZCLUhXT2QxUXVy/M19rQm1HX290X2ha/dHk4cHZvRmtyNkE9" },
-    { name: "Julia Noman", position: "CTO", image: "https://imgs.search.brave.com/DIbClLwLJk-0VwHjf4vwNAq23PRAI2e7kPA_W8nqqbk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9hc3Nl/dHMtZ2xvYmFsLndl/YnNpdGUtZmlsZXMu/Y29tLzVlYzdkYWQy/ZTZmNjI5NWE5ZTJh/MjNkZC82MGQ1OThk/MWZkNWI0M2MxM2Vl/NDY1ZWFfQW15X1Nl/cHQucG5n" },
-    { name: "Richard Norchia", position: "CFO", image: "https://imgs.search.brave.com/r54pFbdF-qFEm8L6auZCZKSprWFwITCV1QSiOQlUMic/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/cHJlbWl1bS1waG90/by9waG90b2dyYXBo/LXByb2Zlc3Npb25h/bC15b3VuZy1idXNp/bmVzcy1lY29ub21p/c3RfMTI4ODY1Ny01/MDEzLmpwZz9zaXpl/PTYyNiZleHQ9anBn" }
+    { name: "Pintu Das", position: "App Developer" },
+    { name: "Pinki Paul", position: "Project Manager" }
+  ],
+  officeImage: null, // Skip for now
+  commitmentText: "At StudyNPay.com, we're more than just a loan provider. We're your partner in financial success. Our commitment to transparency, innovation, and customer satisfaction drives everything we do. Join us in building a brighter financial future for all.",
+  chips: [
+    "Empowering Education",
+    "Accessible Financing",
+    "Student Support",
+    "Innovative Solutions"
   ]
 };
 
 const AboutUs = () => {
   const theme = useTheme();
-  // const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <Box sx={{ width: '100%', bgcolor: '#E8F5E9', py: 8 }}>
@@ -108,14 +84,14 @@ const AboutUs = () => {
                 component="img"
                 height="300"
                 image="https://imgs.search.brave.com/rlzRGdJJV3sKiJOuzHkBtRGPMHay2f30hDVMkyfNerE/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/cGl4YWJheS5jb20v/cGhvdG8vMjAyMC8w/NS8yNy8xNy8wOC9i/dWlsZGluZy01MjI4/MTAxXzY0MC5qcGc"
-                alt="GreenLoan Financial office"
+                alt="StudyNPay office"
               />
             </Card>
           </Grid>
         </Grid>
 
         <Typography variant="h4" align="center" gutterBottom sx={{ mb: 4, color: '#4CAF50' }}>
-          Why Choose GreenLoan Financial?
+          Why Choose StudyNPay.com?
         </Typography>
         
         <Grid container spacing={3} sx={{ mb: 8 }}>
@@ -204,7 +180,6 @@ const AboutUs = () => {
                 >
                   <Avatar
                     alt={member.name}
-                    src={member.image}
                     sx={{ width: 100, height: 100, mx: 'auto', mb: 2 }}
                   />
                   <Typography variant="h6">{member.name}</Typography>
@@ -222,13 +197,12 @@ const AboutUs = () => {
             Our Commitment
           </Typography>
           <Typography variant="body1" paragraph align="center">
-            At GreenLoan Financial, we're more than just a loan provider. We're your partner in financial success. Our commitment to transparency, innovation, and customer satisfaction drives everything we do. Join us in building a brighter financial future for all.
+            {aboutUsData.commitmentText}
           </Typography>
           <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 1, mt: 4 }}>
-            <Chip label="Responsible Lending" sx={{ bgcolor: '#4CAF50', color: 'white' }} />
-            <Chip label="Financial Education" sx={{ bgcolor: '#4CAF50', color: 'white' }} />
-            <Chip label="Community Support" sx={{ bgcolor: '#4CAF50', color: 'white' }} />
-            <Chip label="Environmental Sustainability" sx={{ bgcolor: '#4CAF50', color: 'white' }} />
+            {aboutUsData.chips.map((chip, index) => (
+              <Chip key={index} label={chip} sx={{ bgcolor: '#4CAF50', color: 'white' }} />
+            ))}
           </Box>
         </Box>
       </Box>
