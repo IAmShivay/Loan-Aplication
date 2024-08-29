@@ -84,6 +84,17 @@ exports.uploadDocuments = async (req, res) => {
     const newLoanApplication = new LoanApplication({
       user: req.user._id,
       name,
+      coBorrowerName,
+      coBorrowerRelation,
+      coBorrowerDob,
+      coBorrowerIncome,
+      coBorrowerPhone,
+      tenthMarks,
+      twelfthMarks,
+      percentage,
+      bachelorCgpa,
+      university,
+      college,
       email,
       phoneNumber,
       age,
@@ -94,7 +105,7 @@ exports.uploadDocuments = async (req, res) => {
       adminResponse: "",
       status: "",
       adminComments: "",
-      paymentStatus,
+      paymentStatus:"",
       idProof: {
         public_id: incomeFiles.public_id,
         url: incomeFiles.url,
@@ -152,7 +163,9 @@ exports.getSingleLoanApplication = async (req, res) => {
     const { loanApplicationId } = req.user._id;
 
     // Find the loan application by its ID
-    const loanApplication = await LoanApplication.findById(loanApplicationId).lean();
+    const loanApplication = await LoanApplication.findById(
+      loanApplicationId
+    ).lean();
 
     if (!loanApplication) {
       return res.status(404).json({ message: "Loan application not found" });

@@ -4,6 +4,7 @@ const adminSchema = new mongoose.Schema({
   Bank: {
     type: String,
     required: true,
+    default: 'SBI',
   },
   comment: {
     type: String,
