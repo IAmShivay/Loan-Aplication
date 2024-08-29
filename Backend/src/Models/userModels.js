@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   },
   BankName: {
     type: String,
-    default:"Red"
+    default:""
   },
   // avatar: {
   //   public_id: {
@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
   // },
   role: {
     type: String,
-    default: "user",
+    default: "loanApplicant",
   },
   resetPasswordToken: String,
   resetPasswordExpire: String,
