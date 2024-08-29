@@ -94,9 +94,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
       };
 
       if (typeof window.Razorpay === "undefined") {
-        console.error(
-          "Check your internet connection and try again."
-        );
+        console.error("Check your internet connection and try again.");
         return;
       }
 
@@ -174,7 +172,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
   };
 
   const handleTrackApplication = () => {
-    navigate("/app/v1/user/profile");
+    navigate("/app/v1/user/dashboard");
   };
 
   return (
