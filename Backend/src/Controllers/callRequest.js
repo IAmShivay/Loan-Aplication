@@ -40,15 +40,26 @@ exports.createOrUpdateCallRequest = async (req, res) => {
   }
 };
 
-// Get all call requests
 exports.getAllCallRequests = async (req, res) => {
   try {
-    const callRequests = await CallRequest.find().populate(
-      "user assignedAgent",
-      "name email"
-    );
+    // Extract the bank name from the query parameters
+    const { bank } = req.query;
+
+    // Define the query object
+    const query = {};
+
+    // If a bank name is provided, add it to the query object
+    if (bank) {
+      query.bankName = bank;
+    }
+
+    // Fetch call requests based on the query
+    const callRequests = await CallRequest.find({ bank: bank }).lean();
+
+    // Send the response with the fetched data
     res.status(200).json(callRequests);
   } catch (err) {
+    // Handle any errors that occur during the process
     res.status(500).json({ error: err.message });
   }
 };

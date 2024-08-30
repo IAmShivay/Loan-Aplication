@@ -187,7 +187,10 @@ const LoanItem: React.FC<any> = React.memo(
 
         <Button
           variant="contained"
-          color="primary"
+          sx={{
+            color: "white",
+            backgroundColor: "primary",
+          }}
           fullWidth
           onClick={onRequestCall}
         >
@@ -209,7 +212,6 @@ const UserDashboard: React.FC = () => {
   const { user } = useSelector((state: any) => state.verify);
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
   const [applications, setApplications] = useState<LoanApplications[]>([]);
-  console.log(user.firstName + user.lastName);
   const handleRequestCall = (application: any) => {
     setSelectedApplication(application);
     setIsRequestCallFormOpen(true); // Open the form
@@ -479,7 +481,7 @@ const UserDashboard: React.FC = () => {
               onSubmit={handleFormSubmit}
               bank={loan?.Bank}
               name={`${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim()}
-              email={loan?.email}
+              email={loan?.email ?? ""}
               phoneNumber={loan?.phoneNumber}
             />
           </Grid>
