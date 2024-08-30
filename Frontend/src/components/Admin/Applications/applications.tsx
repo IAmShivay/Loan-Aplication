@@ -201,7 +201,7 @@ const LoanApplicationTable: React.FC = () => {
   const message = `
   Hi ${applications[0]?.name},
 
-  We've received your loan application (ID: ${applications[0]?._id}).
+  We've received your loan application At StudyNpay (ID: ${applications[0]?._id}).
   I'm from ${user?.BankName} and need some additional information to move forward.
   Please share any relevant documents or details at your earliest convenience.
   

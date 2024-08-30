@@ -28,6 +28,7 @@ import { useDispatch } from "react-redux";
 import Footer from "../Section/Footer/Footer.tsx";
 import ApplicationDetailsModal from "../Admin/Applications/view.tsx";
 import { LoanApplications } from "../Admin/Applications/type.tsx";
+import RequestCallForm from "./Call.tsx";
 // Create a theme for consistent styling
 const theme = createTheme({
   palette: {
@@ -110,6 +111,7 @@ interface Loan {
   loanAmount: number;
   interestRate: number;
   term: number;
+  user: string;
 }
 
 // LoanItem component
@@ -197,12 +199,41 @@ const UserDashboard: React.FC = () => {
   const [selectedApplication, setSelectedApplication] =
     useState<LoanApplications | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isRequestCallFormOpen, setIsRequestCallFormOpen] = useState(false); // State for the form
+
   const dispatch = useDispatch<any>();
   const [data, setData] = useState<Loan[]>([]);
   const { user } = useSelector((state: any) => state.verify);
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
   const [applications, setApplications] = useState<LoanApplications[]>([]);
 
+  const handleRequestCall = () => {
+    setIsRequestCallFormOpen(true); // Open the form
+  };
+
+  const handleFormSubmit = async (formData: any) => {
+    try {
+      const response = await axiosInstance.post(
+        "http://localhost:3000/api/v1/requestCall",
+        formData
+      );
+      console.log("Form submitted successfully:", response.data);
+      dispatch(
+        showSnackbar({
+          message: "Call request submitted successfully",
+          severity: "success",
+        })
+      );
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      dispatch(
+        showSnackbar({
+          message: "Failed to submit call request",
+          severity: "error",
+        })
+      );
+    }
+  };
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -210,7 +241,6 @@ const UserDashboard: React.FC = () => {
           "http://localhost:3000/api/v1/details"
         );
 
-        // Handle data based on actual response structure
         if (Array.isArray(response.data.data)) {
           setData(response.data.data); // Set the data array
         } else {
@@ -230,9 +260,7 @@ const UserDashboard: React.FC = () => {
           "http://localhost:3000/api/v1/getSingleApplication"
         );
 
-        // Handle data based on actual response structure
         if (response.data && Array.isArray(response.data.loanApplications)) {
-          // Assuming you want the first application or modify the logic to select the desired one
           const applicationToView = response.data.loanApplications[0];
           setApplications(applicationToView);
         } else {
@@ -253,9 +281,9 @@ const UserDashboard: React.FC = () => {
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const handleRequestCall = (bank: string) => {
-    alert(`Request call for ₹${bank}`);
-  };
+  // const handleRequestCall = (bank: string) => {
+  //   alert(`Request call for ₹${bank}`);
+  // };
 
   const handleViewDetails = (loan: Loan) => {
     setSelectedLoan(loan);
@@ -274,6 +302,7 @@ const UserDashboard: React.FC = () => {
       })
     );
   };
+
   return (
     <>
       {selectedApplication && (
@@ -353,7 +382,7 @@ const UserDashboard: React.FC = () => {
                     bank={loan.Bank}
                     status={loan.status}
                     amount={loan.loanAmount}
-                    onRequestCall={() => handleRequestCall(loan.Bank)}
+                    onRequestCall={() => handleRequestCall()}
                     onViewDetails={() => handleViewDetails(loan)}
                   />
                 </Grid>
@@ -441,6 +470,12 @@ const UserDashboard: React.FC = () => {
           </Dialog>
         </Box>
         <Footer />
+        <RequestCallForm
+          open={isRequestCallFormOpen}
+          onClose={() => setIsRequestCallFormOpen(false)}
+          onSubmit={handleFormSubmit}
+          bank={selectedLoan?.Bank}
+        />
       </ThemeProvider>
     </>
   );

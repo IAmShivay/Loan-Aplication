@@ -16,10 +16,12 @@ const {
   getUserDetailsA,
 } = require("../Controllers/userController");
 const { isAuthenticated, authorizedRoles } = require("../Middleware/auth");
+const { createOrUpdateCallRequest } = require("../Controllers/callRequest");
 const router = express.Router();
 
 router.route("/register").post(registerUser);
 router.route("/details").get(isAuthenticated, getUserDetailsA);
+router.route("/requestCall").post(isAuthenticated, createOrUpdateCallRequest);
 
 router.route("/login").post(loginUser);
 router.route("/password/forgot/").post(forgotPassword);
@@ -34,7 +36,11 @@ router
   .route("/admin/users/:id")
   .get(isAuthenticated, authorizedRoles("lendingPartner"), getSingleUser)
   .put(isAuthenticated, authorizedRoles("lendingPartner"), updateUserRole)
-  .delete(isAuthenticated, authorizedRoles("lendingPartner"), deleteUserProfile);
+  .delete(
+    isAuthenticated,
+    authorizedRoles("lendingPartner"),
+    deleteUserProfile
+  );
 
 router.route("/logout").get(logOutUser);
 module.exports = router;
