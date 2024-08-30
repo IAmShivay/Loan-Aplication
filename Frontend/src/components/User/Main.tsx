@@ -106,6 +106,9 @@ const StyledLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 // Interfaces
 interface Loan {
+  name: string;
+  email: string;
+  phoneNumber: string;
   Bank: string;
   status: "in-progress" | "Approved" | "rejected";
   loanAmount: number;
@@ -206,8 +209,9 @@ const UserDashboard: React.FC = () => {
   const { user } = useSelector((state: any) => state.verify);
   const [selectedLoan, setSelectedLoan] = useState<Loan | null>(null);
   const [applications, setApplications] = useState<LoanApplications[]>([]);
-
-  const handleRequestCall = () => {
+  console.log(user.firstName + user.lastName);
+  const handleRequestCall = (application: any) => {
+    setSelectedApplication(application);
     setIsRequestCallFormOpen(true); // Open the form
   };
 
@@ -281,10 +285,6 @@ const UserDashboard: React.FC = () => {
 
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // const handleRequestCall = (bank: string) => {
-  //   alert(`Request call for ₹${bank}`);
-  // };
-
   const handleViewDetails = (loan: Loan) => {
     setSelectedLoan(loan);
   };
@@ -336,7 +336,7 @@ const UserDashboard: React.FC = () => {
               >
                 <Box mb={{ xs: 2, sm: 0 }}>
                   <Typography variant="h4" component="h1" color="primary">
-                    Welcome back, {user.Name}! 😊
+                    Welcome back, {`${user.firstName}`}! 😊
                   </Typography>
                   <Button
                     variant="contained"
@@ -382,7 +382,7 @@ const UserDashboard: React.FC = () => {
                     bank={loan.Bank}
                     status={loan.status}
                     amount={loan.loanAmount}
-                    onRequestCall={() => handleRequestCall()}
+                    onRequestCall={() => handleRequestCall(loan)}
                     onViewDetails={() => handleViewDetails(loan)}
                   />
                 </Grid>
@@ -470,12 +470,20 @@ const UserDashboard: React.FC = () => {
           </Dialog>
         </Box>
         <Footer />
-        <RequestCallForm
-          open={isRequestCallFormOpen}
-          onClose={() => setIsRequestCallFormOpen(false)}
-          onSubmit={handleFormSubmit}
-          bank={selectedLoan?.Bank}
-        />
+
+        {data.map((loan, index) => (
+          <Grid item xs={12} sm={6} md={4} key={index}>
+            <RequestCallForm
+              open={isRequestCallFormOpen}
+              onClose={() => setIsRequestCallFormOpen(false)}
+              onSubmit={handleFormSubmit}
+              bank={loan?.Bank}
+              name={`${user?.firstName ?? ""} ${user?.lastName ?? ""}`.trim()}
+              email={loan?.email}
+              phoneNumber={loan?.phoneNumber}
+            />
+          </Grid>
+        ))}
       </ThemeProvider>
     </>
   );

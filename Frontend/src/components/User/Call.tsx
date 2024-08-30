@@ -12,6 +12,9 @@ import {
 } from "@mui/material";
 
 interface RequestCallFormProps {
+  name:string;
+  email:string;
+  phoneNumber:string;
   bank: string;
   open: boolean;
   onClose: () => void;
@@ -29,19 +32,22 @@ interface RequestCallFormData {
 }
 
 const RequestCallForm: React.FC<RequestCallFormProps> = ({
+  name,
+  email,
+  phoneNumber,
   open,
   onClose,
   onSubmit,
   bank,
 }) => {
   const [formData, setFormData] = useState<RequestCallFormData>({
-    name: "",
-    email: "",
-    phoneNumber: "",
+    name: name,
+    email: email,
+    phoneNumber: phoneNumber,
     preferredCallTime: "",
     reasonForCall: "",
     additionalNotes: "",
-    bank:"",
+    bank:bank,
   });
 
   const theme = useTheme();
@@ -59,7 +65,6 @@ const RequestCallForm: React.FC<RequestCallFormProps> = ({
     onSubmit({ ...formData});
     onClose();
   };
-console.log(bank)
   return (
     <Dialog
       open={open}
