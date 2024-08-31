@@ -169,7 +169,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
   };
 
   const onSubmit = async () => {
-    await initiatePayment(100); // Amount in paise (1000 INR)
+    await initiatePayment(499); // Amount in paise (1000 INR)
   };
 
   const handleTrackApplication = () => {
@@ -201,7 +201,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
           <Typography variant="body1" gutterBottom color="#2E7D32">
             {paymentSuccessful
               ? "Payment successful! You can now track your application."
-              : "Click the button below to proceed with the payment of ₹1000"}
+              : "Click the button below to proceed with the payment of ₹499"}
           </Typography>
         </motion.div>
         <Box mt={2} style={{ textAlign: "center" }}>
