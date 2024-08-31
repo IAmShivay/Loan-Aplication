@@ -112,14 +112,15 @@ const ResponsiveAppBar = () => {
       })
     );
   };
-
+  const { isAuthenticated, user } = useSelector((state: any) => state?.verify);
   const settings = [
     { name: "Profile", link: "/app/v1/user/profile" },
-    { name: "Dashboard", link: "/app/v1/user/dashboard" },
+    user?.role === "lendingPartner"
+      ? { name: "Admin Dashbord", link: "/app/v1/admin/dashboard" }
+      : { name: "User Dashboard", link: "/app/v1/user/dashboard" },
     { name: "Logout", onClick: handleLogout },
-  ];
+  ].filter(Boolean); // This removes any `null` values from the array
 
-  const { isAuthenticated } = useSelector((state: any) => state.verify);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const theme = useTheme();
