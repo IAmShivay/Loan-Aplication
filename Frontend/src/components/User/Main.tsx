@@ -220,7 +220,7 @@ const UserDashboard: React.FC = () => {
   const handleFormSubmit = async (formData: any) => {
     try {
       const response = await axiosInstance.post(
-        "http://localhost:3000/api/v1/requestCall",
+        "https://api.studynpay.com/api/v1/requestCall",
         formData
       );
       console.log("Form submitted successfully:", response.data);
@@ -244,7 +244,7 @@ const UserDashboard: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(
-          "http://localhost:3000/api/v1/details"
+          "https://api.studynpay.com/api/v1/details"
         );
 
         if (Array.isArray(response.data.data)) {
@@ -263,7 +263,7 @@ const UserDashboard: React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(
-          "http://localhost:3000/api/v1/getSingleApplication"
+          "https://api.studynpay.com/api/v1/getSingleApplication"
         );
 
         if (response.data && Array.isArray(response.data.loanApplications)) {

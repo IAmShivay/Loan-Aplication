@@ -20,7 +20,6 @@ interface FeePaymentProps {
 }
 
 const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
-  const [payment, setPayment] = useState(""); // Corrected the useState initialization
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const form = useSelector((state: RootState) => state.form);
@@ -50,7 +49,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
       }
 
       const response = await axiosInstance.post(
-        "http://localhost:3000/api/v1/create-order",
+        "https://api.studynpay.com/api/v1/create-order",
         { amount },
         {
           headers: {
@@ -60,7 +59,6 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
         }
       );
 
-      setPayment("paid");
       const options = {
         key: "rzp_test_Lhf5YHFOs9Begr",
         amount: response.data.amount,
@@ -78,7 +76,8 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
           } catch (error: any) {
             console.error("Error submitting form:", error);
             setSnackbarMessage(
-              error?.response?.data?.message || "Your Application is not submitted."
+              error?.response?.data?.message ||
+                "Your Application is not submitted."
             );
             setSnackbarOpen(true);
           }
@@ -134,9 +133,11 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
       formData.append("coBorrowerIncome", form.coBorrowerIncome);
       formData.append("coBorrowerPhone", form.coBorrowerPhone);
       formData.append("bachelorCgpa", form.bachelorCgpa);
-      formData.append("paymentStatus", payment);
-      formData.append("paymentId", paymentId);
 
+      formData.append("paymentId", paymentId);
+      if (paymentId) {
+        formData.append("paymentStatus", " paid");
+      }
       formData.append("college", form.college);
 
       if (documents.idProof?.file) {
@@ -152,7 +153,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
       }
 
       await axiosInstance.post(
-        "http://localhost:3000/api/v1/loan-application",
+        "https://api.studynpay.com/api/v1/loan-application",
         formData,
         {
           headers: {
