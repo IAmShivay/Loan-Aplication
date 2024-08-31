@@ -169,7 +169,7 @@ const FeePayment: React.FC<FeePaymentProps> = ({ prevStep }) => {
   };
 
   const onSubmit = async () => {
-    await initiatePayment(499); // Amount in paise (1000 INR)
+    await initiatePayment(499);
   };
 
   const handleTrackApplication = () => {
