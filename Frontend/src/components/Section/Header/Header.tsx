@@ -95,7 +95,7 @@ const ResponsiveAppBar = () => {
   const pages = [
     { name: "Home", link: "/" },
     { name: "About Us", link: "/about-us" },
-    { name: "EMI Calculator", link: "/emi-calculator" },
+    { name: "EMI Calculator", link: "/loan-calculator" },
     { name: "FAQ", link: "/faq" },
   ];
 
