@@ -359,7 +359,7 @@ const CallsRequested: React.FC = () => {
                 <TableHead>
                   <TableRow>
                     <TableCell>Applicant</TableCell>
-                    <TableCell>Loan Amount</TableCell>
+                    <TableCell>Name</TableCell>
                     <TableCell>Request Time</TableCell>
                     <TableCell>Preferred Time</TableCell>
                     <TableCell>Action</TableCell>
@@ -402,21 +402,21 @@ const CallsRequested: React.FC = () => {
           {selectedRequest && (
             <Box>
               <Typography variant="body1">
-                <strong>Applicant:</strong> {selectedRequest.applicant}
+                <strong>Applicant:</strong> {selectedRequest.ApplicantId}
               </Typography>
               <Typography variant="body1">
-                <strong>Loan Amount:</strong> {selectedRequest.loanAmount}
+                <strong>Reason For Call:</strong>{" "}
+                {selectedRequest.reasonForCall}
               </Typography>
               <Typography variant="body1">
-                <strong>Preferred Time:</strong> {selectedRequest.preferredTime}
+                <strong>Preferred Time:</strong>{" "}
+                {selectedRequest.preferredCallTime}
               </Typography>
               <Typography variant="body1" sx={{ mt: 2 }}>
                 <strong>Additional Notes:</strong>
               </Typography>
               <Typography variant="body2">
-                The applicant has requested a call to discuss their loan
-                application. Please schedule the call at their preferred time or
-                propose an alternative time slot.
+                {selectedRequest.additionalNotes}
               </Typography>
             </Box>
           )}
@@ -428,7 +428,7 @@ const CallsRequested: React.FC = () => {
             variant="contained"
             color="primary"
           >
-            Confirm Schedule
+            Update Status
           </Button>
         </DialogActions>
       </Dialog>
