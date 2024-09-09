@@ -709,114 +709,8 @@ const CallsRequested: React.FC = () => {
             color={COLORS[3]}
           />
         </Grid>
-
-        {/* Call Requests Status Chart */}
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 2, height: "100%" }}>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Call Requests Status
-            </Typography>
-            <Box sx={{ height: 300 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={callRequestsData}
-                    cx="50%"
-                    cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
-                    fill="#8884d8"
-                    paddingAngle={5}
-                    dataKey="count"
-                    label={({ name, percent }) =>
-                      `${name} ${(percent * 100).toFixed(0)}%`
-                    }
-                  >
-                    {callRequestsData.map((_, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend verticalAlign="bottom" height={36} />
-                </PieChart>
-              </ResponsiveContainer>
-            </Box>
-          </Paper>
-        </Grid>
-
-        {/* Daily Requests Chart */}
-        <Grid item xs={12} md={6}>
-          <Paper sx={{ p: 2, height: "100%" }}>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Daily Call Requests
-            </Typography>
-            <Box sx={{ height: 300 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={dailyRequestsData}
-                  margin={{
-                    top: 5,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="day" />
-                  <YAxis />
-                  <Tooltip />
-                  <Bar dataKey="requests" fill={COLORS[4]}>
-                    {dailyRequestsData.map((_, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            </Box>
-          </Paper>
-        </Grid>
-
-        {/* Weekly Trend Chart */}
-        <Grid item xs={12}>
-          <Paper sx={{ p: 10, height: 500 }}>
-            <Typography variant="h6" component="h2" gutterBottom>
-              Weekly Call Requests Trend
-            </Typography>
-            <Box sx={{ height: "100%" }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                  data={weeklyTrendData}
-                  margin={{
-                    top: 2,
-                    right: 30,
-                    left: 20,
-                    bottom: 5,
-                  }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="week" />
-                  <YAxis />
-                  <Tooltip />
-                  <Line
-                    type="monotone"
-                    dataKey="requests"
-                    stroke={COLORS[0]}
-                    activeDot={{ r: 8 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </Box>
-          </Paper>
-        </Grid>
-
         {/* Pending Call Requests */}
-        <Grid item xs={12}>
+        <Grid item xs={12} sx={{mb:'2vh'}}>
           <Paper sx={{ p: 2 }}>
             <Typography variant="h6" component="h2" gutterBottom>
               Pending Call Requests
@@ -864,6 +758,110 @@ const CallsRequested: React.FC = () => {
             </TableContainer>
           </Paper>
         </Grid>
+      </Grid>
+      {/* Call Requests Status Chart */}
+      <Grid item xs={12} md={6}>
+        <Paper sx={{ p: 2, height: "100%" }}>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Call Requests Status
+          </Typography>
+          <Box sx={{ height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={callRequestsData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={60}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  paddingAngle={5}
+                  dataKey="count"
+                  label={({ name, percent }) =>
+                    `${name} ${(percent * 100).toFixed(0)}%`
+                  }
+                >
+                  {callRequestsData.map((_, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend verticalAlign="bottom" height={36} />
+              </PieChart>
+            </ResponsiveContainer>
+          </Box>
+        </Paper>
+      </Grid>
+
+      {/* Daily Requests Chart */}
+      <Grid item xs={12} md={6}>
+        <Paper sx={{ p: 2, height: "100%" }}>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Daily Call Requests
+          </Typography>
+          <Box sx={{ height: 300 }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={dailyRequestsData}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="day" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="requests" fill={COLORS[4]}>
+                  {dailyRequestsData.map((_, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </Box>
+        </Paper>
+      </Grid>
+
+      {/* Weekly Trend Chart */}
+      <Grid item xs={12}>
+        <Paper sx={{ p: 10, height: 500 }}>
+          <Typography variant="h6" component="h2" gutterBottom>
+            Weekly Call Requests Trend
+          </Typography>
+          <Box sx={{ height: "100%" }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                data={weeklyTrendData}
+                margin={{
+                  top: 2,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="week" />
+                <YAxis />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="requests"
+                  stroke={COLORS[0]}
+                  activeDot={{ r: 8 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </Box>
+        </Paper>
       </Grid>
 
       {/* View and Update Status Dialog */}

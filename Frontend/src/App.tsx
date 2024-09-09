@@ -51,7 +51,7 @@ const App: React.FC = () => {
   if (loading) {
     return <LoadingComponent />;
   }
-  const warning = sessionStorage.getItem("warning");
+  const warning = localStorage.getItem("warning");
   if (error && warning === null) {
     return <SessionExpiredPopup />;
   }

@@ -38,12 +38,12 @@ const SessionExpiredPopup = () => {
   const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
-    sessionStorage.setItem("warning", "true");
+    localStorage.setItem("warning", "true");
     window.location.href = "/";
   };
   const handleLogin = () => {
     setOpen(false);
-    sessionStorage.setItem("warning", "true");
+    localStorage.setItem("warning", "true");
     window.location.href = "/user/login";
   };
 
