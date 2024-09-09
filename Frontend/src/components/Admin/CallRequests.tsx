@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -38,6 +38,7 @@ import PhoneInTalkIcon from "@mui/icons-material/PhoneInTalk";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import EventIcon from "@mui/icons-material/Event";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import axiosInstance from "../apiAxios/axiosInstance";
 
 const COLORS = ["#4CAF50", "#2196F3", "#FF9800", "#E91E63", "#9C27B0"];
 
@@ -65,9 +66,31 @@ const weeklyTrendData = [
 ];
 
 const CallsRequested: React.FC = () => {
+  const [callRequests, setCallRequests] = useState([]);
+  // const [loading, setLoading] = useState(true);
+
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState<any>(null);
 
+  const bank = "State Bank Of India";
+
+  useEffect(() => {
+    axiosInstance
+      .get(`http://localhost:3000/api/v1/getCallsRequests`, {
+        params: {
+          bank: bank,
+        },
+      })
+      .then((response) => {
+        setCallRequests(response.data);
+        // setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching call requests:", error);
+        // setLoading(false);
+      });
+  }, []);
+  console.log(callRequests);
   const handleOpenDialog = (request: any) => {
     setSelectedRequest(request);
     setOpenDialog(true);
@@ -110,45 +133,6 @@ const CallsRequested: React.FC = () => {
       </CardContent>
     </Card>
   );
-
-  const pendingCallRequests = [
-    {
-      id: 1,
-      applicant: "John Doe",
-      loanAmount: "$15,000",
-      requestTime: "2 hours ago",
-      preferredTime: "2023-05-10 14:00",
-    },
-    {
-      id: 2,
-      applicant: "Jane Smith",
-      loanAmount: "$8,000",
-      requestTime: "5 hours ago",
-      preferredTime: "2023-05-11 10:00",
-    },
-    {
-      id: 3,
-      applicant: "Mike Johnson",
-      loanAmount: "$25,000",
-      requestTime: "1 day ago",
-      preferredTime: "2023-05-12 16:00",
-    },
-    {
-      id: 4,
-      applicant: "Sarah Williams",
-      loanAmount: "$12,000",
-      requestTime: "2 days ago",
-      preferredTime: "2023-05-13 11:00",
-    },
-    {
-      id: 5,
-      applicant: "Robert Brown",
-      loanAmount: "$20,000",
-      requestTime: "3 days ago",
-      preferredTime: "2023-05-14 15:00",
-    },
-  ];
-
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
       <Typography
@@ -240,7 +224,6 @@ const CallsRequested: React.FC = () => {
                     }
                   >
                     {callRequestsData.map((_, index) => (
-                      
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS[index % COLORS.length]}
@@ -383,17 +366,17 @@ const CallsRequested: React.FC = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {pendingCallRequests.map((request) => (
-                    <TableRow key={request.id}>
+                  {callRequests.map((request) => (
+                    <TableRow key={request._id}>
                       <TableCell>
                         <Box display="flex" alignItems="center">
-                          <Avatar sx={{ mr: 2 }}>{request.applicant[0]}</Avatar>
-                          {request.applicant}
+                          <Avatar sx={{ mr: 2 }}>{}</Avatar>
+                          {request?.ApplicantId}
                         </Box>
                       </TableCell>
-                      <TableCell>{request.loanAmount}</TableCell>
-                      <TableCell>{request.requestTime}</TableCell>
-                      <TableCell>{request.preferredTime}</TableCell>
+                      <TableCell>{request.name}</TableCell>
+                      <TableCell>{request.createdAt}</TableCell>
+                      <TableCell>{request.preferredCallTime}</TableCell>
                       <TableCell>
                         <Button
                           variant="contained"
