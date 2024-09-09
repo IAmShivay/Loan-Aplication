@@ -80,19 +80,31 @@ exports.getCallRequestById = async (req, res) => {
   }
 };
 
-// Update a call request by ID
 exports.updateCallRequest = async (req, res) => {
   try {
-    const updatedCallRequest = await CallRequest.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
+    // Extract parameters from the request body
+    const { ApplicantId, status } = req.body;
+
+    // Validate input
+    if (!ApplicantId || !status) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    // Find and update the record
+    const updatedCallRequest = await CallRequest.findOneAndUpdate(
+      { ApplicantId: ApplicantId }, // Match the ApplicantId
+      { status: status } // Update the status
     );
+
+    // Check if the record was found
     if (!updatedCallRequest) {
       return res.status(404).json({ error: "Call request not found" });
     }
+
+    // Return the updated record
     res.status(200).json(updatedCallRequest);
   } catch (err) {
+    // Handle any errors
     res.status(500).json({ error: err.message });
   }
 };

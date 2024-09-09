@@ -18,6 +18,11 @@
 //   DialogTitle,
 //   DialogContent,
 //   DialogActions,
+//   Select,
+//   MenuItem,
+//   FormControl,
+//   InputLabel,
+//   SelectChangeEvent,
 // } from "@mui/material";
 // import {
 //   BarChart,
@@ -65,74 +70,122 @@
 //   { week: "Week 4", requests: 40 },
 // ];
 
-// const CallsRequested: React.FC = () => {
-//   const [callRequests, setCallRequests] = useState([]);
-//   // const [loading, setLoading] = useState(true);
+// interface CallRequest {
+//   _id: string;
+//   ApplicantId: string;
+//   name: string;
+//   createdAt: string;
+//   preferredCallTime: string;
+//   reasonForCall: string;
+//   additionalNotes: string;
+//   status: string;
+// }
 
+// interface MetricCardProps {
+//   title: string;
+//   value: string | number;
+//   icon: React.ReactNode;
+//   color: string;
+// }
+
+// const MetricCard: React.FC<MetricCardProps> = ({
+//   title,
+//   value,
+//   icon,
+//   color,
+// }) => (
+//   <Card elevation={3} sx={{ height: "100%" }}>
+//     <CardContent>
+//       <Box display="flex" justifyContent="space-between" alignItems="center">
+//         <Box>
+//           <Typography variant="subtitle2" color="textSecondary">
+//             {title}
+//           </Typography>
+//           <Typography variant="h4" sx={{ my: 1, color }}>
+//             {value}
+//           </Typography>
+//         </Box>
+//         <Box
+//           sx={{
+//             backgroundColor: `${color}22`,
+//             borderRadius: "50%",
+//             p: 1,
+//             display: "flex",
+//             alignItems: "center",
+//             justifyContent: "center",
+//           }}
+//         >
+//           {icon}
+//         </Box>
+//       </Box>
+//     </CardContent>
+//   </Card>
+// );
+
+// const CallsRequested: React.FC = () => {
+//   const [callRequests, setCallRequests] = useState<CallRequest[]>([]);
 //   const [openDialog, setOpenDialog] = useState(false);
-//   const [selectedRequest, setSelectedRequest] = useState<any>(null);
+//   const [selectedRequest, setSelectedRequest] = useState<CallRequest | null>(
+//     null
+//   );
+//   const [selectedStatus, setSelectedStatus] = useState<string>("");
 
 //   const bank = "State Bank Of India";
 
 //   useEffect(() => {
 //     axiosInstance
-//       .get(`http://localhost:3000/api/v1/getCallsRequests`, {
+//       .get<CallRequest[]>(`http://localhost:3000/api/v1/getCallsRequests`, {
 //         params: {
 //           bank: bank,
 //         },
 //       })
 //       .then((response) => {
-//         setCallRequests(response.data);
-//         // setLoading(false);
+//         setCallRequests(response?.data);
 //       })
 //       .catch((error) => {
 //         console.error("Error fetching call requests:", error);
-//         // setLoading(false);
 //       });
 //   }, []);
-//   console.log(callRequests);
-//   const handleOpenDialog = (request: any) => {
+
+//   const handleOpenDialog = (request: CallRequest) => {
 //     setSelectedRequest(request);
+//     setSelectedStatus(request.status || "");
 //     setOpenDialog(true);
 //   };
 
 //   const handleCloseDialog = () => {
 //     setOpenDialog(false);
+//     setSelectedStatus("");
 //   };
 
-//   const MetricCard: React.FC<{
-//     title: string;
-//     value: string | number;
-//     icon: React.ReactNode;
-//     color: string;
-//   }> = ({ title, value, icon, color }) => (
-//     <Card elevation={3} sx={{ height: "100%" }}>
-//       <CardContent>
-//         <Box display="flex" justifyContent="space-between" alignItems="center">
-//           <Box>
-//             <Typography variant="subtitle2" color="textSecondary">
-//               {title}
-//             </Typography>
-//             <Typography variant="h4" sx={{ my: 1, color }}>
-//               {value}
-//             </Typography>
-//           </Box>
-//           <Box
-//             sx={{
-//               backgroundColor: `${color}22`,
-//               borderRadius: "50%",
-//               p: 1,
-//               display: "flex",
-//               alignItems: "center",
-//               justifyContent: "center",
-//             }}
-//           >
-//             {icon}
-//           </Box>
-//         </Box>
-//       </CardContent>
-//     </Card>
-//   );
+//   const handleStatusChange = (event: SelectChangeEvent<string>) => {
+//     setSelectedStatus(event.target.value);
+//   };
+
+//   const handleUpdateStatus = () => {
+//     if (selectedRequest) {
+//       console.log(
+//         `Updating status for request ${selectedRequest.ApplicantId} to ${selectedStatus}`
+//       );
+
+//       axiosInstance
+//         .put<CallRequest[]>(`http://localhost:3000/api/v1/updateCallRequest`, {
+//           params: {
+//             ApplicantId: selectedRequest.ApplicantId,
+//             status: selectedStatus,
+//           },
+//         })
+//         .then((response) => {
+//           setCallRequests(response.data);
+//         })
+//         .catch((error) => {
+//           console.error("Error fetching call requests:", error);
+//         });
+
+//       handleCloseDialog();
+//     }
+//   };
+
 //   return (
 //     <Box sx={{ flexGrow: 1, p: 3 }}>
 //       <Typography
@@ -147,7 +200,7 @@
 //           marginBottom: 3,
 //           textTransform: "uppercase",
 //           letterSpacing: 1.2,
-//           color: "#007A33", // Example darker green
+//           color: "#007A33",
 //         }}
 //       >
 //         Calls Requested
@@ -190,21 +243,7 @@
 //         {/* Call Requests Status Chart */}
 //         <Grid item xs={12} md={6}>
 //           <Paper sx={{ p: 2, height: "100%" }}>
-//             <Typography
-//               variant="h6"
-//               component="h1"
-//               gutterBottom
-//               fontWeight="bold"
-//               sx={{
-//                 borderBottom: "2px solid",
-//                 borderColor: "#C9E7CB",
-//                 paddingBottom: 2,
-//                 marginBottom: 3,
-//                 textTransform: "uppercase",
-//                 letterSpacing: 1.2,
-//                 color: "#007A33", // Example darker green
-//               }}
-//             >
+//             <Typography variant="h6" component="h2" gutterBottom>
 //               Call Requests Status
 //             </Typography>
 //             <Box sx={{ height: 300 }}>
@@ -241,21 +280,7 @@
 //         {/* Daily Requests Chart */}
 //         <Grid item xs={12} md={6}>
 //           <Paper sx={{ p: 2, height: "100%" }}>
-//             <Typography
-//               variant="h6"
-//               component="h1"
-//               gutterBottom
-//               fontWeight="bold"
-//               sx={{
-//                 borderBottom: "2px solid",
-//                 borderColor: "#C9E7CB",
-//                 paddingBottom: 2,
-//                 marginBottom: 3,
-//                 textTransform: "uppercase",
-//                 letterSpacing: 1.2,
-//                 color: "#007A33", // Example darker green
-//               }}
-//             >
+//             <Typography variant="h6" component="h2" gutterBottom>
 //               Daily Call Requests
 //             </Typography>
 //             <Box sx={{ height: 300 }}>
@@ -290,21 +315,7 @@
 //         {/* Weekly Trend Chart */}
 //         <Grid item xs={12}>
 //           <Paper sx={{ p: 10, height: 500 }}>
-//             <Typography
-//               variant="h6"
-//               component="h1"
-//               gutterBottom
-//               fontWeight="bold"
-//               sx={{
-//                 borderBottom: "2px solid",
-//                 borderColor: "#C9E7CB",
-//                 paddingBottom: 2,
-//                 marginBottom: 3,
-//                 textTransform: "uppercase",
-//                 letterSpacing: 1.2,
-//                 color: "#007A33", // Example darker green
-//               }}
-//             >
+//             <Typography variant="h6" component="h2" gutterBottom>
 //               Weekly Call Requests Trend
 //             </Typography>
 //             <Box sx={{ height: "100%" }}>
@@ -337,21 +348,7 @@
 //         {/* Pending Call Requests */}
 //         <Grid item xs={12}>
 //           <Paper sx={{ p: 2 }}>
-//             <Typography
-//               variant="h6"
-//               component="h1"
-//               gutterBottom
-//               fontWeight="bold"
-//               sx={{
-//                 borderBottom: "2px solid",
-//                 borderColor: "#C9E7CB",
-//                 paddingBottom: 2,
-//                 marginBottom: 3,
-//                 textTransform: "uppercase",
-//                 letterSpacing: 1.2,
-//                 color: "#007A33", // Example darker green
-//               }}
-//             >
+//             <Typography variant="h6" component="h2" gutterBottom>
 //               Pending Call Requests
 //             </Typography>
 //             <TableContainer>
@@ -360,6 +357,7 @@
 //                   <TableRow>
 //                     <TableCell>Applicant</TableCell>
 //                     <TableCell>Name</TableCell>
+//                     <TableCell>Current Status</TableCell>
 //                     <TableCell>Request Time</TableCell>
 //                     <TableCell>Preferred Time</TableCell>
 //                     <TableCell>Action</TableCell>
@@ -367,23 +365,24 @@
 //                 </TableHead>
 //                 <TableBody>
 //                   {callRequests.map((request) => (
-//                     <TableRow key={request._id}>
+//                     <TableRow key={request?._id}>
 //                       <TableCell>
 //                         <Box display="flex" alignItems="center">
 //                           <Avatar sx={{ mr: 2 }}>{}</Avatar>
 //                           {request?.ApplicantId}
 //                         </Box>
 //                       </TableCell>
-//                       <TableCell>{request.name}</TableCell>
-//                       <TableCell>{request.createdAt}</TableCell>
-//                       <TableCell>{request.preferredCallTime}</TableCell>
+//                       <TableCell>{request?.name}</TableCell>
+//                       <TableCell>{request?.status}</TableCell>
+//                       <TableCell>{request?.createdAt}</TableCell>
+//                       <TableCell>{request?.preferredCallTime}</TableCell>
 //                       <TableCell>
 //                         <Button
 //                           variant="contained"
 //                           size="small"
 //                           onClick={() => handleOpenDialog(request)}
 //                         >
-//                           Schedule Call
+//                           Update Status
 //                         </Button>
 //                       </TableCell>
 //                     </TableRow>
@@ -395,9 +394,9 @@
 //         </Grid>
 //       </Grid>
 
-//       {/* Schedule Call Dialog */}
+//       {/* View and Update Status Dialog */}
 //       <Dialog open={openDialog} onClose={handleCloseDialog}>
-//         <DialogTitle>Schedule Call</DialogTitle>
+//         <DialogTitle>View and Update Call Request</DialogTitle>
 //         <DialogContent>
 //           {selectedRequest && (
 //             <Box>
@@ -418,17 +417,32 @@
 //               <Typography variant="body2">
 //                 {selectedRequest.additionalNotes}
 //               </Typography>
+//               <FormControl fullWidth sx={{ mt: 2 }}>
+//                 <InputLabel id="status-select-label">Status</InputLabel>
+//                 <Select
+//                   labelId="status-select-label"
+//                   id="status-select"
+//                   value={selectedStatus}
+//                   label="Status"
+//                   onChange={handleStatusChange}
+//                 >
+//                   <MenuItem value="pending">Pending</MenuItem>
+//                   <MenuItem value="scheduled">Scheduled</MenuItem>
+//                   <MenuItem value="completed">Completed</MenuItem>
+//                   <MenuItem value="cancelled">Cancelled</MenuItem>
+//                 </Select>
+//               </FormControl>
 //             </Box>
 //           )}
 //         </DialogContent>
 //         <DialogActions>
 //           <Button onClick={handleCloseDialog}>Cancel</Button>
 //           <Button
-//             onClick={handleCloseDialog}
+//             onClick={handleUpdateStatus}
 //             variant="contained"
 //             color="primary"
 //           >
-//             Update Status
+//             Confirm Status
 //           </Button>
 //         </DialogActions>
 //       </Dialog>
@@ -437,6 +451,7 @@
 // };
 
 // export default CallsRequested;
+
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -527,7 +542,12 @@ interface MetricCardProps {
   color: string;
 }
 
-const MetricCard: React.FC<MetricCardProps> = ({ title, value, icon, color }) => (
+const MetricCard: React.FC<MetricCardProps> = ({
+  title,
+  value,
+  icon,
+  color,
+}) => (
   <Card elevation={3} sx={{ height: "100%" }}>
     <CardContent>
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -559,12 +579,17 @@ const MetricCard: React.FC<MetricCardProps> = ({ title, value, icon, color }) =>
 const CallsRequested: React.FC = () => {
   const [callRequests, setCallRequests] = useState<CallRequest[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedRequest, setSelectedRequest] = useState<CallRequest | null>(null);
+  const [selectedRequest, setSelectedRequest] = useState<CallRequest | null>(
+    null
+  );
   const [selectedStatus, setSelectedStatus] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const bank = "State Bank Of India";
 
   useEffect(() => {
+    setLoading(true);
     axiosInstance
       .get<CallRequest[]>(`http://localhost:3000/api/v1/getCallsRequests`, {
         params: {
@@ -573,9 +598,14 @@ const CallsRequested: React.FC = () => {
       })
       .then((response) => {
         setCallRequests(response.data);
+        setError(null);
       })
       .catch((error) => {
         console.error("Error fetching call requests:", error);
+        setError("Error fetching call requests. Please try again later.");
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
 
@@ -596,10 +626,29 @@ const CallsRequested: React.FC = () => {
 
   const handleUpdateStatus = () => {
     if (selectedRequest) {
-      console.log(`Updating status for request ${selectedRequest.ApplicantId} to ${selectedStatus}`);
-      // Here you would typically make an API call to update the status
-      // After successful update, you might want to refresh the call requests
-      handleCloseDialog();
+      axiosInstance
+        .put<CallRequest>(`http://localhost:3000/api/v1/updateCallRequest`, {
+          ApplicantId: selectedRequest.ApplicantId,
+          status: selectedStatus,
+        })
+        .then((response) => {
+          console.log("Updated call request status:", response.data);
+          setCallRequests((prevRequests) =>
+            prevRequests.map((request) =>
+              request.ApplicantId === selectedRequest.ApplicantId
+                ? { ...request, status: selectedStatus }
+                : request
+            )
+          );
+          setError(null);
+        })
+        .catch((error) => {
+          console.error("Error updating call request status:", error);
+          setError("Error updating call request status. Please try again.");
+        })
+        .finally(() => {
+          handleCloseDialog();
+        });
     }
   };
 
@@ -622,6 +671,10 @@ const CallsRequested: React.FC = () => {
       >
         Calls Requested
       </Typography>
+
+      {loading && <Typography>Loading...</Typography>}
+      {error && <Typography color="error">{error}</Typography>}
+
       <Grid container spacing={3}>
         {/* Key Metrics */}
         <Grid item xs={12} sm={6} md={3}>
@@ -680,7 +733,10 @@ const CallsRequested: React.FC = () => {
                     }
                   >
                     {callRequestsData.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -714,7 +770,10 @@ const CallsRequested: React.FC = () => {
                   <Tooltip />
                   <Bar dataKey="requests" fill={COLORS[4]}>
                     {dailyRequestsData.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Bar>
                 </BarChart>
@@ -768,6 +827,7 @@ const CallsRequested: React.FC = () => {
                   <TableRow>
                     <TableCell>Applicant</TableCell>
                     <TableCell>Name</TableCell>
+                    <TableCell>Current Status</TableCell>
                     <TableCell>Request Time</TableCell>
                     <TableCell>Preferred Time</TableCell>
                     <TableCell>Action</TableCell>
@@ -775,16 +835,19 @@ const CallsRequested: React.FC = () => {
                 </TableHead>
                 <TableBody>
                   {callRequests.map((request) => (
-                    <TableRow key={request._id}>
+                    <TableRow key={request?._id}>
                       <TableCell>
                         <Box display="flex" alignItems="center">
-                          <Avatar sx={{ mr: 2 }}>{request.name.charAt(0)}</Avatar>
-                          {request.ApplicantId}
+                          <Avatar sx={{ mr: 2 }}>
+                            {request?.name.charAt(0)}
+                          </Avatar>
+                          {request?.ApplicantId}
                         </Box>
                       </TableCell>
-                      <TableCell>{request.name}</TableCell>
-                      <TableCell>{request.createdAt}</TableCell>
-                      <TableCell>{request.preferredCallTime}</TableCell>
+                      <TableCell>{request?.name}</TableCell>
+                      <TableCell>{request?.status}</TableCell>
+                      <TableCell>{request?.createdAt}</TableCell>
+                      <TableCell>{request?.preferredCallTime}</TableCell>
                       <TableCell>
                         <Button
                           variant="contained"
@@ -813,10 +876,12 @@ const CallsRequested: React.FC = () => {
                 <strong>Applicant:</strong> {selectedRequest.ApplicantId}
               </Typography>
               <Typography variant="body1">
-                <strong>Reason For Call:</strong> {selectedRequest.reasonForCall}
+                <strong>Reason For Call:</strong>{" "}
+                {selectedRequest.reasonForCall}
               </Typography>
               <Typography variant="body1">
-                <strong>Preferred Time:</strong> {selectedRequest.preferredCallTime}
+                <strong>Preferred Time:</strong>{" "}
+                {selectedRequest.preferredCallTime}
               </Typography>
               <Typography variant="body1" sx={{ mt: 2 }}>
                 <strong>Additional Notes:</strong>

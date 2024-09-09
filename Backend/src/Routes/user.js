@@ -19,6 +19,7 @@ const { isAuthenticated, authorizedRoles } = require("../Middleware/auth");
 const {
   createOrUpdateCallRequest,
   getAllCallRequests,
+  updateCallRequest,
 } = require("../Controllers/callRequest");
 const router = express.Router();
 
@@ -26,6 +27,7 @@ router.route("/register").post(registerUser);
 router.route("/details").get(isAuthenticated, getUserDetailsA);
 router.route("/requestCall").post(isAuthenticated, createOrUpdateCallRequest);
 router.route("/getCallsRequests").get(isAuthenticated, getAllCallRequests);
+router.route("/updateCallRequest").put(isAuthenticated, updateCallRequest);
 
 router.route("/login").post(loginUser);
 router.route("/password/forgot/").post(forgotPassword);
