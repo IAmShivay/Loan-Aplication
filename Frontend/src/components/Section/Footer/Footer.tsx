@@ -29,7 +29,7 @@ const Footer = () => {
     {
       title: 'Support',
       links: [
-        { text: 'Contact Us', href: '/contact' },
+        // { text: 'Contact Us', href: '/contact' },
         { text: 'FAQs', href: '/faq' },
         // { text: 'Loan Repayment', href: '/loan-repayment' },
         // { text: 'Customer Service', href: '/customer-service' },
