@@ -163,15 +163,6 @@ const AssociatedBanks = () => {
                     {bank.description}
                   </Typography>
                   <Box sx={{ mt: "auto" }}>
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ fontWeight: "bold", color: "#4caf50" }}
-                    >
-                      Specialty:
-                    </Typography>
-                    <Typography variant="body2" color="text.primary">
-                      {bank.specialty}
-                    </Typography>
                   </Box>
                 </CardContent>
               </Card>

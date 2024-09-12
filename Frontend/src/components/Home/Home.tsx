@@ -9,8 +9,6 @@ import {
   Avatar,
   Grid,
 } from "@mui/material";
-import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom";
 import {
   SchoolRounded,
   AccountBalanceRounded,
@@ -18,98 +16,13 @@ import {
 } from "@mui/icons-material";
 import AssociatedBanks from "../Section/AssociatesBanks/NetworkBanks";
 import WhyChooseUs from "../Section/whyChooseUs/whyChooseUs";
-
-const CarouselItems = [
-  {
-    id: 1,
-    title: "Empowering Your Education Journey",
-    description:
-      "Discover tailored loan options to support your academic aspirations and secure your future.",
-  },
-];
-
-const variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0 },
-};
+import HeroSection from "./hero";
 
 const CarouselComponent = () => {
-  const navigate = useNavigate();
-
-  const handleApplyNow = () => {
-    navigate("/apply-form");
-  };
 
   return (
     <Box sx={{ backgroundColor: "#f0f4f8" }}>
-      {/* Hero Section */}
-      <Box
-        sx={{
-          height: { xs: "90vh", md: "90vh" },
-          position: "relative",
-          overflow: "hidden",
-          backgroundImage: `url('https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')`, // Add your background image URL here
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          display: "flex",
-          alignItems: "center",
-          color: "#fff",
-        }}
-      >
-        <Container maxWidth="lg" sx={{ display: "flex", alignItems: "center", position: "relative", zIndex: 1 }}>
-          <Box sx={{ flex: 1, pr: { md: 4 } }}>
-            <motion.div
-              variants={variants}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <Typography
-                variant="h2"
-                sx={{ fontWeight: "bold", mb: 2, color: "#fff" }}
-              >
-                {CarouselItems[0].title}
-              </Typography>
-            </motion.div>
-            <motion.div
-              variants={variants}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <Typography variant="h5" sx={{ mb: 4, color: "#e0e0e0" }}>
-                {CarouselItems[0].description}
-              </Typography>
-            </motion.div>
-            <motion.div
-              variants={variants}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              <Button
-                variant="contained"
-                size="large"
-                onClick={handleApplyNow}
-                sx={{
-                  backgroundColor: "#4caf50",
-                  "&:hover": { backgroundColor: "#45a049" },
-                  borderRadius: "25px",
-                  padding: "10px 30px",
-                  fontSize: "1.1rem",
-                  boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-                }}
-              >
-                Start Your Application
-              </Button>
-            </motion.div>
-          </Box>
-          <Box sx={{ flex: 1, display: { xs: "none", md: "block" } }}>
-            {/* Optionally add a hero image or illustration here */}
-          </Box>
-        </Container>
-      </Box>
-
+      <HeroSection/>
       {/* Loan Types Section */}
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Typography
@@ -364,7 +277,6 @@ const CarouselComponent = () => {
           <Button
             variant="contained"
             size="large"
-            onClick={handleApplyNow}
             sx={{
               backgroundColor: "white",
               color: "#4caf50",

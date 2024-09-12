@@ -12,7 +12,6 @@ import EMICalculator from "./components/Section/EmiCalculator/EmiCalculator.tsx"
 import FAQSection from "./components/Section/faq/faq.tsx";
 import ProfileComponent from "./components/User/profile.tsx";
 import CreditScoreComponent from "./components/Section/CreditScore/CreditScore.tsx";
-// import SessionExpiredPopup from "./components/Section/Error/Error.tsx";
 import PrivacyAndTermsComponent from "./components/privacy/privacy.tsx";
 import TermsAndConditions from "./components/privacy/terms-condition.tsx";
 import PrivacyPolicy from "./components/privacy/privacy-policy.tsx";
@@ -22,8 +21,8 @@ import NotFound from "./notFound.tsx";
 const LoanApplicationForm = lazy(
   () => import("./components/Section/LoanApplication/Main.tsx")
 );
-const Footer = lazy(() => import("./components/Section/Footer/Footer"));
-const Header = lazy(() => import("./components/Section/Header/Header"));
+import Header from "./components/Section/Header/Header.tsx";
+import Footer from "./components/Section/Footer/Footer.tsx";
 const RegisterPage = lazy(
   () => import("./components/Section/Register/Register")
 );
@@ -51,10 +50,6 @@ const App: React.FC = () => {
   if (loading) {
     return <LoadingComponent />;
   }
-  // const warning = localStorage.getItem("warning");
-  // if (error && warning === null) {
-  //   return <SessionExpiredPopup />;
-  // }
   return (
     <Router>
       <Suspense fallback={<LoadingComponent />}>

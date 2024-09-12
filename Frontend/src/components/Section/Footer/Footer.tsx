@@ -14,7 +14,6 @@ const Footer = () => {
         { text: 'Mission & Values', href: '/mission' },
         { text: 'Team', href: '/team' },
         { text: 'Careers', href: '/careers' },
-        // { text: 'Press', href: '/press' },
       ],
     },
     {
@@ -22,17 +21,13 @@ const Footer = () => {
       links: [
         { text: 'Undergraduate Loans', href: '/apply-form' },
         { text: 'Graduate Loans', href: '/apply-form' },
-        // { text: 'Refinancing Options', href: '/refinancing-options' },
         { text: 'Loan Calculator', href: '/Loan-calculator' },
       ],
     },
     {
       title: 'Support',
       links: [
-        // { text: 'Contact Us', href: '/contact' },
         { text: 'FAQs', href: '/faq' },
-        // { text: 'Loan Repayment', href: '/loan-repayment' },
-        // { text: 'Customer Service', href: '/customer-service' },
       ],
     },
     {
@@ -41,20 +36,19 @@ const Footer = () => {
         { text: 'Privacy Policy', href: '/privacy-policy' },
         { text: 'Terms of Use', href: '/terms-of-use' },
         { text: 'Refund Policy', href: '/refund-policy' },
-        // { text: 'Disclosures', href: '/disclosures' },
       ],
     },
   ];
 
   const socialLinks = [
-    { icon: Facebook, url: 'https://www.facebook.com/yourpage' },
-    { icon: Twitter, url: 'https://twitter.com/yourhandle' },
-    { icon: Instagram, url: 'https://www.instagram.com/youraccount' },
+    { icon: Facebook, url: '#' },
+    { icon: Twitter, url: '#' },
+    { icon: Instagram, url: '#' },
   ];
 
   const appLinks = [
-    { icon: Apple, url: 'https://link-to-your-appstore', label: 'App Store' },
-    { icon: Android, url: 'https://link-to-your-playstore', label: 'Play Store' },
+    { icon: Apple, url: '#', label: 'App Store' },
+    { icon: Android, url: '#', label: 'Play Store' },
   ];
 
   return (
