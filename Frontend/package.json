@@ -17,7 +17,7 @@
     "@mui/lab": "^5.0.0-alpha.173",
     "@mui/material": "^5.16.7",
     "@reduxjs/toolkit": "^2.2.5",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "chart.js": "^4.4.3",
     "financial": "^0.2.2",
     "formik": "^2.4.6",
