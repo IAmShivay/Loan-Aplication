@@ -20,6 +20,8 @@ const PrivacyAndTermsComponent: React.FC = () => {
     { title: 'Data Collection', content: 'We collect certain information...' },
     { title: 'User Rights', content: 'You have the right to access...' },
   ];
+  const now = new Date();
+  const formattedDate = now.toLocaleString();
 
   return (
     <Box sx={{ bgcolor: '#F2F9F3', minHeight: '100vh', py: 6 }}>
@@ -60,7 +62,7 @@ const PrivacyAndTermsComponent: React.FC = () => {
         
         <Box sx={{ mt: 6, textAlign: 'center' }}>
           <Typography variant="body2" sx={{ color: '#006400' }}>
-            Last updated: [Insert Date]
+            Last updated: {formattedDate}
           </Typography>
         </Box>
       </Container>
