@@ -1,7 +1,7 @@
-
 import { Typography, Grid, Link, Container, Box, useMediaQuery, useTheme } from '@mui/material';
 import { motion } from 'framer-motion';
 import { Facebook, Twitter, Instagram, Apple, Android } from '@mui/icons-material';
+import { Link as RouterLink } from 'react-router-dom';  // Import RouterLink for client-side routing
 
 const Footer = () => {
   const theme = useTheme();
@@ -67,7 +67,8 @@ const Footer = () => {
                 </Typography>
                 {section.links.map((link, idx) => (
                   <motion.div key={idx} whileHover={{ x: 5 }} transition={{ type: 'spring', stiffness: 300 }}>
-                    <Link href={link.href} color="inherit" underline="hover" sx={{ display: 'block', mb: 1 }}>
+                    {/* Using RouterLink for internal routing */}
+                    <Link component={RouterLink} to={link.href} color="inherit" underline="hover" sx={{ display: 'block', mb: 1 }}>
                       {link.text}
                     </Link>
                   </motion.div>

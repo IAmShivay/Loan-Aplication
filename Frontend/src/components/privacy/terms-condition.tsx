@@ -11,7 +11,7 @@ const TermsAndConditions: React.FC = () => {
           <Link component={RouterLink} to="/" color="inherit">
             Home
           </Link>
-          <Link component={RouterLink} to="/policies" color="inherit">
+          <Link component={RouterLink} to="/our-policy" color="inherit">
             Policies
           </Link>
           <Typography color="text.primary">Terms and Conditions</Typography>
