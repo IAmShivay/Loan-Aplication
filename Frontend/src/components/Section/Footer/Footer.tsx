@@ -11,9 +11,9 @@ const Footer = () => {
     {
       title: 'About Us',
       links: [
-        { text: 'Mission & Values', href: '/mission' },
-        { text: 'Team', href: '/team' },
-        { text: 'Careers', href: '/careers' },
+        { text: 'About Us', href: '/about-us' },
+        // { text: 'Team', href: '/team' },
+        // { text: 'Careers', href: '/careers' },
       ],
     },
     {

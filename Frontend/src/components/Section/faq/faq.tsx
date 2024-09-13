@@ -10,7 +10,6 @@ import {
   Card,
   Divider,
   TextField,
-  Button,
   InputAdornment,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -225,28 +224,7 @@ const FAQSection: React.FC = () => {
             Our dedicated support team is ready to assist you. Don't hesitate to
             reach out for personalized help.
           </Typography>
-          <Button
-            variant="contained"
-            size="large"
-            sx={{
-              bgcolor: "#4CAF50",
-              color: "#FFFFFF",
-              borderRadius: "50px",
-              px: 4,
-              py: 1.5,
-              fontSize: "1.1rem",
-              textTransform: "none",
-              boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
-              transition: "all 0.3s ease",
-              "&:hover": {
-                bgcolor: "#45a049",
-                transform: "translateY(-2px)",
-                boxShadow: "0 6px 8px rgba(0,0,0,0.15)",
-              },
-            }}
-          >
-            Contact Support
-          </Button>
+          
         </Box>
       </Container>
     </Box>

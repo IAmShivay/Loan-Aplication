@@ -79,6 +79,7 @@ const HeroSection = () => {
               <Button
                 variant="contained"
                 size="large"
+                href="/apply-form"
                 onClick={handleApplyNow}
                 sx={{
                   backgroundColor: "#4caf50",

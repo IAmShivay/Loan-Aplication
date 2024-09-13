@@ -19,76 +19,88 @@ import {
   Menu as MenuIcon,
   ArrowDropDown,
   School,
-  Payment,
   TrendingUp,
 } from "@mui/icons-material";
 import { motion } from "framer-motion";
 import { logoutUser } from "../../../app/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { showSnackbar } from "../../../app/errors/errorSlice";
-
-export const StudyAndPayLogo = ({ variant = "default", size = "small" }) => {
+import React from 'react';
+import { Link } from 'react-router-dom';
+export const StudyAndPayLogo = ({ size = 'small' }) => {
   const getSize = () => {
     switch (size) {
-      case "small":
-        return { icon: 28, fontSize: "1.3rem" };
-      case "medium":
-        return { icon: 40, fontSize: "1.6rem" };
-      case "large":
-        return { icon: 52, fontSize: "2.1rem" };
+      case 'small':
+        return { icon: 36, fontSize: '1.5rem', spacing: 1 };
+      case 'medium':
+        return { icon: 48, fontSize: '2rem', spacing: 1.5 };
+      case 'large':
+        return { icon: 64, fontSize: '2.5rem', spacing: 2 };
       default:
-        return { icon: 28, fontSize: "1.3rem" };
+        return { icon: 36, fontSize: '1.5rem', spacing: 1 };
     }
   };
 
-  const { icon, fontSize } = getSize();
+  const { icon, fontSize, spacing } = getSize();
 
   return (
-    <Box
-      component={motion.div}
-      display="flex"
-      alignItems="center"
-      whileHover={{ scale: 1.05 }}
-      transition={{ type: "spring", stiffness: 400, damping: 10 }}
-    >
-      <Box sx={{ position: "relative", display: "flex", alignItems: "center" }}>
-        <School sx={{ fontSize: icon, color: "#4caf50", marginRight: 1 }} />
-        <Payment
-          sx={{
-            fontSize: icon * 0.7,
-            color: "#66bb6a",
-            position: "absolute",
-            right: -8,
-            bottom: -5,
-            filter: "drop-shadow(1px 1px 1px rgba(0,0,0,0.2))",
-          }}
-        />
-      </Box>
-      <Typography
-        variant="h6"
-        component="span"
-        sx={{
-          fontSize,
-          fontWeight: "bold",
-          color: "#2e7d32",
-          letterSpacing: "0.02em",
-          textShadow: "1px 1px 1px rgba(0,0,0,0.1)",
-          marginRight: 1,
-        }}
+    <Link to="/" style={{ textDecoration: 'none' }}>
+      <Box
+        component={motion.div}
+        display="flex"
+        alignItems="center"
+        whileHover={{ scale: 1.05 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 10 }}
       >
-        {variant === "default" ? "Study & Pay" : "Study and Pay"}
-      </Typography>
-      <TrendingUp
-        sx={{
-          fontSize: icon * 0.6,
-          color: "#66bb6a",
-          transform: "rotate(-45deg)",
-        }}
-      />
-    </Box>
+        <Box sx={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+          <motion.div
+            initial={{ rotate: 0 }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          >
+            <School
+              sx={{
+                fontSize: icon,
+                color: '#1565c0',
+                filter: 'drop-shadow(2px 2px 4px rgba(0,0,0,0.2))',
+              }}
+            />
+          </motion.div>
+          <TrendingUp
+            sx={{
+              fontSize: icon * 0.5,
+              color: '#4caf50',
+              position: 'absolute',
+              right: -icon * 0.25,
+              bottom: -icon * 0.1,
+              transform: 'rotate(-30deg)',
+              filter: 'drop-shadow(1px 1px 2px rgba(0,0,0,0.2))',
+            }}
+          />
+        </Box>
+        <Typography
+          variant="h6"
+          component="span"
+          sx={{
+            fontSize,
+            fontWeight: 700,
+            letterSpacing: '0.05em',
+            textShadow: '1px 1px 2px rgba(0,0,0,0.1)',
+            fontFamily: '"Poppins", sans-serif',
+            marginLeft: spacing,
+            background: 'linear-gradient(45deg, #1565c0 30%, #4caf50 90%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+          }}
+        >
+          STUDY
+          <span style={{ color: '#4caf50' }}>N</span>
+          PAY
+        </Typography>
+      </Box>
+    </Link>
   );
 };
-
 const ResponsiveAppBar = () => {
   const navigate = useNavigate();
 

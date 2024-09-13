@@ -5,19 +5,15 @@ import {
   Typography,
   Container,
   Card,
-  CardContent,
   Avatar,
   Grid,
 } from "@mui/material";
-import {
-  SchoolRounded,
-  AccountBalanceRounded,
-  HomeWorkRounded,
-} from "@mui/icons-material";
+
 import AssociatedBanks from "../Section/AssociatesBanks/NetworkBanks";
 import WhyChooseUs from "../Section/whyChooseUs/whyChooseUs";
 import HeroSection from "./hero";
-import EducationLoanSolutions from "./ouservice";
+import EducationLoanSolutions from "./services";
+import CustomerSupport from "./support";
 
 const CarouselComponent = () => {
 
@@ -26,166 +22,10 @@ const CarouselComponent = () => {
       <HeroSection/>
       {/* Loan Types Section */}
       <EducationLoanSolutions/>
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography
-          variant="h3"
-          sx={{
-            mb: 6,
-            textAlign: "center",
-            color: "#2e7d32",
-            fontWeight: "bold",
-          }}
-        >
-          Our Education Loan Solutions
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 4,
-            justifyContent: "center",
-          }}
-        >
-          {[
-            {
-              title: "Tuition Loan",
-              icon: SchoolRounded,
-              description:
-                "Cover your tuition fees and focus on your studies without financial stress.",
-            },
-            {
-              title: "Academic Loan",
-              icon: AccountBalanceRounded,
-              description:
-                "Finance your academic pursuits, including books, equipment, and research expenses.",
-            },
-            {
-              title: "Living Expense Loan",
-              icon: HomeWorkRounded,
-              description:
-                "Support your living costs while you concentrate on achieving your educational goals.",
-            },
-          ].map((loan, index) => (
-            <Card
-              key={index}
-              sx={{
-                maxWidth: 345,
-                minHeight: 250,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "15px",
-                transition:
-                  "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "translateY(-10px)",
-                  boxShadow: "0 12px 20px rgba(0,0,0,0.1)",
-                },
-              }}
-            >
-              <CardContent sx={{ textAlign: "center" }}>
-                <loan.icon sx={{ fontSize: 60, color: "#4caf50", mb: 2 }} />
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{ mb: 2, color: "#2e7d32", fontWeight: "bold" }}
-                >
-                  {loan.title}
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  {loan.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
-        </Box>
-      </Container>
+      {/* Why Choose Us Section */}
       <WhyChooseUs />
       {/* Customer Support Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography
-          variant="h3"
-          sx={{
-            mb: 6,
-            textAlign: "center",
-            color: "#2e7d32",
-            fontWeight: "bold",
-          }}
-        >
-          Customer Support
-        </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: 4,
-            justifyContent: "center",
-          }}
-        >
-          {[
-            {
-              name: "John Doe",
-              role: "Education Loan Specialist",
-              image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fc.pxhere.com%2Fphotos%2F93%2Fc7%2Fbusinessman_man_portrait_male_costume_business_office_office_style-815849.jpg!d&f=1&nofb=1&ipt=b61f550d08d9b91407e624821bdd7b13162001d88896c7b3d8a9d4e0251da941&ipo=imagese",
-              description:
-                "John has over 10 years of experience in providing top-notch advice on education financing.",
-            },
-            {
-              name: "Jane Smith",
-              role: "Student Support Manager",
-              image: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fc.pxhere.com%2Fphotos%2F44%2Fdc%2Fsmiling_boy_man_professional_happy_people_young_portrait-865531.jpg!d&f=1&nofb=1&ipt=c4c57c0940859763478b86f424ebfa49a4ca07630fa28d12bf9fbb86d219fe8b&ipo=images",
-              description:
-                "Jane leads our support team with a focus on helping students navigate their financial journey.",
-            },
-          ].map((support, index) => (
-            <Card
-              key={index}
-              sx={{
-                maxWidth: 345,
-                minHeight: 250,
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                borderRadius: "15px",
-                transition:
-                  "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-                "&:hover": {
-                  transform: "translateY(-10px)",
-                  boxShadow: "0 12px 20px rgba(0,0,0,0.1)",
-                },
-              }}
-            >
-              <CardContent sx={{ textAlign: "center" }}>
-                <Avatar
-                  alt={support.name}
-                  src={support.image}
-                  sx={{ width: 60, height: 60, mb: 2 }}
-                />
-                <Typography
-                  variant="h5"
-                  component="div"
-                  sx={{ mb: 2, color: "#2e7d32", fontWeight: "bold" }}
-                >
-                  {support.name}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  color="text.secondary"
-                  sx={{ mb: 1 }}
-                >
-                  {support.role}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {support.description}
-                </Typography>
-              </CardContent>
-            </Card>
-          ))}
-        </Box>
-      </Container>
-
+      <CustomerSupport/>
       {/* Testimonials Section */}
       <Box sx={{ backgroundColor: "#e8f5e9", py: 8 }}>
         <Container maxWidth="lg">
@@ -277,6 +117,7 @@ const CarouselComponent = () => {
             Take the first step towards your academic goals today.
           </Typography>
           <Button
+          href="/apply-form"
             variant="contained"
             size="large"
             sx={{

@@ -1,101 +1,164 @@
-import React from 'react';
-import { Box, Container, Typography, Card, CardContent, Grid } from '@mui/material';
-import { LightbulbRounded, MoneyOffCsredRounded, SupportAgentRounded, SvgIconComponent } from '@mui/icons-material';
-import { motion } from 'framer-motion';
 
-interface FeatureCardProps {
-  title: string;
-  icon: SvgIconComponent;
-  description: string;
-}
+import { Box, Container, Typography, Grid } from '@mui/material';
+import { LightbulbOutlined, MoneyOffOutlined, SupportAgentOutlined, SchoolOutlined, AccessTimeOutlined, SecurityOutlined } from '@mui/icons-material';
 
-const FeatureCard: React.FC<FeatureCardProps> = ({ title, icon: Icon, description }) => (
-  <motion.div
-    whileHover={{ scale: 1.05 }}
-    transition={{ type: "spring", stiffness: 300 }}
-  >
-    <Card
-      sx={{
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        borderRadius: '20px',
-        overflow: 'hidden',
-        boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
-      }}
-    >
-      <Box
-        sx={{
-          background: 'linear-gradient(45deg, #4caf50 30%, #81c784 90%)',
-          py: 4,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <Icon sx={{ fontSize: 60, color: 'white' }} />
-      </Box>
-      <CardContent sx={{ flexGrow: 1, textAlign: 'center', p: 3 }}>
-        <Typography variant="h5" component="div" sx={{ mb: 2, color: '#2e7d32', fontWeight: 'bold' }}>
-          {title}
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          {description}
-        </Typography>
-      </CardContent>
-    </Card>
-  </motion.div>
-);
+const WhyChooseUs = () => {
 
-const WhyChooseUs: React.FC = () => {
-  const features: FeatureCardProps[] = [
+  const features = [
     {
-      title: "Expert Advice",
-      icon: LightbulbRounded,
-      description: "Our financial experts provide personalized guidance to help you make informed decisions about your education financing.",
+      icon: LightbulbOutlined,
+      title: "Expert Guidance",
+      description: "Get personalized advice from our certified financial experts",
+      stat: "98%",
+      statDescription: "Client Satisfaction"
     },
     {
-      title: "Competitive Rates",
-      icon: MoneyOffCsredRounded,
-      description: "Enjoy some of the most competitive interest rates for education loans in the market.",
+      icon: MoneyOffOutlined,
+      title: "Low Interest Rates",
+      description: "Benefit from our competitive and flexible interest rates",
+      stat: "3.5%",
+      statDescription: "Starting APR"
     },
     {
+      icon: SupportAgentOutlined,
       title: "24/7 Support",
-      icon: SupportAgentRounded,
-      description: "Our dedicated support team is always ready to assist you with your education loan queries, any time of day or night.",
+      description: "Our dedicated team is always here to assist you",
+      stat: "< 2min",
+      statDescription: "Response Time"
     },
+    {
+      icon: SchoolOutlined,
+      title: "Education Resources",
+      description: "Access our vast library of financial education materials",
+      stat: "1000+",
+      statDescription: "Articles & Guides"
+    },
+    {
+      icon: AccessTimeOutlined,
+      title: "Flexible Repayment",
+      description: "Choose from various repayment plans tailored to your needs",
+      stat: "20 yrs",
+      statDescription: "Max Repayment Term"
+    },
+    {
+      icon: SecurityOutlined,
+      title: "Secure Process",
+      description: "Your data is protected by state-of-the-art security measures",
+      stat: "256-bit",
+      statDescription: "Encryption"
+    }
   ];
 
   return (
-    <Box sx={{ backgroundColor: "#f0f7f0", py: 10 }}>
+    <Box sx={{
+      bgcolor: '#F0F4F8',
+      py: { xs: 6, md: 10 },
+      position: 'relative',
+      overflow: 'hidden'
+    }}>
       <Container maxWidth="lg">
-        <Typography
-          variant="h2"
-          sx={{
-            mb: 8,
-            textAlign: "center",
-            color: "#1b5e20",
-            fontWeight: "bold",
-            position: 'relative',
-            '&::after': {
-              content: '""',
-              display: 'block',
-              width: '60px',
-              height: '4px',
-              backgroundColor: '#4caf50',
-              margin: '16px auto',
-            }
-          }}
-        >
-          Why Choose Us?
-        </Typography>
-        <Grid container spacing={4} justifyContent="center">
-          {features.map((feature, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <FeatureCard {...feature} />
-            </Grid>
-          ))}
-        </Grid>
+        <Box sx={{
+          position: 'relative',
+          zIndex: 2,
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: -100,
+            left: -100,
+            width: 200,
+            height: 200,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(76,175,80,0.1) 0%, rgba(76,175,80,0) 70%)',
+          },
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            bottom: -150,
+            right: -150,
+            width: 300,
+            height: 300,
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, rgba(76,175,80,0.1) 0%, rgba(76,175,80,0) 70%)',
+          }
+        }}>
+          <Typography variant="h2" align="center" sx={{
+            color: '#1C6021',
+            fontWeight: 700,
+            mb: 2,
+            fontSize: { xs: '2.5rem', md: '3.5rem' }
+          }}>
+            Why Choose GreenLeaf?
+          </Typography>
+          <Typography variant="h5" align="center" sx={{
+            color: '#2E8B57',
+            mb: 6,
+            maxWidth: '800px',
+            mx: 'auto',
+            fontSize: { xs: '1.2rem', md: '1.5rem' }
+          }}>
+            Empowering your future with innovative financial solutions
+          </Typography>
+
+          <Grid container spacing={4} sx={{ rowGap: 4 }}>
+            {features.map((feature, index) => (
+              <Grid item xs={12} md={6} lg={4} key={index}>
+                <Box sx={{
+                  bgcolor: 'white',
+                  borderRadius: '20px',
+                  p: 3,
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'all 0.3s ease',
+                  '&:hover': {
+                    transform: 'translateY(-10px)',
+                    boxShadow: '0 10px 20px rgba(0,0,0,0.1)',
+                  },
+                  position: 'relative',
+                  overflow: 'hidden',
+                  mb: 2, // Add margin bottom to create gap between cards
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: '4px',
+                    background: 'linear-gradient(90deg, #1C6021, #4CAF50)',
+                  }
+                }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <Box sx={{
+                      bgcolor: '#E8F5E9',
+                      borderRadius: '12px',
+                      p: 1,
+                      mr: 2,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}>
+                      <feature.icon sx={{ fontSize: 28, color: '#1C6021' }} />
+                    </Box>
+                    <Typography variant="h6" sx={{ color: '#1C6021', fontWeight: 600 }}>
+                      {feature.title}
+                    </Typography>
+                  </Box>
+                  <Typography variant="body1" sx={{ color: '#555', mb: 2, flexGrow: 1 }}>
+                    {feature.description}
+                  </Typography>
+                  <Box sx={{ display: 'flex', alignItems: 'baseline' }}>
+                    <Typography variant="h4" sx={{ color: '#4CAF50', fontWeight: 700, mr: 1 }}>
+                      {feature.stat}
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#777' }}>
+                      {feature.statDescription}
+                    </Typography>
+                  </Box>
+                </Box>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
       </Container>
     </Box>
   );
