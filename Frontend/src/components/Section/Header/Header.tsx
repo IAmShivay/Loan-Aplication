@@ -99,7 +99,7 @@ const ResponsiveAppBar = () => {
     { name: "FAQ", link: "/faq" },
   ];
 
-  const signInSignUpPage = { name: "SIGN IN/SIGN UP", link: "/user/login" };
+  const signInSignUpPage = { name: "LOGIN", link: "/user/login" };
 
   const dispatch = useDispatch<any>();
 
