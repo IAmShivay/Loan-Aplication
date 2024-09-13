@@ -87,7 +87,7 @@ const WhyChooseUs = () => {
             mb: 2,
             fontSize: { xs: '2.5rem', md: '3.5rem' }
           }}>
-            Why Choose GreenLeaf?
+            Why Choose Studynpay?
           </Typography>
           <Typography variant="h5" align="center" sx={{
             color: '#2E8B57',
