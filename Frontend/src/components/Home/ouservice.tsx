@@ -1,71 +1,8 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { Container, Typography, Box, Card, CardContent, Button, Tab, Tabs, Grid, useMediaQuery } from '@mui/material';
 import { SchoolRounded, AccountBalanceRounded, HomeWorkRounded, PublicRounded, LocalAtmRounded, CheckCircleOutlineRounded } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#1C6021', // Deep green
-      contrastText: '#FFFFFF',
-    },
-    secondary: {
-      main: '#EAF6EB', // Light green
-      contrastText: '#1C6021',
-    },
-    background: {
-      default: '#EAF6EB',
-      paper: '#FFFFFF',
-    },
-    text: {
-      primary: '#1C6021',
-      secondary: '#1C6021',
-    },
-  },
-  typography: {
-    fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-    h2: {
-      fontWeight: 700,
-      color: '#1C6021',
-    },
-    h4: {
-      fontWeight: 600,
-      color: '#1C6021',
-    },
-    h5: {
-      fontWeight: 500,
-      color: '#1C6021',
-    },
-  },
-  shape: {
-    borderRadius: 8,
-  },
-  components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          borderRadius: 4,
-          textTransform: 'none',
-          fontWeight: 600,
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          boxShadow: '0 4px 20px 0 rgba(28,96,33,0.1)',
-          transition: 'all 0.3s ease-in-out',
-          '&:hover': {
-            transform: 'translateY(-5px)',
-            boxShadow: '0 8px 30px 0 rgba(28,96,33,0.2)',
-          },
-        },
-      },
-    },
-  },
-});
-
+import { ThemeProvider, useTheme } from '@mui/material/styles';
 const MotionBox = motion(Box);
 
 const LoanCard = ({ loan }) => {
@@ -119,9 +56,8 @@ const LoanCard = ({ loan }) => {
 const EducationLoanSolutions = () => {
   const [activeTab, setActiveTab] = useState(0);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleTabChange = (event, newValue) => {
+  const handleTabChange = (_event, newValue) => {
     setActiveTab(newValue);
   };
 

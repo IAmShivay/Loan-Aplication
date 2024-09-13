@@ -1,5 +1,4 @@
-import React from 'react';
-import { Container, Typography, Box, Card, CardContent, Avatar, Grid } from '@mui/material';
+import { Container, Typography, Box, Card, CardContent, Grid } from '@mui/material';
 import { motion } from 'framer-motion';
 
 const MotionCard = motion(Card);
