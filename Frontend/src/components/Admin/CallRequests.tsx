@@ -140,7 +140,7 @@ const CallsRequested: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     axiosInstance
-      .get<CallRequest[]>(`http://localhost:3000/api/v1/getCallsRequests`, {
+      .get<CallRequest[]>(`/getCallsRequests`, {
         params: {
           bank: bank,
         },
@@ -176,7 +176,7 @@ const CallsRequested: React.FC = () => {
   const handleUpdateStatus = () => {
     if (selectedRequest) {
       axiosInstance
-        .put<CallRequest>(`http://localhost:3000/api/v1/updateCallRequest`, {
+        .put<CallRequest>(`/updateCallRequest`, {
           ApplicantId: selectedRequest.ApplicantId,
           status: selectedStatus,
         })
