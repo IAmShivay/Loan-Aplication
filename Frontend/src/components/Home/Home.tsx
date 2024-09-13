@@ -17,6 +17,7 @@ import {
 import AssociatedBanks from "../Section/AssociatesBanks/NetworkBanks";
 import WhyChooseUs from "../Section/whyChooseUs/whyChooseUs";
 import HeroSection from "./hero";
+import EducationLoanSolutions from "./ouservice";
 
 const CarouselComponent = () => {
 
@@ -24,6 +25,7 @@ const CarouselComponent = () => {
     <Box sx={{ backgroundColor: "#f0f4f8" }}>
       <HeroSection/>
       {/* Loan Types Section */}
+      <EducationLoanSolutions/>
       <Container maxWidth="lg" sx={{ py: 8 }}>
         <Typography
           variant="h3"
