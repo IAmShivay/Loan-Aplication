@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Container, Typography, Button, Grid } from '@mui/material';
 import { SchoolRounded, MonetizationOnRounded, EmojiEventsRounded } from '@mui/icons-material';
 
