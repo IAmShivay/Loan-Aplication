@@ -36,7 +36,7 @@ const associatedBanks: Bank[] = [
     name: "IDFC First Bank",
     logo: IDFC,
     description: "Specializing in high-security banking solutions for businesses.",
-    specialty: "Cyber Security",
+    specialty: "Corporate Banking",
   },
   {
     id: 3,
