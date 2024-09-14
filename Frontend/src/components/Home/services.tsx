@@ -119,10 +119,10 @@ const EducationLoanSolutions = () => {
           description:
             "Cover your tuition fees and focus on your studies without financial stress.",
           details: [
-            "Up to $100,000 coverage",
+            "Up to ₹100,000,00 coverage",
             "Competitive interest rates from 3.5% p.a.",
             "Flexible repayment options",
-            "No collateral required for loans under $50,000",
+            "No collateral required for loans under ₹50,000",
           ],
         },
         {
@@ -131,7 +131,7 @@ const EducationLoanSolutions = () => {
           description:
             "Support your living costs while you concentrate on achieving your educational goals.",
           details: [
-            "Monthly disbursements up to $2,000",
+            "Monthly disbursements up to ₹20,000",
             "Low fixed interest rate of 4% p.a.",
             "No payments required until 3 months post-graduation",
             "Covers rent, food, and essential living expenses",
@@ -140,7 +140,7 @@ const EducationLoanSolutions = () => {
       ],
     },
     {
-      title: "Graduate Loans",
+      title: "Post Graduate Loans",
       loans: [
         {
           title: "Academic Loan",
@@ -148,7 +148,7 @@ const EducationLoanSolutions = () => {
           description:
             "Finance your academic pursuits, including books, equipment, and research expenses.",
           details: [
-            "Loans from $5,000 to $25,000",
+            "Loans from ₹5,000 to ₹25,000,00",
             "Interest-only payments while in school",
             "6-month grace period after graduation",
             "Option to include computer purchases",
@@ -161,7 +161,7 @@ const EducationLoanSolutions = () => {
             "Tailored financial support for international students pursuing education abroad.",
           details: [
             "Covers tuition and living expenses",
-            "No U.S. cosigner required",
+            "Low Interest rates from 3.5% p.a.",
             "Multi-currency disbursement options",
             "Visa and travel insurance support",
           ],
