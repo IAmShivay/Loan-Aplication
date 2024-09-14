@@ -95,7 +95,7 @@ const HeroSection = () => {
                   transition: "all 0.3s ease",
                 }}
               >
-                Start Your Journey
+                Apply Now
               </Button>
             </motion.div>
           </Grid>
