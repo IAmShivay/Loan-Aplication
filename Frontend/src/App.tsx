@@ -23,6 +23,7 @@ const LoanApplicationForm = lazy(
 );
 import Header from "./components/Section/Header/Header.tsx";
 import Footer from "./components/Section/Footer/Footer.tsx";
+import ContactForm from "./components/Section/contactUS/contact.tsx";
 const RegisterPage = lazy(
   () => import("./components/Section/Register/Register")
 );
@@ -81,6 +82,8 @@ const GenralRoute: React.FC = () => (
       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
       <Route path="/refund-policy" element={<ReturnRefundPolicy />} />
       <Route path="/faq" element={<FAQSection />} />
+      <Route path="/contact-us" element={<ContactForm />} />
+
       <Route path="*" element={<NotFound />} />
     </Routes>
     <Footer />

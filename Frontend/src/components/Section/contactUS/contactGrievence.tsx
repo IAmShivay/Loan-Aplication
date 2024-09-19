@@ -37,7 +37,7 @@ const StyledTextField = styled(TextField)({
   },
 });
 
-const FrontendUserContactForm: React.FC = () => {
+const Grievence: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -134,4 +134,4 @@ const FrontendUserContactForm: React.FC = () => {
   );
 };
 
-export default FrontendUserContactForm;
+export default Grievence;

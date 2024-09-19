@@ -12,7 +12,7 @@ const Footer = () => {
       title: 'About Us',
       links: [
         { text: 'About Us', href: '/about-us' },
-        // { text: 'Team', href: '/team' },
+        { text: 'Contact Us', href: 'contact-us' },
         // { text: 'Careers', href: '/careers' },
       ],
     },
@@ -117,7 +117,7 @@ const Footer = () => {
                     <Typography variant="body2">1234 kolkatta Street, Financial District</Typography>
                     <Typography variant="body2">West Bengal, HI 713212</Typography>
                     <Typography variant="body2">Phone: (123) 456-7890</Typography>
-                    <Typography variant="body2">Email: support@studentloanprovider.com</Typography>
+                    <Typography variant="body2">Email: support@studynpay.com</Typography>
                   </Box>
                 </Grid>
               )}
@@ -127,7 +127,7 @@ const Footer = () => {
       </Container>
       <Box sx={{ bgcolor: '#4caf50', color: 'white', py: 2, textAlign: 'center' }}>
         <Typography variant="body2">
-          © {new Date().getFullYear()} Student Loan Provider. All rights reserved.
+          © {new Date().getFullYear()} StudyNpay. All rights reserved.
         </Typography>
       </Box>
     </Box>

@@ -27,7 +27,7 @@ const faqData: FAQ[] = [
   {
     question: "What is StudyNpay?",
     answer:
-      "GreenLoan Financial is a leading innovator in the loan industry, offering accessible, transparent, and sustainable financial solutions to help customers achieve their dreams.",
+      "studynpay is a leading innovator in the loan industry, offering accessible, transparent, and sustainable financial solutions to help customers achieve their dreams.",
   },
   {
     question: "How do I apply for a loan?",
@@ -101,7 +101,7 @@ const FAQSection: React.FC = () => {
               fontWeight: 300,
             }}
           >
-            Find quick answers to your questions about GreenLoan Financial
+            Find quick answers to your questions about StudyNpay
             services.
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "center", mb: 4 }}>
